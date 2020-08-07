@@ -31,9 +31,9 @@ class threadPoolJob : public eJob
     const int m_endline;
     std::queue<std::string> queueToParse;
     std::queue<std::string> queueToOutput;
-    std::shared_ptr<eWriter> writer;//(queueToOutput);
-    std::shared_ptr<eParser> parser;
-    std::shared_ptr<eReader> reader;
+    std::unique_ptr<eWriter> writer;//(queueToOutput);
+    std::unique_ptr<eParser> parser;
+    std::unique_ptr<eReader> reader;
 };
 
 

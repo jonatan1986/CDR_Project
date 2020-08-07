@@ -18,7 +18,7 @@ using namespace std;
 int main(int argc, char const *argv[]) {
   /* code */
   fileManager filemanager(filename);
-  filemanager.GenerateFile();
+  // filemanager.GenerateFile();
   string str(filename);
   threadManager threadmanager(5,filename,filemanager.GetFileSize());
   threadmanager.CreateThreads();

@@ -10,6 +10,7 @@
 #include <thread>
 #include <queue>
 #include <list>
+#include"ThreadObj.h"
 #include "singletone.h"
 
 class threadManager
