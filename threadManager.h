@@ -12,6 +12,7 @@
 #include <list>
 #include"ThreadObj.h"
 #include "singletone.h"
+#include "ThreadPool.h"
 
 class threadManager
 {
@@ -20,11 +21,11 @@ public:
     void CreateThreads();
     ~threadManager();
 private:
-    // void Run(int startline,int endline);
+    // void Run(int i);//const string& filename,int startline,int endline);
     int m_numOfThreads;
-    std::list<std::thread *> threadList;
     std::string m_filename;
     int m_fileSize;
+    ThreadPool threadPool;
 };
 
 

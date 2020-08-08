@@ -8,8 +8,8 @@
 #ifndef EPARSER_H_
 #define EPARSER_H_
 
-#include <queue>
 #include <string>
+#include "SafeQueue.h"
 
 class eParser
 {
@@ -20,11 +20,14 @@ public:
 class cdrParser: public eParser
 {
 public:
-  
+
+  cdrParser(  SafeQueue<std::string> & queueToParse, SafeQueue<std::string>& queueToOutput)
+  :m_queueToParse(queueToParse),m_queueToOutput(queueToOutput)
+  {}
   virtual void Parse()override;
 private:
-  std::queue<std::string> queueToParse;
-  std::queue<std::string> queueToOutput;
+  SafeQueue<std::string> m_queueToParse;
+  SafeQueue<std::string> m_queueToOutput;
 };
 
 

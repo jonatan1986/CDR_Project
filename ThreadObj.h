@@ -14,13 +14,20 @@ class ThreadObj
 public:
   template< class Function, class... Args >
   explicit ThreadObj( Function&& f, Args&&... args )
-  :m_thread(f,args ...)
+  // :m_thread(f,args ...)
   {
+    m_thread = std::thread(f,args ...);
+  }
+  ThreadObj(ThreadObj &&other)
+  {
+    m_thread = std::move(other.GetThread());
   }
   ~ThreadObj()
   {
+    std::cout <<" join"<<std::endl;
     m_thread.join();
   }
+  std::thread& GetThread() { return m_thread; }
 private:
     std::thread m_thread;
     ThreadObj& operator= (ThreadObj &other);

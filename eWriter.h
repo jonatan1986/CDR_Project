@@ -8,8 +8,8 @@
 #ifndef WRITER_H_
 #define WRITER_H_
 
-#include <queue>
 #include <string>
+#include "SafeQueue.h"
 
 class eWriter
 {
@@ -20,11 +20,12 @@ public:
 class cdrWriter: public eWriter
 {
 public:
-  cdrWriter(std::queue<std::string>& queueToOutput):
+  cdrWriter(SafeQueue<std::string>& queueToOutput):
   m_queueToOutput(queueToOutput){}
+  const SafeQueue<std::string> &GetQueue()const{return m_queueToOutput;}
   virtual void Write()override;
 private:
-  std::queue<std::string> m_queueToOutput;
+  SafeQueue<std::string> m_queueToOutput;
 };
 
 

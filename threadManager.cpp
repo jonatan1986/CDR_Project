@@ -2,10 +2,10 @@
 #include <iostream>
 #include <memory>
 #include"threadManager.h"
-#include"eJob.h"
+#include"Job.h"
 
 using namespace std;
-
+int i  = 0;
 
 
 
@@ -15,31 +15,23 @@ m_filename(filename),m_fileSize(fileSize)
 }
 
 
-void Run(const string& filename, int startline, int endline)
+void Run(const string& fileName, int startLine, int endLine)
 {
-  cout<<"run"<<endl;
-  unique_ptr<eJob> job = make_unique<threadPoolJob>(filename,startline,endline);
-  job->Run();
+  Job job(fileName,startLine,endLine);
+  job.Run();
 }
 
 void threadManager::CreateThreads()
 {
   int startLine = 1,endLine = 2000;
-  for(int i = 0; i < m_numOfThreads; ++i)
+  for(int i = 0; i < 1/*m_numOfThreads*/; ++i)
   {
-      // thread *l_thread = new thread(&Run,ref(m_filename),ref(startLine),ref(endLine));
-      unique_ptr<ThreadObj> threadObj = make_unique<ThreadObj>(&Run,ref(m_filename),ref(startLine),ref(endLine));
-      // threadList.push_back(l_thread);
+      threadPool.AddThread(&Run,ref(m_filename),startLine,endLine);
+      startLine = endLine + 1;
+      endLine += 2000;
   }
 }
 
 threadManager::~threadManager()
 {
-  // while(threadList.size())
-  // {
-  //    thread *threadToDelete = threadList.front();
-  //    threadList.pop_front();
-  //    threadToDelete->join();
-  //    delete threadToDelete;
-  // }
 }

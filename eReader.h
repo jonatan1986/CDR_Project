@@ -8,8 +8,9 @@
 #ifndef EREADER_H_
 #define EREADER_H_
 
-#include <queue>
 #include <string>
+
+#include "SafeQueue.h"
 
 class eReader
 {
@@ -20,9 +21,17 @@ public:
 class cdrReader: public eReader
 {
 public:
+  cdrReader( SafeQueue<std::string> & queueToParse,const std::string& filename,
+  int startLine,int endLine):
+  m_filename(filename),m_startLine(startLine),m_endLine(endLine),
+  m_queueToParse(queueToParse){}
   virtual void Read()override;
 private:
-  std::queue<std::string> queueToParse;
+  const std::string m_filename;
+  const int m_startLine;
+  const int m_endLine;
+  SafeQueue<std::string> m_queueToParse;
+
 };
 
 
