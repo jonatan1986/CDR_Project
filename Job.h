@@ -9,6 +9,7 @@
 #include"eParser.h"
 #include"eReader.h"
 #include "SafeQueue.h"
+#include "ThreadPool.h"
 
 // class eJob
 // {
@@ -18,6 +19,8 @@
 // private:
 //
 // };
+
+
 
 class Job
 {
@@ -31,9 +34,10 @@ class Job
     const int m_endline;
     SafeQueue<std::string> m_queueToParse;
     SafeQueue<std::string> m_queueToOutput;
-    std::unique_ptr<eWriter> writer;//(queueToOutput);
-    std::unique_ptr<eParser> parser;
-    std::unique_ptr<eReader> reader;
+    std::unique_ptr<eWriter> m_writer;//(queueToOutput);
+    std::unique_ptr<eParser> m_parser;
+    std::unique_ptr<eReader> m_reader;
+    ThreadPool m_threadPool;
 };
 
 

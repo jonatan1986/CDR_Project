@@ -22,7 +22,7 @@ class cdrWriter: public eWriter
 public:
   cdrWriter(SafeQueue<std::string>& queueToOutput):
   m_queueToOutput(queueToOutput){}
-  const SafeQueue<std::string> &GetQueue()const{return m_queueToOutput;}
+  // const SafeQueue<std::string> &GetQueue()const{return m_queueToOutput;}
   virtual void Write()override;
 private:
   SafeQueue<std::string> m_queueToOutput;

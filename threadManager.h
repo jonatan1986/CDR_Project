@@ -10,7 +10,7 @@
 #include <thread>
 #include <queue>
 #include <list>
-#include"ThreadObj.h"
+#include <string>
 #include "singletone.h"
 #include "ThreadPool.h"
 
@@ -21,7 +21,6 @@ public:
     void CreateThreads();
     ~threadManager();
 private:
-    // void Run(int i);//const string& filename,int startline,int endline);
     int m_numOfThreads;
     std::string m_filename;
     int m_fileSize;
