@@ -14,18 +14,15 @@
 class eWriter
 {
 public:
-  virtual void Write() = 0;
+  virtual void Write(SafeQueue<std::string>& queueToOutput) = 0;
 };
 
 class cdrWriter: public eWriter
 {
 public:
-  cdrWriter(SafeQueue<std::string>& queueToOutput):
-  m_queueToOutput(queueToOutput){}
-  // const SafeQueue<std::string> &GetQueue()const{return m_queueToOutput;}
-  virtual void Write()override;
+  cdrWriter(){}
+  void Write(SafeQueue<std::string>& queueToOutput)override;
 private:
-  SafeQueue<std::string> m_queueToOutput;
 };
 
 

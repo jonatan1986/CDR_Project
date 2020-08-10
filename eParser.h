@@ -14,20 +14,19 @@
 class eParser
 {
 public:
-  virtual void Parse() = 0;
+  virtual void Parse(SafeQueue<std::string>& queueToParse
+  ,SafeQueue<std::string>& queueToOutput) = 0;
 };
 
 class cdrParser: public eParser
 {
 public:
 
-  cdrParser(  SafeQueue<std::string> & queueToParse, SafeQueue<std::string>& queueToOutput)
-  :m_queueToParse(queueToParse),m_queueToOutput(queueToOutput)
+  cdrParser()
   {}
-  virtual void Parse()override;
+  virtual void Parse(SafeQueue<std::string>& queueToParse
+  ,SafeQueue<std::string>& queueToOutput)override;
 private:
-  SafeQueue<std::string> m_queueToParse;
-  SafeQueue<std::string> m_queueToOutput;
 };
 
 

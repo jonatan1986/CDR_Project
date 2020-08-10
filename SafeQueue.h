@@ -10,28 +10,30 @@
 
 #include <queue>
 #include<iostream>
-#include<shared_mutex>
 #include<mutex>
 
 template <class T>
 class SafeQueue
 {
   public:
-    // std::queue<T>& GetQueue()const{return  m_queue;}
-    // SafeQueue(std::mutex &mtx):
-    // SafeQueue(std::mutex &mtx):m_mutex(mtx){}
+
     SafeQueue(){}
-    SafeQueue(const SafeQueue& other)
-    {
-      std::cout<<"cp ctor "<<std::endl;
-    }
     void PrintMutex()
     {
-      // std::cout<<&m_mutex<<std::endl;
+      std::cout<<&m_mutex<<std::endl;
+    }
+    void Insert(T &t)
+    {
+      std::lock_guard<std::mutex> lk(m_mutex);
+      m_queue.push(t);
+    }
+    void Remove(T &t)
+    {
+      std::lock_guard<std::mutex> lk(m_mutex);
+      m_queue.pop(t);
     }
   private:
-    // std::mutex m_mutex;
-    mutable std::shared_mutex mutex_;
+    std::mutex m_mutex;
     std::queue<T> m_queue;
 
 };

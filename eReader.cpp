@@ -1,10 +1,18 @@
 #include "eReader.h"
 #include <iostream>
-
+#include <string>
+#include <fstream>
 using namespace std;
 
 
-void cdrReader::Read()
+void cdrReader::Read(SafeQueue<std::string>& queueToParse)
 {
-  cout<<"Read"<<" m_filename "<<m_startLine<<" "<<m_endLine<<endl;
+    ifstream inputfile(m_filename);
+    string line;
+    for(int i = 0 ; i < m_endLine ; ++i)
+    {
+      getline(inputfile,line);
+      queueToParse.Insert(line);
+    }
+    cout<<"line "<<line<<endl;
 }

@@ -15,22 +15,20 @@
 class eReader
 {
 public:
-  virtual void Read() = 0;
+  virtual void Read(SafeQueue<std::string>& queueToParse) = 0;
 };
 
 class cdrReader: public eReader
 {
 public:
-  cdrReader( SafeQueue<std::string> & queueToParse,const std::string& filename,
+  cdrReader(const std::string& filename,
   int startLine,int endLine):
-  m_filename(filename),m_startLine(startLine),m_endLine(endLine),
-  m_queueToParse(queueToParse){}
-  virtual void Read()override;
+  m_filename(filename),m_startLine(startLine),m_endLine(endLine){}
+  void Read(SafeQueue<std::string>& queueToParse)override;
 private:
   const std::string m_filename;
   const int m_startLine;
   const int m_endLine;
-  SafeQueue<std::string> m_queueToParse;
 
 };
 

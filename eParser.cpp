@@ -4,7 +4,8 @@
 using namespace std;
 
 
-void cdrParser::Parse()
+void cdrParser::Parse(SafeQueue<std::string>& queueToParse
+,SafeQueue<std::string>& queueToOutput)
 {
-  cout<<"Parse"<<endl;
+  queueToParse.PrintMutex();
 }
