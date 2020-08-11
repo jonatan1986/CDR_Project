@@ -24,7 +24,6 @@ public:
   }
   ~ThreadObj()
   {
-    std::cout <<" join"<<std::endl;
     m_thread.join();
   }
   std::thread& GetThread() { return m_thread; }

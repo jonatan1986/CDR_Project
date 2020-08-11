@@ -27,7 +27,6 @@ void FileGenerator::GenerateFile()
   std::uniform_int_distribution<> distrib(0, 19);
   for(int i = 0 ; i < 10000 ; ++i)
   {
-    m_file << imsiVec[distrib(gen)] << ' ';
     m_file<<imsiVec[distrib(gen)]<<" | "<<GenerateDate()<<
     " | "<<GenerateDownLink()<<" | "<<GenerateUpLink()<<endl;
   }

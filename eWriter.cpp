@@ -1,5 +1,6 @@
 #include <iostream>
 #include "eWriter.h"
+#include "CdrDetails.h"
 
 using namespace std;
 

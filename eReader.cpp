@@ -5,14 +5,17 @@
 using namespace std;
 
 
-void cdrReader::Read(SafeQueue<std::string>& queueToParse)
+void cdrReader::Read(SafeQueue<std::string>& queueToParse, ThreadArgs &threadArgs)
 {
     ifstream inputfile(m_filename);
     string line;
-    for(int i = 0 ; i < m_endLine ; ++i)
+    for(int i = m_startLine ; i <= m_endLine  ; ++i)
     {
       getline(inputfile,line);
+      cout<<i<<" reader  "<<line<<endl;
       queueToParse.Insert(line);
+      threadArgs.m_parseQueueCV.notify_one();
     }
-    cout<<"line "<<line<<endl;
+    threadArgs.m_bExitParseThread = true;
+    cout<<"Read Finish "<<endl;
 }

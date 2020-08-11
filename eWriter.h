@@ -10,6 +10,7 @@
 
 #include <string>
 #include "SafeQueue.h"
+#include"ThreadArgs.h"
 
 class eWriter
 {

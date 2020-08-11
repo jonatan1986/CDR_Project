@@ -12,7 +12,7 @@
 
 
 template<class T>
-class singletone
+class SingleTone
 {
 public:
 	static T* GetIntstance()
@@ -28,9 +28,9 @@ public:
 		return m_singleTone;
 	}
 private:
-	~singletone();
-	singletone& operator=(singletone& other);
-	singletone(singletone& other);
+	~SingleTone();
+	SingleTone& operator=(SingleTone& other);
+	SingleTone(SingleTone& other);
 	static T *m_singleTone;
 	static std::mutex m_mutex;
 
@@ -38,8 +38,9 @@ private:
 };
 
 template<class T>
-T* singletone<T>::m_singleTone = nullptr;
+T* SingleTone<T>::m_singleTone = nullptr;
 
 template<class T>
-std::mutex singletone<T>:: m_mutex;
+std::mutex SingleTone<T>:: m_mutex;
+
 #endif /* SINGLETONE_H_ */

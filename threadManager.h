@@ -11,7 +11,7 @@
 #include <queue>
 #include <list>
 #include <string>
-#include "singletone.h"
+// #include "SingleTone.h"
 #include "ThreadPool.h"
 
 class threadManager

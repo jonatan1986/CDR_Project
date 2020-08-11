@@ -25,8 +25,8 @@ public:
       while(threadList.size())
       {
          std::thread threadToDelete = std::move(threadList.front());
-         threadList.pop_front();
          threadToDelete.join();
+         threadList.pop_front();
       }
     }
 private:

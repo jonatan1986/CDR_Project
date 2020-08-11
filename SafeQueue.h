@@ -22,15 +22,30 @@ class SafeQueue
     {
       std::cout<<&m_mutex<<std::endl;
     }
+    size_t Size()
+    {
+      int size = 0;
+      {
+          std::lock_guard<std::mutex> lk(m_mutex);
+          size = m_queue.size();
+      }
+      return size;
+
+    }
     void Insert(T &t)
     {
       std::lock_guard<std::mutex> lk(m_mutex);
       m_queue.push(t);
     }
-    void Remove(T &t)
+    T Remove()
     {
-      std::lock_guard<std::mutex> lk(m_mutex);
-      m_queue.pop(t);
+      T t;
+      {
+        std::lock_guard<std::mutex> lk(m_mutex);
+        t =  m_queue.front();
+        m_queue.pop();
+      }
+      return t;
     }
   private:
     std::mutex m_mutex;

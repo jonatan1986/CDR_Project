@@ -1,12 +1,7 @@
 
-#include <cstdlib>
-#include <iostream>
-// #include <thread>
-#include <fstream>
-#include <random>
+// #include <iostream>
 
 #include"FileGenerator.h"
-#include"threadManager.h"
 
 using namespace std;
 #define filename "datafile.txt"

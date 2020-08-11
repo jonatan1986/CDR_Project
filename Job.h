@@ -4,7 +4,6 @@
 
 #include <memory>
 #include <string>
-
 #include"eWriter.h"
 #include"eParser.h"
 #include"eReader.h"
@@ -38,6 +37,8 @@ class Job
     std::unique_ptr<eParser> m_parser;
     std::unique_ptr<eReader> m_reader;
     ThreadPool m_threadPool;
+    ThreadArgs m_threadArgs;
+
 };
 
 
