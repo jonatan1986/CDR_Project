@@ -5,7 +5,7 @@
 using namespace std;
 
 
-void cdrWriter::Write(SafeQueue<std::string>& queueToOutput)
+void cdrWriter::Write(ThreadArgs &threadArgs)
 {
   cout<<"Write"<<endl;
 }

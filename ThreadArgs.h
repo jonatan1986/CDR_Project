@@ -14,9 +14,11 @@
 
 struct ThreadArgs
 {
+    ThreadArgs():m_bExitParseThread(false){}
     std::mutex m_parseQueueMutex;
     std::atomic<bool> m_bExitParseThread;
     std::condition_variable m_parseQueueCV;
+    SafeQueue<std::string> m_queueToParse;
 };
 
 

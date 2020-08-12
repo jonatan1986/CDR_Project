@@ -24,7 +24,7 @@ private:
     int m_numOfThreads;
     std::string m_filename;
     int m_fileSize;
-    ThreadPool threadPool;
+    ThreadPool m_threadPool;
 };
 
 

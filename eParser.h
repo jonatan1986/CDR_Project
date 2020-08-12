@@ -17,8 +17,7 @@
 class eParser
 {
 public:
-  virtual void Parse(SafeQueue<std::string>& queueToParse,
-  SafeQueue<std::string>& queueToOutput, ThreadArgs &threadArgs) = 0;
+  virtual void Parse(ThreadArgs &threadArgs) = 0;
 };
 
 class cdrParser: public eParser
@@ -27,8 +26,7 @@ public:
 
   cdrParser()
   {}
-  virtual void Parse(SafeQueue<std::string>& queueToParse
-  ,SafeQueue<std::string>& queueToOutput, ThreadArgs &threadArgs)override;
+  virtual void Parse(ThreadArgs &threadArgs)override;
 private:
 };
 

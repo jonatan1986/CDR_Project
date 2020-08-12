@@ -17,7 +17,7 @@
 class eReader
 {
 public:
-  virtual void Read(SafeQueue<std::string>& queueToParse, ThreadArgs &threadArgs) = 0;
+  virtual void Read(ThreadArgs &threadArgs) = 0;
 };
 
 class cdrReader: public eReader
@@ -26,7 +26,7 @@ public:
   cdrReader(const std::string& filename,
   int startLine,int endLine):
   m_filename(filename),m_startLine(startLine),m_endLine(endLine){}
-  void Read(SafeQueue<std::string>& queueToParse,ThreadArgs &threadArgs)override;
+  void Read(ThreadArgs &threadArgs)override;
 private:
   const std::string m_filename;
   const int m_startLine;

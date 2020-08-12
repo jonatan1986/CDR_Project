@@ -16,27 +16,26 @@ Job::Job(const std::string& filename,int startLine,int endLine)
   m_reader = make_unique<cdrReader>(filename,startLine,endLine);
 }
 
-void ReadFunc(std::unique_ptr<eReader> &reader,SafeQueue<std::string>& queueToParse,
+void ReadFunc(std::unique_ptr<eReader> &reader,
 ThreadArgs &threadArgs)
 {
-  reader->Read(ref(queueToParse),ref(threadArgs));
+  reader->Read(threadArgs);
 }
 
-void ParseFunc(std::unique_ptr<eParser> &parser,SafeQueue<std::string>& queueToParse
-,SafeQueue<std::string>& queueToOutput,ThreadArgs &threadArgs)
+void ParseFunc(std::unique_ptr<eParser> &parser,ThreadArgs &threadArgs)
 {
-  parser->Parse(ref(queueToParse),ref(queueToOutput),ref(threadArgs));
+  parser->Parse(threadArgs);
 }
 
-void WriteFunc(std::unique_ptr<eWriter> &writer,SafeQueue<std::string>& queueToOutput)
+void WriteFunc(std::unique_ptr<eWriter> &writer,ThreadArgs &threadArgs)
 {
-  writer->Write(ref(queueToOutput));
+  writer->Write(threadArgs);
 }
 
 void Job::Run()
 {
-  m_threadPool.AddThread(&ReadFunc,ref(m_reader),ref(m_queueToParse),ref(m_threadArgs));
-  m_threadPool.AddThread(&ParseFunc,ref(m_parser),ref(m_queueToParse),ref(m_queueToOutput),ref(m_threadArgs));
-  m_threadPool.AddThread(&WriteFunc,ref(m_writer),ref(m_queueToOutput));
-  cout<<"finished run"<<endl;
+  m_threadPool.AddThread(&ReadFunc,ref(m_reader),ref(m_threadArgs));
+  m_threadPool.AddThread(&ParseFunc,ref(m_parser),ref(m_threadArgs));
+  m_threadPool.AddThread(&WriteFunc,ref(m_writer),ref(m_threadArgs));
+  // cout<<"finished run"<<endl;
 }

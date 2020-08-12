@@ -15,14 +15,14 @@
 class eWriter
 {
 public:
-  virtual void Write(SafeQueue<std::string>& queueToOutput) = 0;
+  virtual void Write(ThreadArgs &threadArgs) = 0;
 };
 
 class cdrWriter: public eWriter
 {
 public:
   cdrWriter(){}
-  void Write(SafeQueue<std::string>& queueToOutput)override;
+  void Write(ThreadArgs &threadArgs)override;
 private:
 };
 
