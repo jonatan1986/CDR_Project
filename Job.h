@@ -4,9 +4,7 @@
 
 #include <memory>
 #include <string>
-#include"eWriter.h"
-#include"eParser.h"
-#include"eReader.h"
+#include "Factory.h"
 #include "SafeQueue.h"
 #include "ThreadPool.h"
 

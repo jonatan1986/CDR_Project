@@ -5,15 +5,15 @@
 using namespace std;
 
 
-atomic<bool> g_bExitThread(false);
-condition_variable g_parseQueueCV;
-
 Job::Job(const std::string& filename,int startLine,int endLine)
 :m_filename(filename),m_startline(startLine),m_endline(endLine)
 {
-  m_writer = make_unique<cdrWriter>();
-  m_parser = make_unique<cdrParser>();
-  m_reader = make_unique<cdrReader>(filename,startLine,endLine);
+  ReaderFactory readerFactory(filename,startLine,endLine);
+  ParserFactory parserFactory;
+  WriterFactory writerFactory;
+  m_reader = readerFactory.Create();
+  m_parser = parserFactory.Create();
+  m_writer = writerFactory.Create();
 }
 
 void ReadFunc(std::unique_ptr<eReader> &reader,

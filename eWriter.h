@@ -16,6 +16,7 @@ class eWriter
 {
 public:
   virtual void Write(ThreadArgs &threadArgs) = 0;
+  int num  = 3;
 };
 
 class cdrWriter: public eWriter
@@ -23,6 +24,7 @@ class cdrWriter: public eWriter
 public:
   cdrWriter(){}
   void Write(ThreadArgs &threadArgs)override;
+
 private:
 };
 
