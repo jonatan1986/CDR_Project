@@ -9,7 +9,7 @@
 #include"eWriter.h"
 #include"eParser.h"
 #include"eReader.h"
-
+#include"eOutPutFile.h"
 
 
 
@@ -47,6 +47,15 @@ public:
   }
 };
 
+
+class OutPutFileFactory
+{
+public:
+  std::unique_ptr<eOutPutFile> Create()
+  {
+    return std::make_unique<SingleFile>();
+  }
+};
 // template<class T>
 // class Factory
 // {

@@ -10,6 +10,7 @@
 
 #include <string>
 #include"ThreadArgs.h"
+#include"eOutPutFile.h"
 
 class eWriter
 {

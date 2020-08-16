@@ -1,5 +1,6 @@
 #include <iostream>
 #include "eWriter.h"
+#include "eOutPutFile.h"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ void cdrWriter::Write(ThreadArgs &threadArgs)
    int i = 0;
    while(true)
    {
-     CdrDetails l_cdrDetails;
+      CdrDetails l_cdrDetails;
       GetCdrDetailsFromQueue(threadArgs,l_cdrDetails);
       if (threadArgs.m_bExitWriteThread && threadArgs.m_queueToWrite.Size() == 0)
       {
