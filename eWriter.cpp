@@ -12,9 +12,9 @@ CdrDetails &cdrDetails)
   threadArgs.m_writeQueueCV.wait_until(lk,now + 100ms,[&threadArgs](){return threadArgs.m_queueToWrite.Size() > 0;});
   if (threadArgs.m_bExitWriteThread == true && threadArgs.m_queueToWrite.Size() == 0)
   {
-      // if both parser and resder finish writer to/ reading from the queue
+      // if both parser and reader finish writing to/ reading from the queue
       // but writer entered function after threadArgs.m_bExitWriteThread
-      // was modified by parser, queue might be empty which might
+      // was modified by parser, queue might be empty which might crash the program
       return;
   }
   cdrDetails = threadArgs.m_queueToWrite.Remove();
@@ -33,7 +33,7 @@ void cdrWriter::Write(ThreadArgs &threadArgs)
          cout<<" break Write"<<endl;
          break;
       }
-      cout<<"Write l_cdrDetails "<<l_cdrDetails.m_imsi<<endl;
+      cout<<i<<"Write l_cdrDetails "<<l_cdrDetails.m_imsi<<endl;
       ++i;
    }
 

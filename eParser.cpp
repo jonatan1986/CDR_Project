@@ -29,7 +29,11 @@ void cdrParser::GetLineFromQueue(std::string &line,ThreadArgs &threadArgs)
 {
   unique_lock<mutex> lk(threadArgs.m_parseQueueMutex);
   auto now = std::chrono::system_clock::now();
-  threadArgs.m_parseQueueCV.wait_until(lk,now + 100ms,[&threadArgs](){return(threadArgs.m_bExitParseThread == true || threadArgs.m_queueToParse.Size() > 0);});
+  threadArgs.m_parseQueueCV.wait_until(lk,now + 100ms,[&threadArgs](){return threadArgs.m_queueToParse.Size() > 0;});
+  if (threadArgs.m_bExitParseThread == true && threadArgs.m_queueToParse.Size() == 0)
+  {
+     return;
+  }
   line = threadArgs.m_queueToParse.Remove();
 }
 
@@ -56,7 +60,7 @@ void cdrParser::Parse(ThreadArgs &threadArgs)
 
       if (threadArgs.m_bExitParseThread && threadArgs.m_queueToParse.Size() == 0)
       {
-        break;
+          break;
       }
   }
   cout<<" parserr finished "<<endl;
