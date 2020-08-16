@@ -11,7 +11,6 @@
 #include <string>
 #include <atomic>
 #include <condition_variable>
-#include "SafeQueue.h"
 #include"ThreadArgs.h"
 
 class eReader

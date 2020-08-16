@@ -31,8 +31,3 @@ void threadManager::CreateThreads()
       endLine += 2000;
   }
 }
-
-threadManager::~threadManager()
-{
-  cout<<" threadManager::~threadManager "<<endl;
-}

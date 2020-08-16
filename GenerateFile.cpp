@@ -13,6 +13,14 @@ using namespace std;
 int main(int argc, char const *argv[]) {
   /* code */
   FileGenerator fileGenerator(filename);
-  fileGenerator.GenerateFile();
+  try
+  {
+      fileGenerator.GenerateFile();
+  }
+  catch(string& str)
+  {
+    cout<<str<<endl;
+  }
+
   return 0;
 }

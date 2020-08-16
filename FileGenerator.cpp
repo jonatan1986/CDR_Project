@@ -16,7 +16,6 @@ int  FileGenerator::GenerateImsi()
    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
    std::uniform_int_distribution<> distrib(123456789, 999999999);
    int num = distrib(gen);
-   std::cout <<num<< ' ';
    return num;
 }
 
@@ -27,8 +26,16 @@ void FileGenerator::GenerateFile()
   std::uniform_int_distribution<> distrib(0, 19);
   for(int i = 0 ; i < 10000 ; ++i)
   {
-    m_file<<imsiVec[distrib(gen)]<<" | "<<GenerateDate()<<
-    " | "<<GenerateDownLink()<<" | "<<GenerateUpLink()<<endl;
+    if (m_file.is_open())
+    {
+      m_file<<imsiVec[distrib(gen)]<<"|"<<GenerateDate()<<
+      "|"<<GenerateDownLink()<<"|"<<GenerateUpLink()<<endl;
+    }
+    else
+    {
+      string str = " file for cdr's  datafile.txt is not open";
+      throw str;
+    }
   }
 
   m_file.close();
@@ -42,7 +49,7 @@ void  FileGenerator::InitImsi()
     imsiVec.push_back(GenerateImsi());
     ++i;
   }
-  cout<<endl<<endl;
+
 }
 
 string FileGenerator::GenerateUpLink()
@@ -71,7 +78,6 @@ string FileGenerator::GenerateDate()
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
   std::uniform_int_distribution<> distrib(1, 12);
-  // std::cout << distrib(gen) << ' ';
   string year = "2020";
   string month  = to_string(distrib(gen));
   string day = "";

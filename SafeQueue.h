@@ -35,7 +35,8 @@ class SafeQueue
     void Insert(T &t)
     {
       std::lock_guard<std::mutex> lk(m_mutex);
-      m_queue.push(t);
+      m_queue.push(std::move(t));
+      // m_queue.push(t);
     }
     T Remove()
     {

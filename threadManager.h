@@ -19,7 +19,7 @@ class threadManager
 public:
     threadManager(int numOfThreads,const std::string& filename, int fileSize);
     void CreateThreads();
-    ~threadManager();
+    // ~threadManager(){}
 private:
     int m_numOfThreads;
     std::string m_filename;

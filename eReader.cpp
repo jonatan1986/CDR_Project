@@ -19,12 +19,10 @@ void cdrReader::Read(ThreadArgs &threadArgs)
         getline(inputfile,line);
       }
     };
-
     GetToLine(inputfile, line, m_startLine); // go the line from thread should read
     for(int i = m_startLine ; i <= m_endLine  ; ++i)
     {
       getline(inputfile,line);
-      cout<<i<<" reader  "<<line<<endl;
       threadArgs.m_queueToParse.Insert(line);
       threadArgs.m_parseQueueCV.notify_one();
     }

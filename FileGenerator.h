@@ -13,6 +13,7 @@ public:
   FileGenerator(std::string name):m_name(name)
   {
     m_file.open(name,std::ios::app | std::ios::out);
+    InitImsi();
   }
   void GenerateFile();
   std::string GenerateDate();

@@ -9,7 +9,6 @@
 #define WRITER_H_
 
 #include <string>
-#include "SafeQueue.h"
 #include"ThreadArgs.h"
 
 class eWriter
@@ -24,6 +23,7 @@ class cdrWriter: public eWriter
 public:
   cdrWriter(){}
   void Write(ThreadArgs &threadArgs)override;
+  void GetCdrDetailsFromQueue(ThreadArgs &threadArgs,CdrDetails &cdrDetails);
 
 private:
 };

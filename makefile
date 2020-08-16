@@ -11,29 +11,29 @@ GenerateCdr:Cdr.o  FileGenerator.o threadManager.o Job.o  eReader.o eWriter.o eP
 		g++ -o GenerateCdr Cdr.o FileGenerator.o threadManager.o  Job.o  eReader.o eWriter.o eParser.o -lpthread
 
 
-GenerateFile.o: GenerateFile.cpp
+GenerateFile.o: GenerateFile.cpp FileGenerator.h
 		g++ $(CFLAGS) GenerateFile.cpp
 
 FileGenerator.o: FileGenerator.cpp
 			g++ $(CFLAGS)  FileGenerator.cpp
 
-eReader.o: eReader.cpp
+eReader.o: eReader.cpp  eReader.h ThreadArgs.h eCdrDetails.h SafeQueue.h
 			g++ $(CFLAGS)  eReader.cpp
 
-eWriter.o: eWriter.cpp
+eWriter.o: eWriter.cpp ThreadArgs.h eCdrDetails.h SafeQueue.h
 			g++ $(CFLAGS)  eWriter.cpp
 
-eParser.o: eParser.cpp
+eParser.o: eParser.cpp  eParser.h ThreadArgs.h eCdrDetails.h SafeQueue.h
 			g++ $(CFLAGS)  eParser.cpp
 
 Job.o: Job.cpp Job.h Factory.h
 			g++ $(CFLAGS)  Job.cpp
 
 
-threadManager.o: threadManager.cpp
+threadManager.o: threadManager.cpp threadManager.h
 			g++ $(CFLAGS)  threadManager.cpp
 
-Cdr.o: Cdr.cpp
+Cdr.o: Cdr.cpp  FileGenerator.h threadManager.h
 			g++ $(CFLAGS)  Cdr.cpp
 
 clean:

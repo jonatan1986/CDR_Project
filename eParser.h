@@ -9,10 +9,8 @@
 #define EPARSER_H_
 
 #include <string>
-#include <atomic>
-#include <condition_variable>
-#include "SafeQueue.h"
 #include "ThreadArgs.h"
+
 
 class eParser
 {
@@ -26,7 +24,9 @@ public:
 
   cdrParser()
   {}
-  virtual void Parse(ThreadArgs &threadArgs)override;
+  void Parse(ThreadArgs &threadArgs)override;
+  void ParseLine(std::string &line,CdrDetails& cdrDetails);
+  void GetLineFromQueue(std::string &line,ThreadArgs &threadArgs);
 private:
 };
 
