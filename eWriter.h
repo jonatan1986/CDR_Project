@@ -10,23 +10,23 @@
 
 #include <string>
 #include"ThreadArgs.h"
-#include"eOutPutFile.h"
+#include "eOutPutFile.h"
 
 class eWriter
 {
 public:
   virtual void Write(ThreadArgs &threadArgs) = 0;
-  int num  = 3;
 };
 
 class cdrWriter: public eWriter
 {
 public:
-  cdrWriter(){}
+  cdrWriter();
   void Write(ThreadArgs &threadArgs)override;
   void GetCdrDetailsFromQueue(ThreadArgs &threadArgs,CdrDetails &cdrDetails);
-
+  void WriteToFile(CdrDetails &cdrDetails);
 private:
+  eOutPutFile* m_outPutFile;
 };
 
 

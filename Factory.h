@@ -10,6 +10,7 @@
 #include"eParser.h"
 #include"eReader.h"
 #include"eOutPutFile.h"
+#include"SingleTone.h"
 
 
 
@@ -51,11 +52,22 @@ public:
 class OutPutFileFactory
 {
 public:
-  std::unique_ptr<eOutPutFile> Create()
+  eOutPutFile* Create()
   {
-    return std::make_unique<SingleFile>();
+    return SingleTone<SingleFile>::GetIntstance();
   }
+
 };
+
+// class OutPutFileFactory
+// {
+// public:
+//   std::unique_ptr<eOutPutFile> Create()
+//   {
+//     return std::make_unique<SingleFile>();
+//   }
+// };
+
 // template<class T>
 // class Factory
 // {

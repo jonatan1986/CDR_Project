@@ -1,9 +1,18 @@
 #include <iostream>
 #include "eWriter.h"
-#include "eOutPutFile.h"
+#include "Factory.h"
 
 using namespace std;
 
+
+
+
+cdrWriter::cdrWriter()
+{
+    OutPutFileFactory outPutFileFactory;
+    eOutPutFile* m_outPutFile = outPutFileFactory.Create();
+    cout<<m_outPutFile<<endl;
+}
 
 void cdrWriter::GetCdrDetailsFromQueue(ThreadArgs &threadArgs,
 CdrDetails &cdrDetails)
@@ -15,15 +24,20 @@ CdrDetails &cdrDetails)
   {
       // if both parser and reader finish writing to/ reading from the queue
       // but writer entered function after threadArgs.m_bExitWriteThread
-      // was modified by parser, queue might be empty which might crash the program
+      // was modified by parser, queue might be empty and program might crash
       return;
   }
   cdrDetails = threadArgs.m_queueToWrite.Remove();
 }
 
-void cdrWriter::Write(ThreadArgs &threadArgs)
+
+void cdrWriter::WriteToFile(CdrDetails &cdrDetails)
 {
 
+}
+
+void cdrWriter::Write(ThreadArgs &threadArgs)
+{
    int i = 0;
    while(true)
    {

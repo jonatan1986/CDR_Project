@@ -20,17 +20,17 @@ FileGenerator.o: FileGenerator.cpp
 eReader.o: eReader.cpp  eReader.h ThreadArgs.h eCdrDetails.h SafeQueue.h
 			g++ $(CFLAGS)  eReader.cpp
 
-eWriter.o: eWriter.cpp eWriter.h ThreadArgs.h eCdrDetails.h SafeQueue.h  eOutPutFile.h
+eWriter.o: eWriter.cpp eWriter.h ThreadArgs.h eCdrDetails.h SafeQueue.h  eOutPutFile.h Factory.h SingleTone.h
 			g++ $(CFLAGS)  eWriter.cpp
 
 eParser.o: eParser.cpp  eParser.h ThreadArgs.h eCdrDetails.h SafeQueue.h
 			g++ $(CFLAGS)  eParser.cpp
 
-Job.o: Job.cpp Job.h Factory.h eWriter.h eParser.h eReader.h
+Job.o: Job.cpp Job.h  Factory.h eWriter.h eParser.h eReader.h ThreadArgs.h SingleTone.h
 			g++ $(CFLAGS)  Job.cpp
 
 
-threadManager.o: threadManager.cpp threadManager.h
+threadManager.o: threadManager.cpp threadManager.h ThreadPool.h SafeQueue.h Job.h  Factory.h eWriter.h eParser.h eReader.h ThreadArgs.h SingleTone.h
 			g++ $(CFLAGS)  threadManager.cpp
 
 Cdr.o: Cdr.cpp  FileGenerator.h threadManager.h
