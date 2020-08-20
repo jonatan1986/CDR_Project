@@ -38,7 +38,8 @@ void MultipleFile::WriteToFile(eCdrDetails& cdrDetails)
 void SingleFile::WriteToFile(eCdrDetails& cdrDetails)
 {
   lock_guard<mutex>lk(m_mutex);
-  m_file.open(m_fileName,ios::app | ios::out);
+  string l_sAbsPath = m_sRelPath + "/" + m_fileName;
+  m_file.open(l_sAbsPath,ios::app | ios::out);
   m_file<<"IMSI="<<cdrDetails.m_imsi
   <<" Date="<<cdrDetails.m_date<<" Downlink="<<cdrDetails.m_downlink
   <<" Uplink="<<cdrDetails.m_uplink<<endl;

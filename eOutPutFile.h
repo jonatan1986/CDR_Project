@@ -12,6 +12,10 @@
 #include <fstream>
 #include "eCdrDetails.h"
 
+
+#include<stdio.h>
+#include<unistd.h>
+
 struct FileDetails
 {
   FileDetails(std::string &sFileName, int nFileIndex = 0):m_sFileName(sFileName){}
@@ -36,6 +40,9 @@ public:
   {
     FileDetails l_FileDetails(m_fileName);
     m_fileMap[m_fileName] = std::move(l_FileDetails);
+    //delete file if exists
+    const std::string l_sCommand = "rm -rf " + m_sRelPath + "/*.txt";
+    system(l_sCommand.c_str());
   }
   void WriteToFile(eCdrDetails& cdrDetails)override;
 private:
@@ -48,6 +55,11 @@ private:
 class MultipleFile : public eOutPutFile
 {
 public:
+  MultipleFile()
+  {
+    const std::string l_sCommand = "rm -rf " + m_sRelPath + "/*.txt";
+    system(l_sCommand.c_str());
+  }
   void WriteToFile(eCdrDetails& cdrDetails)override;
 private:
   int m_index = 1;

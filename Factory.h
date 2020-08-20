@@ -54,8 +54,8 @@ class OutPutFileFactory
 public:
   eOutPutFile* Create()
   {
-    return SingleTone<SingleFile>::GetIntstance();
-    // return SingleTone<MultipleFile>::GetIntstance();
+    // return SingleTone<SingleFile>::GetIntstance();
+    return SingleTone<MultipleFile>::GetIntstance();
   }
 
 };
