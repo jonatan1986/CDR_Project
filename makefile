@@ -1,4 +1,4 @@
-CFLAGS= -lpthread -std=c++14 -pedantic -Werror -fpermissive -Wall -c
+CFLAGS= -lpthread -std=c++17 -lstdc++fs -pedantic -Werror -fpermissive -Wall -c
 
 all: GenerateFile  GenerateCdr
 
@@ -7,8 +7,8 @@ GenerateFile:GenerateFile.o FileGenerator.o
 
 
 
-GenerateCdr:Cdr.o  FileGenerator.o threadManager.o Job.o  eReader.o eWriter.o eParser.o
-		g++ -o GenerateCdr Cdr.o FileGenerator.o threadManager.o  Job.o  eReader.o eWriter.o eParser.o -lpthread
+GenerateCdr:Cdr.o  FileGenerator.o TaskManager.o Task.o  eReader.o eWriter.o eParser.o eOutPutFile.o
+		g++ -o GenerateCdr Cdr.o FileGenerator.o TaskManager.o  Task.o  eReader.o eWriter.o eParser.o  eOutPutFile.o -lpthread
 
 
 GenerateFile.o: GenerateFile.cpp FileGenerator.h
@@ -26,15 +26,19 @@ eWriter.o: eWriter.cpp eWriter.h ThreadArgs.h eCdrDetails.h SafeQueue.h  eOutPut
 eParser.o: eParser.cpp  eParser.h ThreadArgs.h eCdrDetails.h SafeQueue.h
 			g++ $(CFLAGS)  eParser.cpp
 
-Job.o: Job.cpp Job.h  Factory.h eWriter.h eParser.h eReader.h ThreadArgs.h SingleTone.h
-			g++ $(CFLAGS)  Job.cpp
+Task.o: Task.cpp Task.h  Factory.h eWriter.h eParser.h eReader.h ThreadArgs.h SingleTone.h
+			g++ $(CFLAGS)  Task.cpp
 
 
-threadManager.o: threadManager.cpp threadManager.h ThreadPool.h SafeQueue.h Job.h  Factory.h eWriter.h eParser.h eReader.h ThreadArgs.h SingleTone.h
-			g++ $(CFLAGS)  threadManager.cpp
+TaskManager.o: TaskManager.cpp TaskManager.h ThreadPool.h SafeQueue.h Task.h  Factory.h eWriter.h eParser.h eReader.h ThreadArgs.h SingleTone.h
+			g++ $(CFLAGS)  TaskManager.cpp
 
-Cdr.o: Cdr.cpp  FileGenerator.h threadManager.h
+Cdr.o: Cdr.cpp  FileGenerator.h TaskManager.h
 			g++ $(CFLAGS)  Cdr.cpp
+
+eOutPutFile.o: eOutPutFile.cpp eOutPutFile.h eCdrDetails.h
+		  g++ $(CFLAGS)  eOutPutFile.cpp
+
 
 clean:
 	rm -f *.o

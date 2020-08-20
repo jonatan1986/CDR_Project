@@ -35,7 +35,7 @@ CdrDetails &cdrDetails)
 
 void cdrWriter::WriteToFile(CdrDetails &cdrDetails)
 {
-    // m_outPutFile->WriteToFile(cdrDetails);
+    m_outPutFile->WriteToFile(cdrDetails);
 }
 
 void cdrWriter::Write(ThreadArgs &threadArgs)

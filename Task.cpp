@@ -1,11 +1,11 @@
 #include<iostream>
 #include <atomic>
 #include <condition_variable>
-#include"Job.h"
+#include"Task.h"
 using namespace std;
 
 
-Job::Job(const std::string& filename,int startLine,int endLine)
+Task::Task(const std::string& filename,int startLine,int endLine)
 :m_filename(filename),m_startline(startLine),m_endline(endLine)
 {
   ReaderFactory readerFactory(filename,startLine,endLine);
@@ -32,7 +32,7 @@ void WriteFunc(std::unique_ptr<eWriter> &writer,ThreadArgs &threadArgs)
   writer->Write(threadArgs);
 }
 
-void Job::Run()
+void Task::Run()
 {
   m_threadPool.AddThread(&ReadFunc,ref(m_reader),ref(m_threadArgs));
   m_threadPool.AddThread(&ParseFunc,ref(m_parser),ref(m_threadArgs));

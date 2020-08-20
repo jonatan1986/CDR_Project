@@ -14,17 +14,16 @@
 // #include "SingleTone.h"
 #include "ThreadPool.h"
 
-class threadManager
+class TaskManager
 {
 public:
-    threadManager(int numOfThreads,const std::string& filename, int fileSize);
+    TaskManager(int numOfThreads,const std::string& filename, int fileSize);
     void CreateThreads();
     // ~threadManager(){}
 private:
     int m_numOfThreads;
     std::string m_filename;
     int m_fileSize;
-    ThreadPool m_threadPool;
 };
 
 

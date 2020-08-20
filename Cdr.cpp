@@ -1,5 +1,5 @@
 #include"FileGenerator.h"
-#include"threadManager.h"
+#include "TaskManager.h"
 
 using namespace std;
 #define filename "datafile.txt"
@@ -11,7 +11,7 @@ using namespace std;
 int main(int argc, char const *argv[]) {
 
   FileGenerator fileGenerator(filename);
-  threadManager threadmanager(5,filename,fileGenerator.GetFileSize());
-  threadmanager.CreateThreads();
+  TaskManager taskManager(5,filename,fileGenerator.GetFileSize());
+  taskManager.CreateThreads();
   return 0;
 }

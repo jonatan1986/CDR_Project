@@ -1,6 +1,6 @@
 
-#ifndef EJOB_H_
-#define EJOB_H_
+#ifndef ETASK_H_
+#define ETASK_H_
 
 #include <memory>
 #include <string>
@@ -8,21 +8,11 @@
 #include "SafeQueue.h"
 #include "ThreadPool.h"
 
-// class eJob
-// {
-// public:
-//   virtual void Run() = 0;
-//   virtual ~eJob(){}
-// private:
-//
-// };
 
-
-
-class Job
+class Task
 {
   public:
-    Job(const std::string& filename,int startline,int endline);
+    Task(const std::string& filename,int startline,int endline);
     void Run();
   private:
     const std::string m_filename;
@@ -38,4 +28,4 @@ class Job
 
 
 
-#endif /* EJOB_H_ */
+#endif /* ETASK_H_ */
