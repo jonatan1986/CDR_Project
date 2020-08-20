@@ -55,34 +55,9 @@ public:
   eOutPutFile* Create()
   {
     return SingleTone<SingleFile>::GetIntstance();
+    // return SingleTone<MultipleFile>::GetIntstance();
   }
 
 };
-
-// class OutPutFileFactory
-// {
-// public:
-//   std::unique_ptr<eOutPutFile> Create()
-//   {
-//     return std::make_unique<SingleFile>();
-//   }
-// };
-
-// template<class T>
-// class Factory
-// {
-// public:
-//     template<class T>
-//     AbstractFactory* CreateFactory()
-//     {
-//       if (std::is_same<T, WriterFactory>::value)
-//       {
-//         std::cout<<" write factory"<<std::endl;
-//         // WriterFactory writerFactory;
-//         return new WriterFactory;
-//       }
-//       throw "invalid class type";
-//     }
-// };
 
 #endif // FACTORY_H

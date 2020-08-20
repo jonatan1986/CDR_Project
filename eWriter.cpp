@@ -2,6 +2,9 @@
 #include "eWriter.h"
 #include "Factory.h"
 
+
+#include <sys/types.h>
+#include <unistd.h>
 using namespace std;
 
 
@@ -10,8 +13,7 @@ using namespace std;
 cdrWriter::cdrWriter()
 {
     OutPutFileFactory outPutFileFactory;
-    eOutPutFile* m_outPutFile = outPutFileFactory.Create();
-    cout<<m_outPutFile<<endl;
+    m_outPutFile = outPutFileFactory.Create();
 }
 
 void cdrWriter::GetCdrDetailsFromQueue(ThreadArgs &threadArgs,
@@ -33,7 +35,7 @@ CdrDetails &cdrDetails)
 
 void cdrWriter::WriteToFile(CdrDetails &cdrDetails)
 {
-
+    // m_outPutFile->WriteToFile(cdrDetails);
 }
 
 void cdrWriter::Write(ThreadArgs &threadArgs)
@@ -43,12 +45,14 @@ void cdrWriter::Write(ThreadArgs &threadArgs)
    {
       CdrDetails l_cdrDetails;
       GetCdrDetailsFromQueue(threadArgs,l_cdrDetails);
+      WriteToFile(l_cdrDetails);
       if (threadArgs.m_bExitWriteThread && threadArgs.m_queueToWrite.Size() == 0)
       {
          cout<<" break Write"<<endl;
          break;
       }
-      cout<<i<<"Write l_cdrDetails "<<l_cdrDetails.m_imsi<<endl;
+      if (i == 0)
+        cout<<i<<"Write l_cdrDetails "<<l_cdrDetails.m_imsi<<" "<<pthread_self()<<endl;
       ++i;
    }
 

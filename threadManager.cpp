@@ -24,7 +24,7 @@ void Run(const string& fileName, int startLine, int endLine)
 void threadManager::CreateThreads()
 {
   int startLine = 1,endLine = 2000;
-  for(int i = 0; i < 1/*m_numOfThreads*/; ++i)
+  for(int i = 0; i < m_numOfThreads; ++i)
   {
       m_threadPool.AddThread(&Run,m_filename,startLine,endLine);
       startLine = endLine + 1;

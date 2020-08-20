@@ -51,7 +51,7 @@ void cdrParser::Parse(ThreadArgs &threadArgs)
       string line = " ";
       {
         GetLineFromQueue(line,threadArgs);
-        cout<<" Parse "<<line<<endl;
+        // cout<<" Parse "<<line<<endl;
         CdrDetails l_cdrDetails;
         ParseLine(line,l_cdrDetails);
         InsertCdrDetailsToQueue(l_cdrDetails,threadArgs);
