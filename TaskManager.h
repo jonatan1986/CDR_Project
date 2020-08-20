@@ -17,13 +17,12 @@
 class TaskManager
 {
 public:
-    TaskManager(int numOfThreads,const std::string& filename, int fileSize);
+    TaskManager(int numOfChunks,const std::string& filename);
     void CreateThreads();
-    // ~threadManager(){}
+    friend int GetAmountOfLines(TaskManager &taskManager);
 private:
-    int m_numOfThreads;
+    int m_numOfChunks;
     std::string m_filename;
-    int m_fileSize;
 };
 
 

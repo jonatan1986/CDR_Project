@@ -15,12 +15,6 @@ void MultipleFile::WriteToFile(eCdrDetails& cdrDetails)
     ++m_index;
     m_fileMap[l_sImsi] = move(l_FileDetails);
     //delete file in case it exists
-    // string l_sAbsPath = m_sRelPath + "/" + l_sFileName;
-
-    const string command1 = "cd " + m_sRelPath;
-    const string command2 = "rm -rf " + sFileName;
-    system(command1.c_str());
-    system(command2.c_str());
   }
   FileDetails l_FileDetails = m_fileMap[l_sImsi];
   int l_nIndex = l_FileDetails.m_nFileIndex;

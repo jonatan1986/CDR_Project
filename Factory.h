@@ -11,8 +11,7 @@
 #include"eReader.h"
 #include"eOutPutFile.h"
 #include"SingleTone.h"
-
-
+#include "Config.h"
 
 
 class ReaderFactory
@@ -54,10 +53,15 @@ class OutPutFileFactory
 public:
   eOutPutFile* Create()
   {
-    // return SingleTone<SingleFile>::GetIntstance();
-    return SingleTone<MultipleFile>::GetIntstance();
+    if (OUTPUT_TYPE == SingleOutput)
+    {
+        return SingleTone<SingleFile>::GetIntstance();
+    }
+    else
+    {
+        return SingleTone<MultipleFile>::GetIntstance();
+    }
   }
-
 };
 
 #endif // FACTORY_H

@@ -1,8 +1,9 @@
 #include"FileGenerator.h"
 #include "TaskManager.h"
+#include "Config.h"
 
 using namespace std;
-#define filename "datafile.txt"
+
 
 
 
@@ -10,8 +11,16 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
 
-  FileGenerator fileGenerator(filename);
-  TaskManager taskManager(5,filename,fileGenerator.GetFileSize());
-  taskManager.CreateThreads();
+  FileGenerator fileGenerator(FILE_NAME);
+  TaskManager taskManager(5,FILE_NAME);
+  try
+  {
+     taskManager.CreateThreads();
+  }
+  catch(string &str)
+  {
+    cout<<str<<endl;
+  }
+
   return 0;
 }
