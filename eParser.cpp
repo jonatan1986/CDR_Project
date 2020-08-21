@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void cdrParser::ParseLine(std::string &line,CdrDetails& cdrDetails)
+void cdrParser::ParseLine(std::string &line,CdrDetails& cdrDetails)const
 {
     // consider to make library for this function
     size_t startPos = 0,currPos = 0;
@@ -26,7 +26,7 @@ void cdrParser::ParseLine(std::string &line,CdrDetails& cdrDetails)
     cdrDetails.m_duration = cdrDetailsVec[4];
 }
 
-void cdrParser::GetLineFromQueue(std::string &line,ThreadArgs &threadArgs)
+void cdrParser::GetLineFromQueue(std::string &line,ThreadArgs &threadArgs)const
 {
   unique_lock<mutex> lk(threadArgs.m_parseQueueMutex);
   auto now = std::chrono::system_clock::now();
@@ -38,13 +38,13 @@ void cdrParser::GetLineFromQueue(std::string &line,ThreadArgs &threadArgs)
   line = threadArgs.m_queueToParse.Remove();
 }
 
-void cdrParser::InsertCdrDetailsToQueue(CdrDetails& cdrDetails,ThreadArgs &threadArgs)
+void cdrParser::InsertCdrDetailsToQueue(CdrDetails& cdrDetails,ThreadArgs &threadArgs)const
 {
     threadArgs.m_queueToWrite.Insert(cdrDetails);
     threadArgs.m_writeQueueCV.notify_one();
 }
 
-void cdrParser::Parse(ThreadArgs &threadArgs)
+void cdrParser::Parse(ThreadArgs &threadArgs)const
 {
   int i =  0;
   while(true)

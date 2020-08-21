@@ -15,7 +15,7 @@
 class eParser
 {
 public:
-  virtual void Parse(ThreadArgs &threadArgs) = 0;
+  virtual void Parse(ThreadArgs &threadArgs)const = 0;
 };
 
 class cdrParser: public eParser
@@ -24,10 +24,10 @@ public:
 
   cdrParser()
   {}
-  void Parse(ThreadArgs &threadArgs);
-  void ParseLine(std::string &line,CdrDetails& cdrDetails);
-  void GetLineFromQueue(std::string &line,ThreadArgs &threadArgs);
-  void InsertCdrDetailsToQueue(CdrDetails& cdrDetails,ThreadArgs &threadArgs);
+  void Parse(ThreadArgs &threadArgs)const override;
+  void ParseLine(std::string &line,CdrDetails& cdrDetails)const;
+  void GetLineFromQueue(std::string &line,ThreadArgs &threadArgs)const;
+  void InsertCdrDetailsToQueue(CdrDetails& cdrDetails,ThreadArgs &threadArgs)const;
 private:
 };
 

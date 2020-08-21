@@ -6,7 +6,7 @@ using namespace std;
 
 
 
-void cdrReader::Read(ThreadArgs &threadArgs)
+void cdrReader::Read(ThreadArgs &threadArgs)const
 {
     ifstream inputfile(m_filename);
     string line;
