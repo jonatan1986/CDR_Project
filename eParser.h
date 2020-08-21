@@ -24,9 +24,10 @@ public:
 
   cdrParser()
   {}
-  void Parse(ThreadArgs &threadArgs)override;
+  void Parse(ThreadArgs &threadArgs);
   void ParseLine(std::string &line,CdrDetails& cdrDetails);
   void GetLineFromQueue(std::string &line,ThreadArgs &threadArgs);
+  void InsertCdrDetailsToQueue(CdrDetails& cdrDetails,ThreadArgs &threadArgs);
 private:
 };
 

@@ -25,7 +25,7 @@ public:
   cdrReader(const std::string& filename,
   int startLine,int endLine):
   m_filename(filename),m_startLine(startLine),m_endLine(endLine){}
-  void Read(ThreadArgs &threadArgs)override;
+  void Read(ThreadArgs &threadArgs) override;
 private:
   const std::string m_filename;
   const int m_startLine;

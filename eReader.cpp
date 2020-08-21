@@ -11,7 +11,7 @@ void cdrReader::Read(ThreadArgs &threadArgs)
     ifstream inputfile(m_filename);
     string line;
 
-    // lambda Function
+    // lambda Function - get to the line in the file from which it should read
     auto GetToLine = [](ifstream& inputfile,string& line,int startLine)
     {
       for(int i = 1 ; i < startLine  ; ++i)

@@ -16,10 +16,11 @@ public:
     InitImsi();
   }
   void GenerateFile();
-  std::string GenerateDate();
-  int  GenerateImsi();
-  std::string GenerateUpLink();
-  std::string GenerateDownLink();
+  std::string GenerateDate()const;
+  int  GenerateImsi()const;
+  std::string GenerateUpLink()const;
+  std::string GenerateDownLink()const;
+  std::string  GenerateCallsDuration()const;
   void  InitImsi();
   ~FileGenerator()
   {
@@ -28,7 +29,6 @@ public:
       m_file.close();
     }
   }
-  const int GetFileSize()const;
 private:
   std::ofstream m_file;
   std::string m_name;

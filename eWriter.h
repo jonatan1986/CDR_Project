@@ -15,16 +15,16 @@
 class eWriter
 {
 public:
-  virtual void Write(ThreadArgs &threadArgs) = 0;
+  virtual void Write(ThreadArgs &threadArgs)const = 0;
 };
 
 class cdrWriter: public eWriter
 {
 public:
   cdrWriter();
-  void Write(ThreadArgs &threadArgs)override;
-  void GetCdrDetailsFromQueue(ThreadArgs &threadArgs,CdrDetails &cdrDetails);
-  void WriteToFile(CdrDetails &cdrDetails);
+  void Write(ThreadArgs &threadArgs)const override;
+  void GetCdrDetailsFromQueue(ThreadArgs &threadArgs,CdrDetails &cdrDetails)const ;
+  void WriteToFile(CdrDetails &cdrDetails)const;
 private:
   eOutPutFile* m_outPutFile;
 };

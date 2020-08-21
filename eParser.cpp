@@ -23,6 +23,7 @@ void cdrParser::ParseLine(std::string &line,CdrDetails& cdrDetails)
     cdrDetails.m_date  = cdrDetailsVec[1];
     cdrDetails.m_downlink = cdrDetailsVec[2];
     cdrDetails.m_uplink = cdrDetailsVec[3];
+    cdrDetails.m_duration = cdrDetailsVec[4];
 }
 
 void cdrParser::GetLineFromQueue(std::string &line,ThreadArgs &threadArgs)
@@ -37,7 +38,7 @@ void cdrParser::GetLineFromQueue(std::string &line,ThreadArgs &threadArgs)
   line = threadArgs.m_queueToParse.Remove();
 }
 
-void InsertCdrDetailsToQueue(CdrDetails& cdrDetails,ThreadArgs &threadArgs)
+void cdrParser::InsertCdrDetailsToQueue(CdrDetails& cdrDetails,ThreadArgs &threadArgs)
 {
     threadArgs.m_queueToWrite.Insert(cdrDetails);
     threadArgs.m_writeQueueCV.notify_one();

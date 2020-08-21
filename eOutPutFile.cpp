@@ -24,7 +24,8 @@ void MultipleFile::WriteToFile(eCdrDetails& cdrDetails)
   m_file[l_nIndex].open(l_sAbsPath,ios::app | ios::out);
   m_file[l_nIndex]<<"IMSI="<<cdrDetails.m_imsi
   <<" Date="<<cdrDetails.m_date<<" Downlink="<<cdrDetails.m_downlink
-  <<" Uplink="<<cdrDetails.m_uplink<<endl;
+  <<" Uplink="<<cdrDetails.m_uplink<<" Duration="
+  <<cdrDetails.m_duration<<endl;
   m_file[l_nIndex].close();
 }
 
@@ -36,6 +37,6 @@ void SingleFile::WriteToFile(eCdrDetails& cdrDetails)
   m_file.open(l_sAbsPath,ios::app | ios::out);
   m_file<<"IMSI="<<cdrDetails.m_imsi
   <<" Date="<<cdrDetails.m_date<<" Downlink="<<cdrDetails.m_downlink
-  <<" Uplink="<<cdrDetails.m_uplink<<endl;
+  <<" Uplink="<<cdrDetails.m_uplink<<" Duration="<<cdrDetails.m_duration<<endl;
   m_file.close();
 }

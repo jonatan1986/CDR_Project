@@ -10,7 +10,7 @@
 
 #define FILE_NAME "datafile.txt"
 
-#define OUTPUT_TYPE SingleOutput
+#define OUTPUT_TYPE MultipleOutput
 
 
 enum eOutputType

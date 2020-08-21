@@ -11,7 +11,6 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
 
-  FileGenerator fileGenerator(FILE_NAME);
   TaskManager taskManager(5,FILE_NAME);
   try
   {

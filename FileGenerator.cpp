@@ -10,7 +10,7 @@ using namespace std;
 
 
 
-int  FileGenerator::GenerateImsi()
+int  FileGenerator::GenerateImsi()const
 {
    std::random_device rd;  //Will be used to obtain a seed for the random number engine
    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -29,7 +29,8 @@ void FileGenerator::GenerateFile()
     if (m_file.is_open())
     {
       m_file<<imsiVec[distrib(gen)]<<"|"<<GenerateDate()<<
-      "|"<<GenerateDownLink()<<"|"<<GenerateUpLink()<<endl;
+      "|"<<GenerateDownLink()<<"|"<<GenerateUpLink()
+      <<"|"<<GenerateCallsDuration()<<endl;
     }
     else
     {
@@ -52,7 +53,8 @@ void  FileGenerator::InitImsi()
 
 }
 
-string FileGenerator::GenerateUpLink()
+
+string FileGenerator::GenerateUpLink()const
 {
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -61,7 +63,7 @@ string FileGenerator::GenerateUpLink()
   return str;
 }
 
-string FileGenerator::GenerateDownLink()
+string FileGenerator::GenerateDownLink()const
 {
   std::srand(std::time(nullptr)); // use current time as seed for random generator
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
@@ -71,21 +73,19 @@ string FileGenerator::GenerateDownLink()
   return str;
 }
 
-string FileGenerator::GenerateDate()
+string FileGenerator::GenerateDate()const
 {
   string str = " ";
-  std::srand(std::time(nullptr)); // use current time as seed for random generator
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-  std::uniform_int_distribution<> distrib(1, 12);
+  std::uniform_int_distribution<> distrib(1, 31);
   string year = "2020";
-  string month  = to_string(distrib(gen));
+  string month  = to_string(distrib(gen)%12 + 1);
   string day = "";
   int dayInt = 0;
   switch (stoi(month))
   {
     case 1:{
-      std::uniform_int_distribution<> distrib(1, 31);
       dayInt = distrib(gen) % 31 + 1;
     }break;
     case 2:
@@ -128,11 +128,16 @@ string FileGenerator::GenerateDate()
 }
 
 
-
-const int FileGenerator::GetFileSize()const
+string  FileGenerator::GenerateCallsDuration()const
 {
-  std::ifstream in_file(m_name, std::ios::binary);
-  in_file.seekg(0, std::ios::end);
-  int file_size = in_file.tellg();
-  return file_size;
+  string str = " ";
+  std::random_device rd;  //Will be used to obtain a seed for the random number engine
+  std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+  std::uniform_int_distribution<> distrib(1, 60);
+  string l_sHour = '0' + to_string(distrib(gen)%6);
+  int l_nMin = distrib(gen)%60;
+  string l_sMinute = l_nMin < 10 ? '0' + to_string(l_nMin) : to_string(l_nMin);
+  string l_sSecond = to_string(distrib(gen)%60);
+  str = l_sHour + ":" + l_sMinute + ":" + l_sSecond;
+  return str;
 }

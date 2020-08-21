@@ -14,6 +14,7 @@ struct eCdrDetails
   std::string m_date;
   std::string m_downlink;
   std::string m_uplink;
+  std::string m_duration;
 };
 
 struct CdrDetails :  eCdrDetails

@@ -17,7 +17,7 @@ cdrWriter::cdrWriter()
 }
 
 void cdrWriter::GetCdrDetailsFromQueue(ThreadArgs &threadArgs,
-CdrDetails &cdrDetails)
+CdrDetails &cdrDetails)const
 {
   unique_lock<mutex> lk(threadArgs.m_writeQueueMutex);
   auto now = std::chrono::system_clock::now();
@@ -33,12 +33,12 @@ CdrDetails &cdrDetails)
 }
 
 
-void cdrWriter::WriteToFile(CdrDetails &cdrDetails)
+void cdrWriter::WriteToFile(CdrDetails &cdrDetails)const
 {
     m_outPutFile->WriteToFile(cdrDetails);
 }
 
-void cdrWriter::Write(ThreadArgs &threadArgs)
+void cdrWriter::Write(ThreadArgs &threadArgs)const
 {
    int i = 0;
    while(true)
