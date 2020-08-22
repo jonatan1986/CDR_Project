@@ -22,8 +22,6 @@ class Task
     std::unique_ptr<eWriter> m_writer;
     std::unique_ptr<eParser> m_parser;
     std::unique_ptr<eReader> m_reader;
-    ThreadPool m_threadPool;
-
 };
 
 

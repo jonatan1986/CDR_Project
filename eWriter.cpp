@@ -12,8 +12,8 @@ using namespace std;
 
 cdrWriter::cdrWriter()
 {
-    OutPutFileFactory outPutFileFactory;
-    m_outPutFile = outPutFileFactory.Create();
+    // OutPutFileFactory outPutFileFactory;
+    m_outPutFile = SingleTone<OutPutFileFactory>::GetIntstance()->Create();
 }
 
 void cdrWriter::GetCdrDetailsFromQueue(ThreadArgs &threadArgs,

@@ -1,0 +1,3 @@
+FILE_NAME datafile.txt
+OUTPUT_TYPE MultipleOutput
+CHUNK_NUM 5

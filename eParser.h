@@ -16,6 +16,7 @@ class eParser
 {
 public:
   virtual void Parse(ThreadArgs &threadArgs)const = 0;
+  virtual ~eParser(){}
 };
 
 class cdrParser: public eParser

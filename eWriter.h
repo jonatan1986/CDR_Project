@@ -16,6 +16,7 @@ class eWriter
 {
 public:
   virtual void Write(ThreadArgs &threadArgs)const = 0;
+  virtual ~eWriter(){}
 };
 
 class cdrWriter: public eWriter

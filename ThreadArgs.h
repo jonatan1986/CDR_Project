@@ -14,6 +14,7 @@
 #include "SafeQueue.h"
 
 
+
 struct ThreadArgs
 {
     ThreadArgs():m_bExitParseThread(false),m_bExitWriteThread(false){}
@@ -27,6 +28,14 @@ struct ThreadArgs
     SafeQueue<CdrDetails> m_queueToWrite;
 };
 
+class SharedResourceWrapper
+{
+public:
+  const ThreadArgs& GetResourceByIndex(size_t index) const
+  {return m_ThreadArgsArray[index];}
+private:
+   ThreadArgs m_ThreadArgsArray[5];
+};
 
 
 

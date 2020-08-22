@@ -51,17 +51,27 @@ public:
 class OutPutFileFactory
 {
 public:
-  eOutPutFile* Create()
+  OutPutFileFactory()
   {
-    if (OUTPUT_TYPE == SingleOutput)
+    Config *config = SingleTone<Config>::GetIntstance();
+    if ( config->GetOutputType() == "MultipleOutput")
     {
-        return SingleTone<SingleFile>::GetIntstance();
+        m_eOutPutFile = SingleTone<MultipleFile>::GetIntstance();
     }
     else
     {
-        return SingleTone<MultipleFile>::GetIntstance();
+        m_eOutPutFile = SingleTone<SingleFile>::GetIntstance();
     }
+
   }
+  eOutPutFile* Create()
+  {
+      return m_eOutPutFile;
+  }
+private:
+  eOutPutFile* m_eOutPutFile = nullptr;
 };
+
+// eOutputType OutPutFileFactory::m_eOutputType;
 
 #endif // FACTORY_H

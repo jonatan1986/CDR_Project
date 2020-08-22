@@ -1,4 +1,4 @@
-CFLAGS= -lpthread -std=c++17 -lstdc++fs -pedantic -Werror -fpermissive -Wall -c
+CFLAGS= -lpthread -std=c++14 -pedantic -Werror -fpermissive -Wall -c
 
 all: GenerateFile  GenerateCdr
 
@@ -7,9 +7,12 @@ GenerateFile:GenerateFile.o FileGenerator.o
 
 
 
-GenerateCdr:Cdr.o  FileGenerator.o TaskManager.o Task.o  eReader.o eWriter.o eParser.o eOutPutFile.o
-		 g++ -o GenerateCdr Cdr.o FileGenerator.o TaskManager.o  Task.o  eReader.o eWriter.o eParser.o  eOutPutFile.o -lpthread
+GenerateCdr:Cdr.o  FileGenerator.o TaskManager.o Task.o  eReader.o eWriter.o eParser.o eOutPutFile.o Config.o
+		 g++ -o   GenerateCdr  Cdr.o  FileGenerator.o TaskManager.o  Task.o  eReader.o eWriter.o eParser.o  eOutPutFile.o  Config.o -lpthread
 
+
+Config.o: Config.cpp Config.h
+		g++ $(CFLAGS) Config.cpp
 
 GenerateFile.o: GenerateFile.cpp FileGenerator.h
 	   g++ $(CFLAGS) GenerateFile.cpp
@@ -36,7 +39,7 @@ TaskManager.o: TaskManager.cpp TaskManager.h ThreadPool.h SafeQueue.h Task.h \
 Factory.h eWriter.h eParser.h eReader.h ThreadArgs.h SingleTone.h Config.h
 			         g++ $(CFLAGS)  TaskManager.cpp
 
-Cdr.o: Cdr.cpp  FileGenerator.h TaskManager.h Config.h
+Cdr.o: Cdr.cpp  FileGenerator.h TaskManager.h Config.h SingleTone.h
 			g++ $(CFLAGS)  Cdr.cpp
 
 eOutPutFile.o: eOutPutFile.cpp eOutPutFile.h eCdrDetails.h

@@ -17,6 +17,7 @@ class eReader
 {
 public:
   virtual void Read(ThreadArgs &threadArgs) const = 0;
+  virtual ~eReader(){}
 };
 
 class cdrReader: public eReader

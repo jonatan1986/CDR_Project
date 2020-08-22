@@ -34,8 +34,8 @@ void WriteFunc(std::unique_ptr<eWriter> &writer,ThreadArgs &threadArgs)
 
 void Task::Run()
 {
-  m_threadPool.AddThread(&ReadFunc,ref(m_reader),ref(m_threadArgs));
-  m_threadPool.AddThread(&ParseFunc,ref(m_parser),ref(m_threadArgs));
-  m_threadPool.AddThread(&WriteFunc,ref(m_writer),ref(m_threadArgs));
-  // cout<<"finished run"<<endl;
+  ThreadPool l_threadPool;
+  l_threadPool.AddThread(&ReadFunc,ref(m_reader),ref(m_threadArgs));
+  l_threadPool.AddThread(&ParseFunc,ref(m_parser),ref(m_threadArgs));
+  l_threadPool.AddThread(&WriteFunc,ref(m_writer),ref(m_threadArgs));
 }

@@ -29,6 +29,7 @@ class eOutPutFile
 public:
   virtual void WriteToFile(eCdrDetails& cdrDetails) = 0;
 protected:
+  virtual ~eOutPutFile(){} // output file cannot be  deleted since it is a SingleTone
   std::unordered_map<std::string,FileDetails> m_fileMap;
   std::string m_sRelPath = "output";
 };
