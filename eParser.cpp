@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void cdrParser::ParseLine(std::string &line,CdrDetails& cdrDetails)const
+void cdrParser::ParseLine(std::string &line,CdrDetails& o_cdrDetails)const
 {
     // consider to make library for this function
     size_t startPos = 0,currPos = 0;
@@ -19,14 +19,14 @@ void cdrParser::ParseLine(std::string &line,CdrDetails& cdrDetails)const
     string str = line.substr(startPos,currPos-startPos);
     cdrDetailsVec.push_back(std::move(str));
 
-    cdrDetails.m_imsi  = cdrDetailsVec[0];
-    cdrDetails.m_date  = cdrDetailsVec[1];
-    cdrDetails.m_downlink = cdrDetailsVec[2];
-    cdrDetails.m_uplink = cdrDetailsVec[3];
-    cdrDetails.m_duration = cdrDetailsVec[4];
+    o_cdrDetails.m_sImsi  = cdrDetailsVec[0];
+    o_cdrDetails.m_sDate  = cdrDetailsVec[1];
+    o_cdrDetails.m_sDownlink = cdrDetailsVec[2];
+    o_cdrDetails.m_sUplink = cdrDetailsVec[3];
+    o_cdrDetails.m_sDuration = cdrDetailsVec[4];
 }
 
-void cdrParser::GetLineFromQueue(std::string &line,ThreadArgs &threadArgs)const
+void cdrParser::GetLineFromQueue(std::string &o_sLine,ThreadArgs &threadArgs)const
 {
   unique_lock<mutex> lk(threadArgs.m_parseQueueMutex);
   auto now = std::chrono::system_clock::now();
@@ -35,7 +35,7 @@ void cdrParser::GetLineFromQueue(std::string &line,ThreadArgs &threadArgs)const
   {
      return;
   }
-  line = threadArgs.m_queueToParse.Remove();
+  o_sLine = threadArgs.m_queueToParse.Remove();
 }
 
 void cdrParser::InsertCdrDetailsToQueue(CdrDetails& cdrDetails,ThreadArgs &threadArgs)const
@@ -49,12 +49,12 @@ void cdrParser::Parse(ThreadArgs &threadArgs)const
   int i =  0;
   while(true)
   {
-      string line = " ";
+      string l_sLine = " ";
       {
-        GetLineFromQueue(line,threadArgs);
-        // cout<<" Parse "<<line<<endl;
+        GetLineFromQueue(l_sLine,threadArgs);
+        // cout<<" Parse "<<l_sLine<<endl;
         CdrDetails l_cdrDetails;
-        ParseLine(line,l_cdrDetails);
+        ParseLine(l_sLine,l_cdrDetails);
         InsertCdrDetailsToQueue(l_cdrDetails,threadArgs);
       }
       ++i;

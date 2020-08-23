@@ -17,7 +17,7 @@ Config.o: Config.cpp Config.h
 GenerateFile.o: GenerateFile.cpp FileGenerator.h
 	   g++ $(CFLAGS) GenerateFile.cpp
 
-FileGenerator.o: FileGenerator.cpp
+FileGenerator.o: FileGenerator.cpp FileGenerator.h Config.h
 		 g++ $(CFLAGS)  FileGenerator.cpp
 
 eReader.o: eReader.cpp  eReader.h ThreadArgs.h eCdrDetails.h SafeQueue.h

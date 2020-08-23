@@ -18,19 +18,19 @@ public:
     void AddThread(Function&& f, Args&&... args )
     {
       std::thread l_thread(f,args...);
-      threadList.push_back(std::move(l_thread));
+      m_threadList.push_back(std::move(l_thread));
     }
     ~ThreadPool()
     {
-      while(threadList.size())
+      while(m_threadList.size())
       {
-         std::thread threadToDelete = std::move(threadList.front());
+         std::thread threadToDelete = std::move(m_threadList.front());
          threadToDelete.join();
-         threadList.pop_front();
+         m_threadList.pop_front();
       }
     }
 private:
-    std::list<std::thread > threadList;
+    std::list<std::thread > m_threadList;
 
 };
 

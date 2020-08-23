@@ -23,13 +23,13 @@ public:
 class cdrReader: public eReader
 {
 public:
-  cdrReader(const std::string& filename,int startLine,int endLine):
-  m_filename(filename),m_startLine(startLine),m_endLine(endLine){}
+  cdrReader(const std::string& filename,int nStartLine,int nEndLine):
+  m_filename(filename),m_nStartLine(nStartLine),m_nEndLine(nEndLine){}
   void Read(ThreadArgs &threadArgs) const override;
 private:
   const std::string m_filename;
-  const int m_startLine;
-  const int m_endLine;
+  const int m_nStartLine;
+  const int m_nEndLine;
 
 };
 

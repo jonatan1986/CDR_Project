@@ -16,8 +16,6 @@ class Task
     void Run();
   private:
     const std::string m_filename;
-    const int m_startline;
-    const int m_endline;
     ThreadArgs m_threadArgs;
     std::unique_ptr<eWriter> m_writer;
     std::unique_ptr<eParser> m_parser;

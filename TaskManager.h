@@ -21,8 +21,8 @@ public:
     void CreateThreads();
     friend int GetAmountOfLines(TaskManager &taskManager);
 private:
-    int m_numOfChunks;
-    std::string m_filename;
+    int m_nNumOfChunks;
+    std::string m_sFileName;
 };
 
 

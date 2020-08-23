@@ -5,6 +5,7 @@
 
 
 #include"FileGenerator.h"
+#include "Config.h"
 
 using namespace std;
 

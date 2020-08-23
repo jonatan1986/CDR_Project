@@ -17,7 +17,7 @@ cdrWriter::cdrWriter()
 }
 
 void cdrWriter::GetCdrDetailsFromQueue(ThreadArgs &threadArgs,
-CdrDetails &cdrDetails)const
+CdrDetails &o_cdrDetails)const
 {
   unique_lock<mutex> lk(threadArgs.m_writeQueueMutex);
   auto now = std::chrono::system_clock::now();
@@ -29,7 +29,7 @@ CdrDetails &cdrDetails)const
       // was modified by parser, queue might be empty and program might crash
       return;
   }
-  cdrDetails = threadArgs.m_queueToWrite.Remove();
+  o_cdrDetails = threadArgs.m_queueToWrite.Remove();
 }
 
 
@@ -52,7 +52,7 @@ void cdrWriter::Write(ThreadArgs &threadArgs)const
          break;
       }
       if (i == 0)
-        cout<<i<<"Write l_cdrDetails "<<l_cdrDetails.m_imsi<<" "<<pthread_self()<<endl;
+        cout<<i<<"Write l_cdrDetails "<<l_cdrDetails.m_sImsi<<" "<<pthread_self()<<endl;
       ++i;
    }
 

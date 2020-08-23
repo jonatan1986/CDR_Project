@@ -5,10 +5,10 @@
 using namespace std;
 
 
-Task::Task(const std::string& filename,int startLine,int endLine)
-:m_filename(filename),m_startline(startLine),m_endline(endLine)
+Task::Task(const std::string& filename,int nStartline,int nEndLine)
+:m_filename(filename)
 {
-  ReaderFactory readerFactory(filename,startLine,endLine);
+  ReaderFactory readerFactory(filename,nStartline,nEndLine);
   ParserFactory parserFactory;
   WriterFactory writerFactory;
   m_reader = readerFactory.Create();

@@ -37,17 +37,17 @@ protected:
 class SingleFile: public eOutPutFile
 {
 public:
-  SingleFile():m_fileName("SingleFile.txt")
+  SingleFile():m_sFileName("SingleFile.txt")
   {
-    FileDetails l_FileDetails(m_fileName);
-    m_fileMap[m_fileName] = std::move(l_FileDetails);
+    FileDetails l_FileDetails(m_sFileName);
+    m_fileMap[m_sFileName] = std::move(l_FileDetails);
     //delete file if exists
     const std::string l_sCommand = "rm -rf " + m_sRelPath + "/*.txt";
     system(l_sCommand.c_str());
   }
   void WriteToFile(eCdrDetails& cdrDetails)override;
 private:
-  std::string m_fileName;
+  std::string m_sFileName;
   std::mutex m_mutex;
   std::ofstream m_file;
 
@@ -63,7 +63,7 @@ public:
   }
   void WriteToFile(eCdrDetails& cdrDetails)override;
 private:
-  int m_index = 1;
+  int m_nIndex = 1;
   std::mutex m_mutex[20];
   std::ofstream m_file[20];
 

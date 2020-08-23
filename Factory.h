@@ -53,8 +53,8 @@ class OutPutFileFactory
 public:
   OutPutFileFactory()
   {
-    Config *config = SingleTone<Config>::GetIntstance();
-    if ( config->GetOutputType() == "MultipleOutput")
+    Config *l_config = SingleTone<Config>::GetIntstance();
+    if (l_config->GetOutputType() == "MultipleOutput")
     {
         m_eOutPutFile = SingleTone<MultipleFile>::GetIntstance();
     }
@@ -69,6 +69,7 @@ public:
       return m_eOutPutFile;
   }
 private:
+  ~OutPutFileFactory();
   eOutPutFile* m_eOutPutFile = nullptr;
 };
 

@@ -8,21 +8,21 @@ using namespace std;
 
 void cdrReader::Read(ThreadArgs &threadArgs)const
 {
-    ifstream inputfile(m_filename);
+    ifstream l_inputfile(m_filename);
     string line;
 
     // lambda Function - get to the line in the file from which it should read
-    auto GetToLine = [](ifstream& inputfile,string& line,int startLine)
+    auto GetToLine = [](ifstream& i_inputfile,string& i_sLine,int i_nStartLine)
     {
-      for(int i = 1 ; i < startLine  ; ++i)
+      for(int i = 1 ; i < i_nStartLine  ; ++i)
       {
-        getline(inputfile,line);
+        getline(i_inputfile,i_sLine);
       }
     };
-    GetToLine(inputfile, line, m_startLine); // go the line from thread should read
-    for(int i = m_startLine ; i <= m_endLine  ; ++i)
+    GetToLine(l_inputfile, line, m_nStartLine); // go the line from thread should read
+    for(int i = m_nStartLine ; i <= m_nEndLine  ; ++i)
     {
-      getline(inputfile,line);
+      getline(l_inputfile,line);
       threadArgs.m_queueToParse.Insert(line);
       threadArgs.m_parseQueueCV.notify_one();
     }

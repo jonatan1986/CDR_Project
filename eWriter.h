@@ -24,7 +24,7 @@ class cdrWriter: public eWriter
 public:
   cdrWriter();
   void Write(ThreadArgs &threadArgs)const override;
-  void GetCdrDetailsFromQueue(ThreadArgs &threadArgs,CdrDetails &cdrDetails)const ;
+  void GetCdrDetailsFromQueue(ThreadArgs &threadArgs,CdrDetails &o_cdrDetails)const ;
   void WriteToFile(CdrDetails &cdrDetails)const;
 private:
   eOutPutFile* m_outPutFile;

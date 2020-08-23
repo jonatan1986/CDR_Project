@@ -12,10 +12,10 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
   /* code */
-  FileGenerator fileGenerator(filename);
+  FileGenerator l_fileGenerator(filename);
   try
   {
-      fileGenerator.GenerateFile();
+      l_fileGenerator.GenerateFile();
   }
   catch(string& str)
   {

@@ -10,11 +10,11 @@
 
 struct eCdrDetails
 {
-  std::string m_imsi;
-  std::string m_date;
-  std::string m_downlink;
-  std::string m_uplink;
-  std::string m_duration;
+  std::string m_sImsi;
+  std::string m_sDate;
+  std::string m_sDownlink;
+  std::string m_sUplink;
+  std::string m_sDuration;
 };
 
 struct CdrDetails :  eCdrDetails
