@@ -21,6 +21,7 @@ class FileGenerator
 public:
   FileGenerator(std::string name):m_name(name)
   {
+    system("rm -rf datafile.txt");
     m_file.open(name,std::ios::app | std::ios::out);
     InitImsi();
   }
@@ -42,7 +43,7 @@ private:
   std::ofstream m_file;
   std::string m_name;
   std::vector<int> imsiVec;
-
+  size_t m_nAmountOfSubscribers;
 };
 
 #endif // FILE_MANAGER_H

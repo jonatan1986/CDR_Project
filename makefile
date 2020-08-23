@@ -2,8 +2,8 @@ CFLAGS= -lpthread -std=c++14 -pedantic -Werror -fpermissive -Wall -c
 
 all: GenerateFile  GenerateCdr
 
-GenerateFile:GenerateFile.o FileGenerator.o
-		 g++ -o GenerateFile GenerateFile.o FileGenerator.o
+GenerateFile:GenerateFile.o FileGenerator.o Config.o
+		 g++ -o GenerateFile GenerateFile.o FileGenerator.o Config.o
 
 
 
@@ -14,10 +14,10 @@ GenerateCdr:Cdr.o  FileGenerator.o TaskManager.o Task.o  eReader.o eWriter.o ePa
 Config.o: Config.cpp Config.h
 		g++ $(CFLAGS) Config.cpp
 
-GenerateFile.o: GenerateFile.cpp FileGenerator.h
+GenerateFile.o: GenerateFile.cpp FileGenerator.h Config.h
 	   g++ $(CFLAGS) GenerateFile.cpp
 
-FileGenerator.o: FileGenerator.cpp FileGenerator.h Config.h
+FileGenerator.o: FileGenerator.cpp FileGenerator.h Config.h SingleTone.h
 		 g++ $(CFLAGS)  FileGenerator.cpp
 
 eReader.o: eReader.cpp  eReader.h ThreadArgs.h eCdrDetails.h SafeQueue.h
@@ -42,7 +42,7 @@ Factory.h eWriter.h eParser.h eReader.h ThreadArgs.h SingleTone.h Config.h
 Cdr.o: Cdr.cpp  FileGenerator.h TaskManager.h Config.h SingleTone.h
 			g++ $(CFLAGS)  Cdr.cpp
 
-eOutPutFile.o: eOutPutFile.cpp eOutPutFile.h eCdrDetails.h
+eOutPutFile.o: eOutPutFile.cpp eOutPutFile.h eCdrDetails.h Config.h SingleTone.h
 		  g++ $(CFLAGS)  eOutPutFile.cpp
 
 

@@ -4,12 +4,27 @@
 #include <ctime>
 
 
-#include"FileGenerator.h"
+#include "FileGenerator.h"
 #include "Config.h"
+#include "SingleTone.h"
 
 using namespace std;
 
-
+void  FileGenerator::InitImsi()
+{
+  size_t i = 0;
+  Config *l_config = SingleTone<Config>::GetIntstance();
+  string l_sAmountOfSubs = l_config->GetAmountOfSubscribers();
+  m_nAmountOfSubscribers = l_sAmountOfSubs.length() > 0 ?
+  stoi(l_sAmountOfSubs) : AMOUNT_OF_SUBS;
+  // cout<<"l_sAmountOfSubs "<<l_sAmountOfSubs<<endl;
+  while(i < m_nAmountOfSubscribers)
+  {
+    imsiVec.push_back(GenerateImsi());
+    ++i;
+  }
+  cout<<i<<endl;
+}
 
 int  FileGenerator::GenerateImsi()const
 {
@@ -24,7 +39,7 @@ void FileGenerator::GenerateFile()
 {
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-  std::uniform_int_distribution<> distrib(0, 19);
+  std::uniform_int_distribution<> distrib(0, m_nAmountOfSubscribers-1);
   for(int i = 0 ; i < 10000 ; ++i)
   {
     if (m_file.is_open())
@@ -41,17 +56,6 @@ void FileGenerator::GenerateFile()
   }
 
   m_file.close();
-}
-
-void  FileGenerator::InitImsi()
-{
-  int i = 0;
-  while(i < 20)
-  {
-    imsiVec.push_back(GenerateImsi());
-    ++i;
-  }
-
 }
 
 

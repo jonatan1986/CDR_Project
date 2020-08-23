@@ -10,8 +10,10 @@
 #include <mutex>
 #include <unordered_map>
 #include <fstream>
+#include <memory>
 #include "eCdrDetails.h"
-
+#include "Config.h"
+#include "SingleTone.h"
 
 #include<stdio.h>
 #include<unistd.h>
@@ -60,12 +62,18 @@ public:
   {
     const std::string l_sCommand = "rm -rf " + m_sRelPath + "/*.txt";
     system(l_sCommand.c_str());
+    Config *l_config = SingleTone<Config>::GetIntstance();
+    std::string l_sAmountOfSubs  = l_config->GetAmountOfSubscribers();
+    size_t l_nAmountOfSubscribers =  l_sAmountOfSubs.length() > 0 ?
+    stoi(l_sAmountOfSubs) : AMOUNT_OF_SUBS;
+    m_mutex = std::make_unique<std::mutex[]>(l_nAmountOfSubscribers);
+    m_file = std::make_unique<std::ofstream[]>(l_nAmountOfSubscribers);
   }
   void WriteToFile(eCdrDetails& cdrDetails)override;
 private:
   int m_nIndex = 1;
-  std::mutex m_mutex[20];
-  std::ofstream m_file[20];
+  std::unique_ptr<std::mutex[]> m_mutex;
+  std::unique_ptr<std::ofstream[]> m_file;
 
 };
 
