@@ -21,6 +21,9 @@ output file can appear in the forms:
 1) single file which contains all the cdrs(the name of the file is "SingleFile.txt")
 2) multiple files which are classified by imsi - each file is contains all cdrs of one imsi. files are indexed(1.txt, 2.txt. ...)
 
+the process of creating the output file of the input file is mutil threaded - there are couple of threads  - each thread handles 
+a chunk from the file. each thread contains threads which perform tasks in paraller manner(reading from input,parsing input, writing to output)
+
 things to note:
 *if you want to build  - type in commnand line "make" , but you could use the executables.
 * you could simply run the project ("./GenerateCdr")
