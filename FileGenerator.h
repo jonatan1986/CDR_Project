@@ -1,4 +1,9 @@
-
+/*
+ * FileGenerator.h
+ *
+ *  Created on: Aug 7, 2020
+ *      Author: yonathan
+ */
 #ifndef FILE_MANAGER_H
 #define FILE_MANAGER_H
 
@@ -6,6 +11,10 @@
 #include<iostream>
 #include <fstream>
 
+/*
+the class generates file of cdrs:
+# $imsi|$data|$downlink|$uplink|$callduration
+*/
 
 class FileGenerator
 {
@@ -20,7 +29,7 @@ public:
   int  GenerateImsi()const;
   std::string GenerateUpLink()const;
   std::string GenerateDownLink()const;
-  std::string  GenerateCallsDuration()const;
+  std::string GenerateCallsDuration()const;
   void  InitImsi();
   ~FileGenerator()
   {

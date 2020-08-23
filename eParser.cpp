@@ -5,18 +5,18 @@
 
 using namespace std;
 
-void cdrParser::ParseLine(std::string &line,CdrDetails& o_cdrDetails)const
+void cdrParser::ParseLine(std::string &i_sLine,eCdrDetails& o_cdrDetails)const
 {
     // consider to make library for this function
     size_t startPos = 0,currPos = 0;
     vector<string> cdrDetailsVec;
-    while((currPos = line.find_first_of("|",startPos)) != std::string::npos)
+    while((currPos = i_sLine.find_first_of("|",startPos)) != std::string::npos)
     {
-      string str = line.substr(startPos,currPos-startPos);
+      string str = i_sLine.substr(startPos,currPos-startPos);
       startPos = currPos + 1;
       cdrDetailsVec.push_back(std::move(str));
     }
-    string str = line.substr(startPos,currPos-startPos);
+    string str = i_sLine.substr(startPos,currPos-startPos);
     cdrDetailsVec.push_back(std::move(str));
 
     o_cdrDetails.m_sImsi  = cdrDetailsVec[0];
@@ -38,9 +38,9 @@ void cdrParser::GetLineFromQueue(std::string &o_sLine,ThreadArgs &threadArgs)con
   o_sLine = threadArgs.m_queueToParse.Remove();
 }
 
-void cdrParser::InsertCdrDetailsToQueue(CdrDetails& cdrDetails,ThreadArgs &threadArgs)const
+void cdrParser::InsertCdrDetailsToQueue(eCdrDetails& i_cdrDetails,ThreadArgs &threadArgs)const
 {
-    threadArgs.m_queueToWrite.Insert(cdrDetails);
+    threadArgs.m_queueToWrite.Insert(i_cdrDetails);
     threadArgs.m_writeQueueCV.notify_one();
 }
 

@@ -12,8 +12,9 @@
 #include"eOutPutFile.h"
 #include"SingleTone.h"
 #include "Config.h"
-
-
+/*
+creates unique_ptr for eReader
+*/
 class ReaderFactory
 {
 public:
@@ -29,6 +30,9 @@ private:
   const int m_endLine;
 };
 
+/*
+creates unique_ptr for eParser
+*/
 class ParserFactory
 {
 public:
@@ -38,6 +42,9 @@ public:
   }
 };
 
+/*
+creates unique_ptr for eWriter
+*/
 class WriterFactory
 {
 public:
@@ -47,7 +54,18 @@ public:
   }
 };
 
-
+/*
+  this class is a bit complex : class eOutPutFile(member of OutPutFileFactory) is
+  polymorphic and can be written to singlefile or multiple files(if multiple - each file
+  is classified by the IMSI(internation mobile subscriber identity))
+  so the OutPutFileFactory creates the  eOutPutFile* according to Config
+  class. the consturctor decides the type of "eOutPutFile" according
+  to the configuration. the function create returns the  relevant type
+  of eOutPutFile. Since more then on thread has this class(OutPutFileFactory),
+  this class is wrapped by a SingleTone. constructor is called only once
+  and   eOutPutFile* is shared among the threads(which write to the output)
+  since it contains shared data
+*/
 class OutPutFileFactory
 {
 public:
@@ -73,6 +91,5 @@ private:
   eOutPutFile* m_eOutPutFile = nullptr;
 };
 
-// eOutputType OutPutFileFactory::m_eOutputType;
 
 #endif // FACTORY_H

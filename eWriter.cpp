@@ -12,12 +12,11 @@ using namespace std;
 
 cdrWriter::cdrWriter()
 {
-    // OutPutFileFactory outPutFileFactory;
     m_outPutFile = SingleTone<OutPutFileFactory>::GetIntstance()->Create();
 }
 
 void cdrWriter::GetCdrDetailsFromQueue(ThreadArgs &threadArgs,
-CdrDetails &o_cdrDetails)const
+eCdrDetails &o_cdrDetails)const
 {
   unique_lock<mutex> lk(threadArgs.m_writeQueueMutex);
   auto now = std::chrono::system_clock::now();
@@ -33,9 +32,9 @@ CdrDetails &o_cdrDetails)const
 }
 
 
-void cdrWriter::WriteToFile(CdrDetails &cdrDetails)const
+void cdrWriter::WriteToFile(eCdrDetails &i_cdrDetails)const
 {
-    m_outPutFile->WriteToFile(cdrDetails);
+    m_outPutFile->WriteToFile(i_cdrDetails);
 }
 
 void cdrWriter::Write(ThreadArgs &threadArgs)const

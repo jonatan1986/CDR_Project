@@ -7,7 +7,9 @@ using namespace std;
 
 
 
-
+/*
+main function
+*/
 
 
 int main(int argc, char const *argv[]) {

@@ -1,4 +1,9 @@
-
+/*
+ * Task.h
+ *
+ *  Created on: Aug 11, 2020
+ *      Author: yonathan
+ */
 #ifndef ETASK_H_
 #define ETASK_H_
 
@@ -7,15 +12,18 @@
 #include "Factory.h"
 #include "SafeQueue.h"
 #include "ThreadPool.h"
-
+/*
+this class is the main thread which activates the eReader,eParser,and eWriter.
+member function "Run()" activates the eReader,eParser,and eWriter.
+*/
 
 class Task
 {
   public:
-    Task(const std::string& filename,int startline,int endline);
+    Task(const std::string& filename, int nStartline, int nEndline);
     void Run();
   private:
-    const std::string m_filename;
+    const std::string m_sFilename;
     ThreadArgs m_threadArgs;
     std::unique_ptr<eWriter> m_writer;
     std::unique_ptr<eParser> m_parser;

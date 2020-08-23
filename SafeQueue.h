@@ -11,7 +11,9 @@
 #include <queue>
 #include<iostream>
 #include<mutex>
-
+/*
+this class wraps queue of stl, so the queue is thread safe
+*/
 template <class T>
 class SafeQueue
 {

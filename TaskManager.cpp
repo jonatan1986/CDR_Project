@@ -3,7 +3,10 @@
 #include <memory>
 #include"TaskManager.h"
 #include"Task.h"
-
+/*
+this class is the resonsible for createing threads who get "Run" function as a
+parameter, each thread handles a chunk of the file.
+*/
 using namespace std;
 
 

@@ -25,7 +25,7 @@ struct ThreadArgs
     std::condition_variable m_parseQueueCV;
     std::condition_variable m_writeQueueCV;
     SafeQueue<std::string> m_queueToParse;
-    SafeQueue<CdrDetails> m_queueToWrite;
+    SafeQueue<eCdrDetails> m_queueToWrite;
 };
 
 class SharedResourceWrapper
