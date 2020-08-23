@@ -28,3 +28,9 @@ things to note:
 *if you want to build  - type in commnand line "make" , but you could use the executables.
 * you could simply run the project ("./GenerateCdr")
 * if you want to generate the input file you run the executable("./GenerateFile")
+* exe file "GenerateFile" generates an input file, whose amount of subscribers is grabbed from "cdrconfig.txt". 
+  exe file "GenerateCdr" generates an output file, whose amount of subscribers is grabbed from "cdrconfig.txt".
+  so if you modify cdrconfig.txt, please run ./GenerateFile and then ./GenerateCdr cause if two 
+  executables don't have the same amount of subscribers - the program "GenerateCdr" might crash
+* if you modify "cdrconfig.txt", the each line you could modify only the right part of the line -
+  the left part must stay as is.
