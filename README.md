@@ -31,6 +31,6 @@ things to note:
 * exe file "GenerateFile" generates an input file, whose amount of subscribers is grabbed from "cdrconfig.txt". 
   exe file "GenerateCdr" generates an output file, whose amount of subscribers is grabbed from "cdrconfig.txt".
   so if you modify cdrconfig.txt, please run ./GenerateFile and then ./GenerateCdr cause if two 
-  executables don't have the same amount of subscribers - the program "GenerateCdr" might crash
+  executables don't have the same amount of subscribers - the program "GenerateCdr" is error prone or might crash
 * if you modify "cdrconfig.txt", the each line you could modify only the right part of the line -
   the left part must stay as is.
