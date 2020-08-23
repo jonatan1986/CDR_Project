@@ -15,7 +15,7 @@ downlink = 895
 uplink = 611
 call duration = 01:39:29
 
-the output file is written in a way that details are will understood. In the example above, the line in the output will be:
+the output file is written in a way that details are understood. In the example above, the line in the output will be:
 IMSI=746397689 Date=29/5/2020Downlink=895 Uplink=611 Duration= 01:39:2
 output file can appear in the forms: 
 1) single file which contains all the cdrs(the name of the file is "SingleFile.txt")
@@ -25,7 +25,7 @@ the process of creating the output file of the input file is mutil threaded - th
 a chunk from the file. each thread contains threads which perform tasks in paraller manner(reading from input,parsing input, writing to output)
 
 things to note:
-*if you want to build  - type in commnand line "make" , but you could use the executables.
+*if you want to build  - type in commnand line "make" , but you could use the executables which are already built(GenerateCdr && GenerateFile).
 * you could simply run the project ("./GenerateCdr")
 * if you want to generate the input file you run the executable("./GenerateFile")
 * exe file "GenerateFile" generates an input file, whose amount of subscribers is grabbed from "cdrconfig.txt". 
