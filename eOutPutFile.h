@@ -17,7 +17,9 @@
 
 #include<stdio.h>
 #include<unistd.h>
-
+/*
+FileDetails - simple struct which holds the name of the file and the index
+*/
 struct FileDetails
 {
   FileDetails(std::string &sFileName, int nFileIndex = 0):m_sFileName(sFileName){}
@@ -25,7 +27,12 @@ struct FileDetails
   std::string m_sFileName;
   int m_nFileIndex = 0;
 };
-
+/*
+class eOutPutFile is polymorphic. it has 2 derived classes. the aim of this
+class to print literally the output result to the output file.
+this is done thread safe and this class is SingleTone so all threads
+print to the same file - they share the mutex among them
+*/
 class eOutPutFile
 {
 public:
@@ -36,6 +43,9 @@ protected:
   std::string m_sRelPath = "output";
 };
 
+/*
+writes to a signle file - all imsis are in the same file
+*/
 class SingleFile: public eOutPutFile
 {
 public:
@@ -47,29 +57,22 @@ public:
     const std::string l_sCommand = "rm -rf " + m_sRelPath + "/*.txt";
     system(l_sCommand.c_str());
   }
-  void WriteToFile(eCdrDetails& cdrDetails)override;
+  void WriteToFile(eCdrDetails& i_cdrDetails)override;
 private:
   std::string m_sFileName;
   std::mutex m_mutex;
   std::ofstream m_file;
 
 };
-
+/*
+writes to multiple files - each file is mapped to IMSI
+*/
 class MultipleFile : public eOutPutFile
 {
 public:
-  MultipleFile()
-  {
-    const std::string l_sCommand = "rm -rf " + m_sRelPath + "/*.txt";
-    system(l_sCommand.c_str());
-    Config *l_config = SingleTone<Config>::GetIntstance();
-    std::string l_sAmountOfSubs  = l_config->GetAmountOfSubscribers();
-    size_t l_nAmountOfSubscribers =  l_sAmountOfSubs.length() > 0 ?
-    stoi(l_sAmountOfSubs) : AMOUNT_OF_SUBS;
-    m_mutex = std::make_unique<std::mutex[]>(l_nAmountOfSubscribers);
-    m_file = std::make_unique<std::ofstream[]>(l_nAmountOfSubscribers);
-  }
-  void WriteToFile(eCdrDetails& cdrDetails)override;
+  MultipleFile();
+  void Init();
+  void WriteToFile(eCdrDetails& i_cdrDetails)override;
 private:
   int m_nIndex = 1;
   std::unique_ptr<std::mutex[]> m_mutex;

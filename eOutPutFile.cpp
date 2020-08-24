@@ -4,7 +4,22 @@
 
 using namespace std;
 
+MultipleFile::MultipleFile()
+{
+  Init();
+}
 
+void MultipleFile::Init()
+{
+  const std::string l_sCommand = "rm -rf " + m_sRelPath + "/*.txt";
+  system(l_sCommand.c_str());
+  Config *l_config = SingleTone<Config>::GetIntstance();
+  std::string l_sAmountOfSubs  = l_config->GetAmountOfSubscribers();
+  size_t l_nAmountOfSubscribers =  l_sAmountOfSubs.length() > 0 ?
+  stoi(l_sAmountOfSubs) : AMOUNT_OF_SUBS;
+  m_mutex = std::make_unique<std::mutex[]>(l_nAmountOfSubscribers);
+  m_file = std::make_unique<std::ofstream[]>(l_nAmountOfSubscribers);
+}
 void MultipleFile::WriteToFile(eCdrDetails& i_cdrDetails)
 {
   string l_sImsi = i_cdrDetails.m_sImsi;
