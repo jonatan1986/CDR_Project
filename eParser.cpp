@@ -51,7 +51,6 @@ void cdrParser::Parse(int i_threanNum)const
   SharedResource& l_sharedResource =
   l_sharedResourceWrapper->GetResourceByIndex(i_threanNum);
 
-  int i =  0;
   while(true)
   {
       string l_sLine = " ";
@@ -62,14 +61,12 @@ void cdrParser::Parse(int i_threanNum)const
         ParseLine(l_sLine,l_cdrDetails);
         InsertCdrDetailsToQueue(l_cdrDetails,l_sharedResource);
       }
-      ++i;
 
       if (l_sharedResource.m_bExitParseThread && l_sharedResource.m_queueToParse.Size() == 0)
       {
           break;
       }
   }
-  cout<<" parserr finished "<<endl;
   l_sharedResource.m_bExitWriteThread = true;
   l_sharedResource.m_writeQueueCV.notify_one();
 }

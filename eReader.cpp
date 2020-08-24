@@ -33,5 +33,4 @@ void cdrReader::Read(int i_threanNum)const
       l_sharedResource.m_parseQueueCV.notify_one();
     }
     l_sharedResource.m_bExitParseThread = true;
-    cout<<"Read Finish "<<endl;
 }

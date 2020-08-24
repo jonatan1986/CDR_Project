@@ -39,7 +39,6 @@ void cdrWriter::WriteToFile(eCdrDetails &i_cdrDetails)const
 
 void cdrWriter::Write(int i_threanNum)const
 {
-   int i = 0;
    SharedResourceWrapper *l_sharedResourceWrapper =
    SingleTone<SharedResourceWrapper>::GetIntstance();
    SharedResource& l_sharedResource = l_sharedResourceWrapper->GetResourceByIndex(i_threanNum);
@@ -50,13 +49,7 @@ void cdrWriter::Write(int i_threanNum)const
       WriteToFile(l_cdrDetails);
       if (l_sharedResource.m_bExitWriteThread && l_sharedResource.m_queueToWrite.Size() == 0)
       {
-         cout<<" break Write"<<endl;
          break;
       }
-      if (i == 0)
-        cout<<i<<"Write l_cdrDetails "<<l_cdrDetails.m_sImsi<<" "<<pthread_self()<<endl;
-      ++i;
    }
-
-  cout<<"Write"<<endl;
 }

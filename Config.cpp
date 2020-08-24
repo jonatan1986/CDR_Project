@@ -28,6 +28,5 @@ void Config::Init()
 
 Config::Config()
 {
-    std::cout<<" ctor Config"<<std::endl;
     Init();
 }

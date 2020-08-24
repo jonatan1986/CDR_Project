@@ -19,7 +19,6 @@ struct SharedResource
 {
     SharedResource():m_bExitParseThread(false),m_bExitWriteThread(false)
     {
-
     }
     std::mutex m_parseQueueMutex;
     std::mutex m_writeQueueMutex;
@@ -41,8 +40,6 @@ public:
     size_t l_nAmountOfChunks =  l_sAmountOfChunks.length() > 0 ?
     stoi(l_sAmountOfChunks) : AMOUNT_OF_CHUNKS;
     m_SharedResourceArray = std::make_unique<SharedResource[]>(l_nAmountOfChunks);
-    std::cout<<"SharedResourceWrapper amunt of thread/chunks" <<l_nAmountOfChunks
-    <<std::endl;
   }
   SharedResource& GetResourceByIndex(size_t index)
   {return m_SharedResourceArray[index];}
