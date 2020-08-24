@@ -12,12 +12,15 @@
 #include <atomic>
 #include "eCdrDetails.h"
 #include "SafeQueue.h"
-
-
+#include "Config.h"
+#include "SingleTone.h"
 
 struct SharedResource
 {
-    SharedResource():m_bExitParseThread(false),m_bExitWriteThread(false){}
+    SharedResource():m_bExitParseThread(false),m_bExitWriteThread(false)
+    {
+
+    }
     std::mutex m_parseQueueMutex;
     std::mutex m_writeQueueMutex;
     std::atomic<bool> m_bExitParseThread;
@@ -31,10 +34,21 @@ struct SharedResource
 class SharedResourceWrapper
 {
 public:
+  SharedResourceWrapper()
+  {
+    Config *l_config = SingleTone<Config>::GetIntstance();
+    std::string l_sAmountOfChunks  = l_config->GetAmountOfChunks();
+    size_t l_nAmountOfChunks =  l_sAmountOfChunks.length() > 0 ?
+    stoi(l_sAmountOfChunks) : AMOUNT_OF_CHUNKS;
+    m_SharedResourceArray = std::make_unique<SharedResource[]>(l_nAmountOfChunks);
+    std::cout<<"SharedResourceWrapper amunt of thread/chunks" <<l_nAmountOfChunks
+    <<std::endl;
+  }
   SharedResource& GetResourceByIndex(size_t index)
   {return m_SharedResourceArray[index];}
 private:
-   SharedResource m_SharedResourceArray[5];
+   // SharedResource m_SharedResourceArray[5];
+   std::unique_ptr<SharedResource[]> m_SharedResourceArray;
 };
 
 
