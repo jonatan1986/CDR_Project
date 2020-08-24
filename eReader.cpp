@@ -1,13 +1,19 @@
-#include "eReader.h"
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "eReader.h"
+#include "SingleTone.h"
 using namespace std;
 
 
 
-void cdrReader::Read(ThreadArgs &threadArgs)const
+void cdrReader::Read(int i_threanNum)const
 {
+    SharedResourceWrapper *l_sharedResourceWrapper =
+    SingleTone<SharedResourceWrapper>::GetIntstance();
+    SharedResource& l_sharedResource =
+    l_sharedResourceWrapper->GetResourceByIndex(i_threanNum);
+
     ifstream l_inputfile(m_filename);
     string line;
 
@@ -23,9 +29,9 @@ void cdrReader::Read(ThreadArgs &threadArgs)const
     for(int i = m_nStartLine ; i <= m_nEndLine  ; ++i)
     {
       getline(l_inputfile,line);
-      threadArgs.m_queueToParse.Insert(line);
-      threadArgs.m_parseQueueCV.notify_one();
+      l_sharedResource.m_queueToParse.Insert(line);
+      l_sharedResource.m_parseQueueCV.notify_one();
     }
-    threadArgs.m_bExitParseThread = true;
+    l_sharedResource.m_bExitParseThread = true;
     cout<<"Read Finish "<<endl;
 }

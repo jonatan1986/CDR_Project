@@ -20,23 +20,23 @@ GenerateFile.o: GenerateFile.cpp FileGenerator.h Config.h
 FileGenerator.o: FileGenerator.cpp FileGenerator.h Config.h SingleTone.h
 		 g++ $(CFLAGS)  FileGenerator.cpp
 
-eReader.o: eReader.cpp  eReader.h ThreadArgs.h eCdrDetails.h SafeQueue.h
+eReader.o: eReader.cpp  eReader.h SharedResource.h eCdrDetails.h SafeQueue.h SingleTone.h
 		 g++ $(CFLAGS)  eReader.cpp
 
-eWriter.o: eWriter.cpp eWriter.h ThreadArgs.h eCdrDetails.h SafeQueue.h \
-	   eOutPutFile.h Factory.h SingleTone.h Config.h
+eWriter.o: eWriter.cpp eWriter.h SharedResource.h eCdrDetails.h SafeQueue.h \
+	   eOutPutFile.h Factory.h SingleTone.h Config.h SingleTone.h
 		 g++ $(CFLAGS)  eWriter.cpp
 
-eParser.o: eParser.cpp  eParser.h ThreadArgs.h eCdrDetails.h SafeQueue.h
+eParser.o: eParser.cpp  eParser.h SharedResource.h eCdrDetails.h SafeQueue.h SingleTone.h
 		 g++ $(CFLAGS)  eParser.cpp
 
 Task.o: Task.cpp Task.h  Factory.h Config.h eWriter.h eParser.h eReader.h \
-	 ThreadArgs.h SingleTone.h
+	 SharedResource.h SingleTone.h
 		 g++ $(CFLAGS)  Task.cpp
 
 
 TaskManager.o: TaskManager.cpp TaskManager.h ThreadPool.h SafeQueue.h Task.h \
-Factory.h eWriter.h eParser.h eReader.h ThreadArgs.h SingleTone.h Config.h
+Factory.h eWriter.h eParser.h eReader.h SharedResource.h SingleTone.h Config.h
 			         g++ $(CFLAGS)  TaskManager.cpp
 
 Cdr.o: Cdr.cpp  FileGenerator.h TaskManager.h Config.h SingleTone.h

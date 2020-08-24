@@ -5,8 +5,8 @@
  *      Author: yonathan
  */
 
-#ifndef THREADARGS_H_
-#define THREADARGS_H_
+#ifndef SHARED_RESOURCE_H_
+#define SHARED_RESOURCE_H_
 
 #include <condition_variable>
 #include <atomic>
@@ -15,9 +15,9 @@
 
 
 
-struct ThreadArgs
+struct SharedResource
 {
-    ThreadArgs():m_bExitParseThread(false),m_bExitWriteThread(false){}
+    SharedResource():m_bExitParseThread(false),m_bExitWriteThread(false){}
     std::mutex m_parseQueueMutex;
     std::mutex m_writeQueueMutex;
     std::atomic<bool> m_bExitParseThread;
@@ -31,12 +31,12 @@ struct ThreadArgs
 class SharedResourceWrapper
 {
 public:
-  const ThreadArgs& GetResourceByIndex(size_t index) const
-  {return m_ThreadArgsArray[index];}
+  SharedResource& GetResourceByIndex(size_t index)
+  {return m_SharedResourceArray[index];}
 private:
-   ThreadArgs m_ThreadArgsArray[5];
+   SharedResource m_SharedResourceArray[5];
 };
 
 
 
-#endif /* THREADARGS_H_ */
+#endif /* SHARED_RESOURCE_H_ */

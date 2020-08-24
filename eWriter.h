@@ -9,7 +9,7 @@
 #define WRITER_H_
 
 #include <string>
-#include"ThreadArgs.h"
+#include"SharedResource.h"
 #include "eOutPutFile.h"
 
 /*
@@ -18,7 +18,7 @@ the class eWriter writes cdr details to an output file/s
 class eWriter
 {
 public:
-  virtual void Write(ThreadArgs &threadArgs)const = 0;
+  virtual void Write(int i_threanNum)const = 0;
   virtual ~eWriter(){}
 };
 /*
@@ -40,8 +40,8 @@ class cdrWriter: public eWriter
 {
 public:
   cdrWriter(); //ctor
-  void Write(ThreadArgs &threadArgs)const override;
-  void GetCdrDetailsFromQueue(ThreadArgs &threadArgs,eCdrDetails &o_cdrDetails)const ;
+  void Write(int i_threanNum)const override;
+  void GetCdrDetailsFromQueue(SharedResource& i_sharedResource, eCdrDetails &o_cdrDetails)const ;
   void WriteToFile(eCdrDetails &i_cdrDetails)const;
 private:
   eOutPutFile* m_outPutFile;

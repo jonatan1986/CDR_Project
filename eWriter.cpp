@@ -1,7 +1,7 @@
 #include <iostream>
 #include "eWriter.h"
 #include "Factory.h"
-
+#include "SingleTone.h"
 
 #include <sys/types.h>
 #include <unistd.h>
@@ -15,20 +15,20 @@ cdrWriter::cdrWriter()
     m_outPutFile = SingleTone<OutPutFileFactory>::GetIntstance()->Create();
 }
 
-void cdrWriter::GetCdrDetailsFromQueue(ThreadArgs &threadArgs,
+void cdrWriter::GetCdrDetailsFromQueue(SharedResource& i_sharedResource,
 eCdrDetails &o_cdrDetails)const
 {
-  unique_lock<mutex> lk(threadArgs.m_writeQueueMutex);
+  unique_lock<mutex> lk(i_sharedResource.m_writeQueueMutex);
   auto now = std::chrono::system_clock::now();
-  threadArgs.m_writeQueueCV.wait_until(lk,now + 100ms,[&threadArgs](){return threadArgs.m_queueToWrite.Size() > 0;});
-  if (threadArgs.m_bExitWriteThread == true && threadArgs.m_queueToWrite.Size() == 0)
+  i_sharedResource.m_writeQueueCV.wait_until(lk,now + 100ms,[&i_sharedResource](){return i_sharedResource.m_queueToWrite.Size() > 0;});
+  if (i_sharedResource.m_bExitWriteThread == true && i_sharedResource.m_queueToWrite.Size() == 0)
   {
       // if both parser and reader finish writing to/ reading from the queue
       // but writer entered function after threadArgs.m_bExitWriteThread
       // was modified by parser, queue might be empty and program might crash
       return;
   }
-  o_cdrDetails = threadArgs.m_queueToWrite.Remove();
+  o_cdrDetails = i_sharedResource.m_queueToWrite.Remove();
 }
 
 
@@ -37,15 +37,18 @@ void cdrWriter::WriteToFile(eCdrDetails &i_cdrDetails)const
     m_outPutFile->WriteToFile(i_cdrDetails);
 }
 
-void cdrWriter::Write(ThreadArgs &threadArgs)const
+void cdrWriter::Write(int i_threanNum)const
 {
    int i = 0;
+   SharedResourceWrapper *l_sharedResourceWrapper =
+   SingleTone<SharedResourceWrapper>::GetIntstance();
+   SharedResource& l_sharedResource = l_sharedResourceWrapper->GetResourceByIndex(i_threanNum);
    while(true)
    {
       CdrDetails l_cdrDetails;
-      GetCdrDetailsFromQueue(threadArgs,l_cdrDetails);
+      GetCdrDetailsFromQueue(l_sharedResource,l_cdrDetails);
       WriteToFile(l_cdrDetails);
-      if (threadArgs.m_bExitWriteThread && threadArgs.m_queueToWrite.Size() == 0)
+      if (l_sharedResource.m_bExitWriteThread && l_sharedResource.m_queueToWrite.Size() == 0)
       {
          cout<<" break Write"<<endl;
          break;

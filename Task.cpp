@@ -5,8 +5,8 @@
 using namespace std;
 
 
-Task::Task(const std::string& sFilename,int nStartline,int nEndLine)
-:m_sFilename(sFilename)
+Task::Task(const std::string& sFilename,int nStartline,int nEndLine, int threadNum)
+:m_sFilename(sFilename),m_threanNum(threadNum)
 {
   ReaderFactory readerFactory(sFilename,nStartline,nEndLine);
   ParserFactory parserFactory;
@@ -17,25 +17,25 @@ Task::Task(const std::string& sFilename,int nStartline,int nEndLine)
 }
 
 void ReadFunc(std::unique_ptr<eReader> &reader,
-ThreadArgs &threadArgs)
+int i_threadNum)
 {
-  reader->Read(threadArgs);
+  reader->Read(i_threadNum);
 }
 
-void ParseFunc(std::unique_ptr<eParser> &parser,ThreadArgs &threadArgs)
+void ParseFunc(std::unique_ptr<eParser> &parser, int i_threadNum)
 {
-  parser->Parse(threadArgs);
+  parser->Parse(i_threadNum);
 }
 
-void WriteFunc(std::unique_ptr<eWriter> &writer,ThreadArgs &threadArgs)
+void WriteFunc(std::unique_ptr<eWriter> &writer, int i_threadNum)
 {
-  writer->Write(threadArgs);
+  writer->Write(i_threadNum);
 }
 
 void Task::Run()
 {
   ThreadPool l_threadPool;
-  l_threadPool.AddThread(&ReadFunc,ref(m_reader),ref(m_threadArgs));
-  l_threadPool.AddThread(&ParseFunc,ref(m_parser),ref(m_threadArgs));
-  l_threadPool.AddThread(&WriteFunc,ref(m_writer),ref(m_threadArgs));
+  l_threadPool.AddThread(&ReadFunc,ref(m_reader),m_threanNum);
+  l_threadPool.AddThread(&ParseFunc,ref(m_parser),m_threanNum);
+  l_threadPool.AddThread(&WriteFunc,ref(m_writer),m_threanNum);
 }

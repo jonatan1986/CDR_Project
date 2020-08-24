@@ -1,6 +1,6 @@
 #include <iostream>
 #include "eParser.h"
-
+#include "SingleTone.h"
 
 
 using namespace std;
@@ -26,45 +26,50 @@ void cdrParser::ParseLine(std::string &i_sLine,eCdrDetails& o_cdrDetails)const
     o_cdrDetails.m_sDuration = cdrDetailsVec[4];
 }
 
-void cdrParser::GetLineFromQueue(std::string &o_sLine,ThreadArgs &threadArgs)const
+void cdrParser::GetLineFromQueue(std::string &o_sLine,SharedResource &i_sharedResource)const
 {
-  unique_lock<mutex> lk(threadArgs.m_parseQueueMutex);
+  unique_lock<mutex> lk(i_sharedResource.m_parseQueueMutex);
   auto now = std::chrono::system_clock::now();
-  threadArgs.m_parseQueueCV.wait_until(lk,now + 100ms,[&threadArgs](){return threadArgs.m_queueToParse.Size() > 0;});
-  if (threadArgs.m_bExitParseThread == true && threadArgs.m_queueToParse.Size() == 0)
+  i_sharedResource.m_parseQueueCV.wait_until(lk,now + 100ms,[&i_sharedResource](){return i_sharedResource.m_queueToParse.Size() > 0;});
+  if (i_sharedResource.m_bExitParseThread == true && i_sharedResource.m_queueToParse.Size() == 0)
   {
      return;
   }
-  o_sLine = threadArgs.m_queueToParse.Remove();
+  o_sLine = i_sharedResource.m_queueToParse.Remove();
 }
 
-void cdrParser::InsertCdrDetailsToQueue(eCdrDetails& i_cdrDetails,ThreadArgs &threadArgs)const
+void cdrParser::InsertCdrDetailsToQueue(eCdrDetails& i_cdrDetails,SharedResource &i_sharedResource)const
 {
-    threadArgs.m_queueToWrite.Insert(i_cdrDetails);
-    threadArgs.m_writeQueueCV.notify_one();
+    i_sharedResource.m_queueToWrite.Insert(i_cdrDetails);
+    i_sharedResource.m_writeQueueCV.notify_one();
 }
 
-void cdrParser::Parse(ThreadArgs &threadArgs)const
+void cdrParser::Parse(int i_threanNum)const
 {
+  SharedResourceWrapper *l_sharedResourceWrapper =
+  SingleTone<SharedResourceWrapper>::GetIntstance();
+  SharedResource& l_sharedResource =
+  l_sharedResourceWrapper->GetResourceByIndex(i_threanNum);
+
   int i =  0;
   while(true)
   {
       string l_sLine = " ";
       {
-        GetLineFromQueue(l_sLine,threadArgs);
+        GetLineFromQueue(l_sLine,l_sharedResource);
         // cout<<" Parse "<<l_sLine<<endl;
         CdrDetails l_cdrDetails;
         ParseLine(l_sLine,l_cdrDetails);
-        InsertCdrDetailsToQueue(l_cdrDetails,threadArgs);
+        InsertCdrDetailsToQueue(l_cdrDetails,l_sharedResource);
       }
       ++i;
 
-      if (threadArgs.m_bExitParseThread && threadArgs.m_queueToParse.Size() == 0)
+      if (l_sharedResource.m_bExitParseThread && l_sharedResource.m_queueToParse.Size() == 0)
       {
           break;
       }
   }
   cout<<" parserr finished "<<endl;
-  threadArgs.m_bExitWriteThread = true;
-  threadArgs.m_writeQueueCV.notify_one();
+  l_sharedResource.m_bExitWriteThread = true;
+  l_sharedResource.m_writeQueueCV.notify_one();
 }
