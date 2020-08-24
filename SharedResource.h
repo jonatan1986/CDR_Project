@@ -44,7 +44,6 @@ public:
   SharedResource& GetResourceByIndex(size_t index)
   {return m_SharedResourceArray[index];}
 private:
-   // SharedResource m_SharedResourceArray[5];
    std::unique_ptr<SharedResource[]> m_SharedResourceArray;
 };
 
