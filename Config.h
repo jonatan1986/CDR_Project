@@ -14,6 +14,7 @@
 #define OUTPUT_TYPE MultipleOutput
 #define AMOUNT_OF_CHUNKS 5
 #define AMOUNT_OF_SUBS 20
+#define AMOUNT_OF_LINES 10000
 
 enum eOutputType
 {
@@ -32,6 +33,7 @@ public:
   const std::string& GetFileName(){return m_configMap["FILE_NAME"];}
   const std::string& GetAmountOfChunks(){return m_configMap["CHUNK_NUM"];}
   const std::string& GetAmountOfSubscribers(){return m_configMap["AMOUNT_OF_SUBS"];}
+  const std::string&  GetAmountOfLines(){ return m_configMap["AMOUNT_OF_LINES"];}
 private:
   std::map<std::string,std::string> m_configMap;
   eOutputType m_eOutputType;

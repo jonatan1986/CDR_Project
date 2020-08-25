@@ -40,7 +40,11 @@ void FileGenerator::GenerateFile()
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
   std::uniform_int_distribution<> distrib(0, m_nAmountOfSubscribers-1);
-  for(int i = 0 ; i < 10000 ; ++i)
+  Config *l_config = SingleTone<Config>::GetIntstance();
+  string l_sAmountOfLines = l_config->GetAmountOfLines();
+  int l_nAmountOfLines = l_config->GetAmountOfLines().length() > 0 ?
+  stoi(l_sAmountOfLines) : AMOUNT_OF_LINES;
+  for(int i = 0 ; i < l_nAmountOfLines ; ++i)
   {
     if (m_file.is_open())
     {
@@ -70,7 +74,6 @@ string FileGenerator::GenerateUpLink()const
 
 string FileGenerator::GenerateDownLink()const
 {
-  std::srand(std::time(nullptr)); // use current time as seed for random generator
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
   std::uniform_int_distribution<> distrib(200, 900);
@@ -80,7 +83,7 @@ string FileGenerator::GenerateDownLink()const
 
 string FileGenerator::GenerateDate()const
 {
-  string str = " ";
+  string str = "";
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
   std::uniform_int_distribution<> distrib(1, 31);
