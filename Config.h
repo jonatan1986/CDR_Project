@@ -10,7 +10,7 @@
 
 #include<map>
 
-#define FILE_NAME "datafile.txt"
+#define INPUT_FILE_NAME "datafile.txt"
 #define OUTPUT_TYPE MultipleOutput
 #define AMOUNT_OF_CHUNKS 5
 #define AMOUNT_OF_SUBS 20
@@ -29,15 +29,20 @@ class Config
 public:
   Config();
   void Init();
-  const std::string& GetOutputType(){ return m_configMap["OUTPUT_TYPE"];}
-  const std::string& GetFileName(){return m_configMap["FILE_NAME"];}
-  const std::string& GetAmountOfChunks(){return m_configMap["CHUNK_NUM"];}
-  const std::string& GetAmountOfSubscribers(){return m_configMap["AMOUNT_OF_SUBS"];}
-  const std::string&  GetAmountOfLines(){ return m_configMap["AMOUNT_OF_LINES"];}
+  const std::string& GetOutputType(){ return m_configMap[m_sOutPutType];}
+  const std::string& GetFileName(){return m_configMap[m_sInputFileName];}
+  const std::string& GetAmountOfChunks(){return m_configMap[m_sAmountOfChunks];}
+  const std::string& GetAmountOfSubscribers(){return m_configMap[m_sAmountOfSubs];}
+  const std::string& GetAmountOfLines(){ return m_configMap[m_sAmountOfLines];}
 private:
   std::map<std::string,std::string> m_configMap;
   eOutputType m_eOutputType;
   std::string m_sFileName;
+  const std::string m_sOutPutType = "OUTPUT_TYPE";
+  const std::string m_sInputFileName = "INPUT_FILE_NAME";
+  const std::string m_sAmountOfChunks = "CHUNK_NUM";
+  const std::string m_sAmountOfSubs = "AMOUNT_OF_SUBS";
+  const std::string m_sAmountOfLines= "AMOUNT_OF_LINES";
 };
 
 

@@ -21,7 +21,7 @@ int main(int argc, char const *argv[]) {
     stoi(l_config->GetAmountOfChunks()) : AMOUNT_OF_CHUNKS;
 
     string l_sFileName = l_config->GetFileName().length() > 0 ?
-    l_config->GetFileName() : FILE_NAME;
+    l_config->GetFileName() :  INPUT_FILE_NAME;
 
     TaskManager l_taskManager(l_nAmoutOfChunks,l_sFileName);
     l_taskManager.CreateThreads();

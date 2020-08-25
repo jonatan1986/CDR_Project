@@ -13,7 +13,8 @@
 
 /*
 this class pull raw strings from a queue, parses the strings
-and inserts them to another queue as a struct(eCdrDetails.h)
+and inserts them to another queue as a struct(eCdrDetails.h).
+eWrite removes them from the queue
 */
 
 class eParser

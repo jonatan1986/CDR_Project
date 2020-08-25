@@ -12,7 +12,10 @@
 #include <atomic>
 #include <condition_variable>
 #include"SharedResource.h"
-
+/*
+eReader reads lines from input file and inserts them to a queue(eParser
+removes from that queue)
+*/
 class eReader
 {
 public:
