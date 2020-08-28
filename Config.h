@@ -40,7 +40,7 @@ private:
   std::string m_sFileName;
   const std::string m_sOutPutType = "OUTPUT_TYPE";
   const std::string m_sInputFileName = "INPUT_FILE_NAME";
-  const std::string m_sAmountOfChunks = "CHUNK_NUM";
+  const std::string m_sAmountOfChunks = "AMOUNT_OF_CHUNKS";
   const std::string m_sAmountOfSubs = "AMOUNT_OF_SUBS";
   const std::string m_sAmountOfLines= "AMOUNT_OF_LINES";
 };

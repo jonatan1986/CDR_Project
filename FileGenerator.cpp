@@ -23,7 +23,6 @@ void  FileGenerator::InitImsi()
     imsiVec.push_back(GenerateImsi());
     ++i;
   }
-  cout<<i<<endl;
 }
 
 int  FileGenerator::GenerateImsi()const
