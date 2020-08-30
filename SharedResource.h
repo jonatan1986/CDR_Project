@@ -20,7 +20,7 @@ this  struct is a shared resouce between the threads eWriter,eReader and eParser
 @ m_parseQueueMutex - locks the access of the parser, till  m_queueToParse is not empty
 @ m_writeQueueMutex - locks the access of the writer, till  m_queueToWrite is not empty
 @ m_bExitParseThread - boolean var which indicates that parser should finish it's job once it emptied all
-element from m_queueToParse. initialized to false 
+element from m_queueToParse. initialized to false
 @ m_bExitWriteThread - boolean var which indicates that eWriter should finish it's job once it emptied all
 element from m_queueToWrite. initialized to false
 @ m_queueToParse - shared queue among eReader and eParser. eReader inserts, eParser removes.
@@ -31,14 +31,14 @@ struct SharedResource
     SharedResource():m_bExitParseThread(false),m_bExitWriteThread(false)
     {
     }
-    std::mutex m_parseQueueMutex;
-    std::mutex m_writeQueueMutex;
+    std::mutex m_rawDataQueueMutex;
+    std::mutex m_cdrDataQueueMutex;
     std::atomic<bool> m_bExitParseThread;
     std::atomic<bool> m_bExitWriteThread;
-    std::condition_variable m_parseQueueCV;
-    std::condition_variable m_writeQueueCV;
-    SafeQueue<std::string> m_queueToParse;
-    SafeQueue<eCdrDetails> m_queueToWrite;
+    std::condition_variable m_rawDataQueueCV;
+    std::condition_variable m_CdrDataQueueCV;
+    SafeQueue<std::string> m_rawDataQueue;
+    SafeQueue<eCdrDetails> m_CdrDataQueue;
 };
 /*
 this class wraps "SharedResource". since the shared resources should have global access it should be wrapped with singleTone.

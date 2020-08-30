@@ -29,8 +29,8 @@ void cdrReader::Read(int i_threanNum)const
     for(int i = m_nStartLine ; i <= m_nEndLine  ; ++i)
     {
       getline(l_inputfile,line);
-      l_sharedResource.m_queueToParse.Insert(line);
-      l_sharedResource.m_parseQueueCV.notify_one();
+      l_sharedResource.m_rawDataQueue.Insert(line);
+      l_sharedResource.m_rawDataQueueCV.notify_one();
     }
     l_sharedResource.m_bExitParseThread = true;
 }

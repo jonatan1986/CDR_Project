@@ -18,17 +18,17 @@ cdrWriter::cdrWriter()
 void cdrWriter::GetCdrDetailsFromQueue(SharedResource& i_sharedResource,
 eCdrDetails &o_cdrDetails)const
 {
-  unique_lock<mutex> lk(i_sharedResource.m_writeQueueMutex);
+  unique_lock<mutex> lk(i_sharedResource.m_cdrDataQueueMutex);
   auto now = std::chrono::system_clock::now();
-  i_sharedResource.m_writeQueueCV.wait_until(lk,now + 100ms,[&i_sharedResource](){return i_sharedResource.m_queueToWrite.Size() > 0;});
-  if (i_sharedResource.m_bExitWriteThread == true && i_sharedResource.m_queueToWrite.Size() == 0)
+  i_sharedResource.m_CdrDataQueueCV.wait_until(lk,now + 100ms,[&i_sharedResource](){return i_sharedResource.m_CdrDataQueue.Size() > 0;});
+  if (i_sharedResource.m_bExitWriteThread == true && i_sharedResource.m_CdrDataQueue.Size() == 0)
   {
       // if both parser and reader finish writing to/ reading from the queue
       // but writer entered function after threadArgs.m_bExitWriteThread
       // was modified by parser, queue might be empty and program might crash
       return;
   }
-  o_cdrDetails = i_sharedResource.m_queueToWrite.Remove();
+  o_cdrDetails = i_sharedResource.m_CdrDataQueue.Remove();
 }
 
 
@@ -47,7 +47,7 @@ void cdrWriter::Write(int i_threanNum)const
       CdrDetails l_cdrDetails;
       GetCdrDetailsFromQueue(l_sharedResource,l_cdrDetails);
       WriteToFile(l_cdrDetails);
-      if (l_sharedResource.m_bExitWriteThread && l_sharedResource.m_queueToWrite.Size() == 0)
+      if (l_sharedResource.m_bExitWriteThread && l_sharedResource.m_CdrDataQueue.Size() == 0)
       {
          break;
       }
