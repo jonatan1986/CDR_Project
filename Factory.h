@@ -10,7 +10,7 @@
 #include"eParser.h"
 #include"eReader.h"
 #include"eOutPutFile.h"
-#include"SingleTone.h"
+#include"Singleton.h"
 #include "Config.h"
 /*
 creates unique_ptr for eReader
@@ -71,14 +71,14 @@ class OutPutFileFactory
 public:
   OutPutFileFactory()
   {
-    Config *l_config = SingleTone<Config>::GetIntstance();
+    Config *l_config = Singleton<Config>::GetIntstance();
     if (l_config->GetOutputType() == "MultipleOutput")
     {
-        m_eOutPutFile = SingleTone<MultipleFile>::GetIntstance();
+        m_eOutPutFile = Singleton<MultipleFile>::GetIntstance();
     }
     else
     {
-        m_eOutPutFile = SingleTone<SingleFile>::GetIntstance();
+        m_eOutPutFile = Singleton<SingleFile>::GetIntstance();
     }
 
   }

@@ -13,7 +13,7 @@
 #include "eCdrDetails.h"
 #include "SafeQueue.h"
 #include "Config.h"
-#include "SingleTone.h"
+#include "Singleton.h"
 
 /*
 this  struct is a shared resouce between the threads eWriter,eReader and eParser.
@@ -51,7 +51,7 @@ class SharedResourceWrapper
 public:
   SharedResourceWrapper()
   {
-    Config *l_config = SingleTone<Config>::GetIntstance();
+    Config *l_config = Singleton<Config>::GetIntstance();
     std::string l_sAmountOfChunks  = l_config->GetAmountOfChunks();
     size_t l_nAmountOfChunks =  l_sAmountOfChunks.length() > 0 ?
     stoi(l_sAmountOfChunks) : AMOUNT_OF_CHUNKS;

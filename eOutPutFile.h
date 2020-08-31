@@ -13,7 +13,7 @@
 #include <memory>
 #include "eCdrDetails.h"
 #include "Config.h"
-#include "SingleTone.h"
+#include "Singleton.h"
 
 #include<stdio.h>
 #include<unistd.h>
@@ -38,7 +38,7 @@ class eOutPutFile
 public:
   virtual void WriteToFile(eCdrDetails& cdrDetails) = 0;
 protected:
-  virtual ~eOutPutFile(){} // output file cannot be  deleted since it is a SingleTone
+  // virtual ~eOutPutFile(){} // output file cannot be  deleted since it is a SingleTone
   std::unordered_map<std::string,FileDetails> m_fileMap;
   std::string m_sRelPath = "output";
 };

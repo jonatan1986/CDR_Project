@@ -24,8 +24,8 @@ public:
     {
       while(m_threadList.size())
       {
-         std::thread threadToDelete = std::move(m_threadList.front());
-         threadToDelete.join();
+         std::thread l_threadToJoin = std::move(m_threadList.front());
+         l_threadToJoin.join();
          m_threadList.pop_front();
       }
     }

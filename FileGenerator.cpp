@@ -6,14 +6,14 @@
 
 #include "FileGenerator.h"
 #include "Config.h"
-#include "SingleTone.h"
+#include "Singleton.h"
 
 using namespace std;
 
 void  FileGenerator::InitImsi()
 {
   size_t i = 0;
-  Config *l_config = SingleTone<Config>::GetIntstance();
+  Config *l_config = Singleton<Config>::GetIntstance();
   string l_sAmountOfSubs = l_config->GetAmountOfSubscribers();
   m_nAmountOfSubscribers = l_sAmountOfSubs.length() > 0 ?
   stoi(l_sAmountOfSubs) : AMOUNT_OF_SUBS;
@@ -39,7 +39,7 @@ void FileGenerator::GenerateFile()
   std::random_device rd;  //Will be used to obtain a seed for the random number engine
   std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
   std::uniform_int_distribution<> distrib(0, m_nAmountOfSubscribers-1);
-  Config *l_config = SingleTone<Config>::GetIntstance();
+  Config *l_config = Singleton<Config>::GetIntstance();
   string l_sAmountOfLines = l_config->GetAmountOfLines();
   int l_nAmountOfLines = l_config->GetAmountOfLines().length() > 0 ?
   stoi(l_sAmountOfLines) : AMOUNT_OF_LINES;

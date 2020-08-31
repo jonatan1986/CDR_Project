@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 #include "eReader.h"
-#include "SingleTone.h"
+#include "Singleton.h"
 using namespace std;
 
 
@@ -10,7 +10,7 @@ using namespace std;
 void cdrReader::Read(int i_threanNum)const
 {
     SharedResourceWrapper *l_sharedResourceWrapper =
-    SingleTone<SharedResourceWrapper>::GetIntstance();
+    Singleton<SharedResourceWrapper>::GetIntstance();
     SharedResource& l_sharedResource =
     l_sharedResourceWrapper->GetResourceByIndex(i_threanNum);
 

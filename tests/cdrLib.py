@@ -14,7 +14,16 @@ class ConfigType(IntEnum):
     AMOUNT_OF_SUBS = 3
     AMOUNT_OF_LINES = 4
 
+class CdrDetails():
+    def __init__(self,IMSI=None,Date=None,Downlink=None,Uplink=None,Duration=None):
+        self.IMSI = IMSI
+        self.Date = Date
+        self.Downlink = Downlink
+        self.Uplink = Uplink
+        self.Duration = Duration
 
+    def getDownLink(self):
+        return self.Downlink
 
 def SetConfigFile(path = os.path.dirname(os.getcwd()), filename = 'cdrconfig.txt',
                   outputType = 'MultipleOutput', amountOfChunks = '5', amountOfSubs = '20',
@@ -50,16 +59,45 @@ def GenerateOutputFile(path = os.path.dirname(os.getcwd()) + '/', filename = 'cd
     os.chdir(path)
     os.system(command)
 
+def ParseLine(line):
+    line = line[0 : len(line)-1]
+    cdrDataList = line.split(' ')
+    # print(cdrDataList)
+    # cdrDataList = ["IMSI","Date","Downlink","Uplink","Duration"]
+    # cdrDataListResult = []
+    # num = 0
+    result = []
+    #print(line.find("Downlink=") + len("Downlink="))
+    for cdrData in cdrDataList:
+        pos = cdrData.find('=') + 1
+        str = cdrData[pos:len(cdrData)]
+        # print(str)
+        result.append(str)
+    return result
+
+
+def Sort_Tuple(tup):
+    # reverse = None (Sorts in Ascending order)
+    # key is set to sort using second element of
+    # sublist lambda has been used
+    return (sorted(tup, key=lambda x: x.getDownLink()))
+
+
 def BuildDictFromInputFile(path = os.path.dirname(os.getcwd())):
     os.chdir("output")
     directory = os.getcwd()
     onlyTxtFiles = [f for f in listdir(directory) if isfile(join(directory, f)) and f.endswith(".txt")]
     # print(onlyTxtFiles)
-    num = 0
     for file in onlyTxtFiles:
         print(file)
-
+        imsiList = []
         with open(file,'r') as file:
             for line in file:
-                num = num + 1
-    print("num " + str(num))
+                # print(line)
+                CdrData = ParseLine(line)
+                cdrDetails = CdrDetails(CdrData[0],CdrData[1],CdrData[2],CdrData[3],CdrData[4])
+                imsiList.append(cdrDetails)
+        print("IMSI LIST")
+        imsiList = Sort_Tuple(imsiList)
+        for index in imsiList:snacd
+            print(index.IMSI + " " + index.Downlink)

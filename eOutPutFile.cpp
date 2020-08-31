@@ -13,7 +13,7 @@ void MultipleFile::Init()
 {
   const std::string l_sCommand = "rm -rf " + m_sRelPath + "/*.txt";
   system(l_sCommand.c_str());
-  Config *l_config = SingleTone<Config>::GetIntstance();
+  Config *l_config = Singleton<Config>::GetIntstance();
   std::string l_sAmountOfSubs  = l_config->GetAmountOfSubscribers();
   size_t l_nAmountOfSubscribers =  l_sAmountOfSubs.length() > 0 ?
   stoi(l_sAmountOfSubs) : AMOUNT_OF_SUBS;

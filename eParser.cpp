@@ -1,6 +1,6 @@
 #include <iostream>
 #include "eParser.h"
-#include "SingleTone.h"
+#include "Singleton.h"
 
 
 using namespace std;
@@ -47,7 +47,7 @@ void cdrParser::InsertCdrDetailsToQueue(eCdrDetails& i_cdrDetails,SharedResource
 void cdrParser::Parse(int i_threanNum)const
 {
   SharedResourceWrapper *l_sharedResourceWrapper =
-  SingleTone<SharedResourceWrapper>::GetIntstance();
+  Singleton<SharedResourceWrapper>::GetIntstance();
   SharedResource& l_sharedResource =
   l_sharedResourceWrapper->GetResourceByIndex(i_threanNum);
 

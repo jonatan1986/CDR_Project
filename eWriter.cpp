@@ -1,7 +1,7 @@
 #include <iostream>
 #include "eWriter.h"
 #include "Factory.h"
-#include "SingleTone.h"
+#include "Singleton.h"
 
 #include <sys/types.h>
 #include <unistd.h>
@@ -12,7 +12,7 @@ using namespace std;
 
 cdrWriter::cdrWriter()
 {
-    m_outPutFile = SingleTone<OutPutFileFactory>::GetIntstance()->Create();
+    m_outPutFile = Singleton<OutPutFileFactory>::GetIntstance()->Create();
 }
 
 void cdrWriter::GetCdrDetailsFromQueue(SharedResource& i_sharedResource,
@@ -40,7 +40,7 @@ void cdrWriter::WriteToFile(eCdrDetails &i_cdrDetails)const
 void cdrWriter::Write(int i_threanNum)const
 {
    SharedResourceWrapper *l_sharedResourceWrapper =
-   SingleTone<SharedResourceWrapper>::GetIntstance();
+   Singleton<SharedResourceWrapper>::GetIntstance();
    SharedResource& l_sharedResource = l_sharedResourceWrapper->GetResourceByIndex(i_threanNum);
    while(true)
    {
