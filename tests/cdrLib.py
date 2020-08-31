@@ -60,20 +60,18 @@ def GenerateOutputFile(path = os.path.dirname(os.getcwd()) + '/', filename = 'cd
     os.system(command)
 
 def ParseLine(line):
-    line = line[0 : len(line)-1]
+    line = line[0 : len(line)-1] # remove '\n' from the end of 'line'
     cdrDataList = line.split(' ')
-    # print(cdrDataList)
-    # cdrDataList = ["IMSI","Date","Downlink","Uplink","Duration"]
-    # cdrDataListResult = []
-    # num = 0
     result = []
+    Imsi = cdrDataList[0][cdrDataList[0].find('=') + 1:len(cdrDataList[0])]
+    # print("Imsi = " + Imsi)
     #print(line.find("Downlink=") + len("Downlink="))
     for cdrData in cdrDataList:
         pos = cdrData.find('=') + 1
         str = cdrData[pos:len(cdrData)]
         # print(str)
         result.append(str)
-    return result
+    return Imsi,result
 
 
 def Sort_Tuple(tup):
@@ -88,16 +86,24 @@ def BuildDictFromInputFile(path = os.path.dirname(os.getcwd())):
     directory = os.getcwd()
     onlyTxtFiles = [f for f in listdir(directory) if isfile(join(directory, f)) and f.endswith(".txt")]
     # print(onlyTxtFiles)
+    ImsiListDictionary = {}
     for file in onlyTxtFiles:
-        print(file)
         imsiList = []
+        Imsi = ' '
         with open(file,'r') as file:
             for line in file:
                 # print(line)
-                CdrData = ParseLine(line)
+                Imsi,CdrData = ParseLine(line)
                 cdrDetails = CdrDetails(CdrData[0],CdrData[1],CdrData[2],CdrData[3],CdrData[4])
                 imsiList.append(cdrDetails)
-        print("IMSI LIST")
         imsiList = Sort_Tuple(imsiList)
-        for index in imsiList:snacd
-            print(index.IMSI + " " + index.Downlink)
+        print("IMSI LIST")
+        # print(imsiList)
+        # for index in imsiList:
+            # print(index)
+        ImsiListDictionary[Imsi]  = imsiList
+        # for index in imsiList:
+            # print(index.IMSI + " " + index.Downlink + " " + index.Uplink)
+    return  ImsiListDictionary
+
+

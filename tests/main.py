@@ -24,6 +24,10 @@ if __name__ == '__main__':
     cdrLib.SetConfigFile(path,filename)
     cdrLib.GenerateInputFile()
     cdrLib.GenerateOutputFile()
-    cdrLib.BuildDictFromInputFile()
+    ImsiListDictionary =  cdrLib.BuildDictFromInputFile()
+    for key, value  in ImsiListDictionary.items():
+        print(key, '->', value)
+        for cdrdetailsItem in value:
+            print(cdrdetailsItem.IMSI + " " + cdrdetailsItem.Downlink + " " + cdrdetailsItem.Uplink)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
