@@ -25,20 +25,16 @@ if __name__ == '__main__':
     # cdrLib.GenerateInputFile()
     # cdrLib.GenerateOutputFile()
     ImsiInputDictionary = cdrLib.BuildDictFromInputFile()
-    # for key in ImsiInputDictionary.keys():
-    #     print(key)
-    # for item in ImsiInputDictionary[str(277081959)]:
-    #     print(item)
-    # for key, value  in ImsiListInputDictionary.items():
-    #     print(key, '->', value)
-    #     for cdrdetailsItem in value:
-    #         print(cdrdetailsItem.IMSI + " " + cdrdetailsItem.Downlink + " " + cdrdetailsItem.Uplink)
-    ImsikeyList,ImsiOutputDictionary =  cdrLib.BuildDictFromOutputFile()
+    for key, value  in ImsiInputDictionary.items():
+        print(key, '->', value)
+        for cdrdetailsItem in value:
+            print(cdrdetailsItem.IMSI + " " + cdrdetailsItem.Downlink + " " + cdrdetailsItem.Uplink)
+    # ImsikeyList,ImsiOutputDictionary =  cdrLib.BuildDictFromOutputFile()
     # for item in ImsikeyList:
     #     print(item)
     # for key, value  in ImsiListDictionary.items():
     #     print(key, '->', value)
     #     for cdrdetailsItem in value:
     #         print(cdrdetailsItem.IMSI + " " + cdrdetailsItem.Downlink + " " + cdrdetailsItem.Uplink)
-    cdrLib.ComplareDictionaries(ImsikeyList, ImsiOutputDictionary, ImsiInputDictionary)
+    # cdrLib.ComplareDictionaries(ImsikeyList, ImsiOutputDictionary, ImsiInputDictionary)
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

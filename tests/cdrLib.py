@@ -4,8 +4,8 @@ import os
 import pathlib
 from os import listdir
 from os.path import isfile, join
-
 from enum import IntEnum
+from functools import reduce
 
 class ConfigType(IntEnum):
     INPUT_FILE_NAME = 0
@@ -24,6 +24,9 @@ class CdrDetails():
 
     def getDownLink(self):
         return self.Downlink
+
+    def getUpLink(self):
+        return self.Uplink
 
 def SetConfigFile(path = os.path.dirname(os.getcwd()), filename = 'cdrconfig.txt',
                   outputType = 'MultipleOutput', amountOfChunks = '5', amountOfSubs = '20',
@@ -87,10 +90,23 @@ def SortTuple(tup):
     # is sorted by Downlink in an ascending order
     return (sorted(tup, key=lambda cdrDetails: cdrDetails.getDownLink()))
 
+def SortListByUplink(tup):
+    i = 0
+    while i < len(tup) - 1:
+        j = i
+        while (int(tup[j].Downlink) == int(tup[j + 1].Downlink)):
+            # print(tup[j].Downlink)
+            j = j + 1
+            if j == len(tup) - 1:
+                break
+        if j > i:
+            tup[i : j + 1] = sorted(tup[i : j + 1], key=lambda cdrDetails: cdrDetails.getUpLink())
+        i = j + 1
+    return tup
 
 def BuildDictFromOutputFile(path = os.path.dirname(os.getcwd())):
     print(path)
-    absPath  = path +"/output"
+    absPath  = path + "/output"
     os.chdir(absPath)
     directory = os.getcwd()
     print("directory "  + directory)
@@ -108,6 +124,7 @@ def BuildDictFromOutputFile(path = os.path.dirname(os.getcwd())):
                 cdrDetails = CdrDetails(CdrData[0],CdrData[1],CdrData[2],CdrData[3],CdrData[4])
                 imsiList.append(cdrDetails)
         imsiList = SortTuple(imsiList)
+
         # print(imsiList)
         # for index in imsiList:
             # print(index)
@@ -136,6 +153,7 @@ def BuildDictFromInputFile(path = os.path.dirname(os.getcwd()), file = "datafile
     for key,value in ImsiListDictionary.items():
         imsiList = value
         imsiList = SortTuple(imsiList)
+        imsiList = SortListByUplink(imsiList)
         ImsiListDictionary[key] = imsiList
     return ImsiListDictionary
 
@@ -143,7 +161,12 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
     ImsiInputList = ImsiInputDictionary[str(Imsikey)]
     ImsiOutputList = ImsiOutputDictionary[str(Imsikey)]
     for (item1,item2) in zip(ImsiInputList,ImsiOutputList):
-        print("item1 " + item1.Downlink + " item2 "+ item2.Downlink)
+        # print("item1 " + item1.Uplink + " item2 "+ item2.Uplink)
+        print("item1 " + item1.Downlink + " item2 " + item2.Downlink)
+    # result = reduce(lambda firstCdr, secondCdr: firstCdr and secondCdr,
+    # map(lambda firstCdr, secondCdr: firstCdr.Downlink == secondCdr.Downlink and firstCdr.Uplink == secondCdr.Uplink,
+    # ImsiInputList, ImsiOutputList))
+    # print(result)
 
 def ComplareDictionaries(ImsikeyList,ImsiOutputDictionary, ImsiInputDictionary):
     for Imsikey in ImsikeyList:
