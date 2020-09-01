@@ -167,11 +167,12 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
     map(lambda firstCdr, secondCdr:firstCdr.IMSI == secondCdr.IMSI and
                                    firstCdr.Date == secondCdr.Date and
                                    firstCdr.Downlink == secondCdr.Downlink and
-                                   firstCdr.Uplink == secondCdr.Uplink ,#and
-                                   # firstCdr.Duration == secondCdr.Duration,
-    ImsiInputList, ImsiOutputList))
+                                   firstCdr.Uplink == secondCdr.Uplink and
+                                   firstCdr.Duration == secondCdr.Duration,
+                                   ImsiInputList, ImsiOutputList))
     if result == False:
-        dateList = []
+        dateDlUlTupleList = [] # list compose of tuples : {Date,Uplink,Downlink}
+        durationDlUlTupleList = [] # list compose of tuples : {Duration,Uplink,Downlink}
         for (item1,item2) in zip(ImsiInputList,ImsiOutputList):
             if item1.Date != item2.Date:
                 # print(
@@ -179,22 +180,33 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
                 #     + " item1 " + item1.Uplink + " item2 " + item2.Uplink)
                 firstTuple = {item1.Date,item1.Downlink,item1.Uplink}
                 secondTuple = {item2.Date, item2.Downlink, item2.Uplink}
-                if firstTuple in dateList:
-                    dateList.remove(firstTuple)
+                if firstTuple in dateDlUlTupleList:
+                    dateDlUlTupleList.remove(firstTuple)
                 else:
-                    dateList.append(firstTuple)
-                if secondTuple in dateList:
-                    dateList.remove(secondTuple)
+                    dateDlUlTupleList.append(firstTuple)
+                if secondTuple in dateDlUlTupleList:
+                    dateDlUlTupleList.remove(secondTuple)
                 else:
-                    dateList.append(secondTuple)
-        if len(dateList) == 0:
+                    dateDlUlTupleList.append(secondTuple)
+
+            if item1.Duration != item2.Duration:
+                firstTuple = {item1.Duration, item1.Downlink, item1.Uplink}
+                secondTuple = {item2.Duration, item2.Downlink, item2.Uplink}
+                if firstTuple in durationDlUlTupleList:
+                    durationDlUlTupleList.remove(firstTuple)
+                else:
+                    durationDlUlTupleList.append(firstTuple)
+                if secondTuple in durationDlUlTupleList:
+                    durationDlUlTupleList.remove(secondTuple)
+                else:
+                    durationDlUlTupleList.append(secondTuple)
+        if len(dateDlUlTupleList + durationDlUlTupleList) == 0:
             result = True
+                # print("imsiKEy " + Imsikey + "item1.Duration " + item1.Duration + " item2.Duration " + item2.Duration +
+                #       "item1.Downlink " + item1.Downlink + " item2.Downlink " + item2.Downlink +
+                #       "item1.Uplink " + item1.Uplink + " item2.Uplink " + item2.Uplink)
     print(result)
 
 def ComplareDictionaries(ImsikeyList,ImsiOutputDictionary, ImsiInputDictionary):
     for Imsikey in ImsikeyList:
         CompareLists(Imsikey, ImsiOutputDictionary, ImsiInputDictionary)
-        # ImsiInputList = ImsiInputDictionary[str(Imsikey)]
-        # ImsiOutputList = ImsiOutputDictionary[str(Imsikey)]
-        # for (item1,item2) in zip(ImsiInputList,ImsiOutputList):
-        #     print("item1 " + item1.Downlink + " item2 "+ item2.Downlink)
