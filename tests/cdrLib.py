@@ -85,7 +85,7 @@ def ParseOutputLine(line):
     return Imsi,result
 
 
-def SortTuple(tup):
+def SortListByDownlink(tup):
     # tuple of Imsi,Date,Downlink,Uplink,Call Duration
     # is sorted by Downlink in an ascending order
     return (sorted(tup, key=lambda cdrDetails: cdrDetails.getDownLink()))
@@ -123,8 +123,8 @@ def BuildDictFromOutputFile(path = os.path.dirname(os.getcwd())):
                 Imsi,CdrData = ParseOutputLine(line)
                 cdrDetails = CdrDetails(CdrData[0],CdrData[1],CdrData[2],CdrData[3],CdrData[4])
                 imsiList.append(cdrDetails)
-        imsiList = SortTuple(imsiList)
-
+        imsiList = SortListByDownlink(imsiList)
+        imsiList = SortListByUplink(imsiList)
         # print(imsiList)
         # for index in imsiList:
             # print(index)
@@ -152,7 +152,7 @@ def BuildDictFromInputFile(path = os.path.dirname(os.getcwd()), file = "datafile
                 ImsiListDictionary[Imsi] = imsiList
     for key,value in ImsiListDictionary.items():
         imsiList = value
-        imsiList = SortTuple(imsiList)
+        imsiList = SortListByDownlink(imsiList)
         imsiList = SortListByUplink(imsiList)
         ImsiListDictionary[key] = imsiList
     return ImsiListDictionary
@@ -160,13 +160,36 @@ def BuildDictFromInputFile(path = os.path.dirname(os.getcwd()), file = "datafile
 def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
     ImsiInputList = ImsiInputDictionary[str(Imsikey)]
     ImsiOutputList = ImsiOutputDictionary[str(Imsikey)]
-    for (item1,item2) in zip(ImsiInputList,ImsiOutputList):
+    # for (item1,item2) in zip(ImsiInputList,ImsiOutputList):
         # print("item1 " + item1.Uplink + " item2 "+ item2.Uplink)
-        print("item1 " + item1.Downlink + " item2 " + item2.Downlink)
-    # result = reduce(lambda firstCdr, secondCdr: firstCdr and secondCdr,
-    # map(lambda firstCdr, secondCdr: firstCdr.Downlink == secondCdr.Downlink and firstCdr.Uplink == secondCdr.Uplink,
-    # ImsiInputList, ImsiOutputList))
-    # print(result)
+        # print("item1 " + item1.Uplink + " item2 " + item2.Uplink)
+    result = reduce(lambda firstCdr, secondCdr: firstCdr and secondCdr,
+    map(lambda firstCdr, secondCdr:firstCdr.IMSI == secondCdr.IMSI and
+                                   firstCdr.Date == secondCdr.Date and
+                                   firstCdr.Downlink == secondCdr.Downlink and
+                                   firstCdr.Uplink == secondCdr.Uplink ,#and
+                                   # firstCdr.Duration == secondCdr.Duration,
+    ImsiInputList, ImsiOutputList))
+    if result == False:
+        dateList = []
+        for (item1,item2) in zip(ImsiInputList,ImsiOutputList):
+            if item1.Date != item2.Date:
+                # print(
+                #     "imsiKEy " + Imsikey + " item1 " + item1.Date + " item2 " + item2.Date + " item1 " + item1.Downlink + " item2 " + item2.Downlink
+                #     + " item1 " + item1.Uplink + " item2 " + item2.Uplink)
+                firstTuple = {item1.Date,item1.Downlink,item1.Uplink}
+                secondTuple = {item2.Date, item2.Downlink, item2.Uplink}
+                if firstTuple in dateList:
+                    dateList.remove(firstTuple)
+                else:
+                    dateList.append(firstTuple)
+                if secondTuple in dateList:
+                    dateList.remove(secondTuple)
+                else:
+                    dateList.append(secondTuple)
+        if len(dateList) == 0:
+            result = True
+    print(result)
 
 def ComplareDictionaries(ImsikeyList,ImsiOutputDictionary, ImsiInputDictionary):
     for Imsikey in ImsikeyList:
