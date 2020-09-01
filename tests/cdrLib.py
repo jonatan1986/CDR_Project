@@ -59,7 +59,15 @@ def GenerateOutputFile(path = os.path.dirname(os.getcwd()) + '/', filename = 'cd
     os.chdir(path)
     os.system(command)
 
-def ParseLine(line):
+def ParseInputLine(line):
+    line = line[0: len(line) - 1]
+    cdrDataList = line.split('|')
+    # print(cdrDataList)
+    Imsi = cdrDataList[0]
+    #print(Imsi)
+    return Imsi,cdrDataList
+
+def ParseOutputLine(line):
     line = line[0 : len(line)-1] # remove '\n' from the end of 'line'
     cdrDataList = line.split(' ')
     result = []
@@ -74,36 +82,73 @@ def ParseLine(line):
     return Imsi,result
 
 
-def Sort_Tuple(tup):
-    # reverse = None (Sorts in Ascending order)
-    # key is set to sort using second element of
-    # sublist lambda has been used
-    return (sorted(tup, key=lambda x: x.getDownLink()))
+def SortTuple(tup):
+    # tuple of Imsi,Date,Downlink,Uplink,Call Duration
+    # is sorted by Downlink in an ascending order
+    return (sorted(tup, key=lambda cdrDetails: cdrDetails.getDownLink()))
 
 
-def BuildDictFromInputFile(path = os.path.dirname(os.getcwd())):
-    os.chdir("output")
+def BuildDictFromOutputFile(path = os.path.dirname(os.getcwd())):
+    print(path)
+    absPath  = path +"/output"
+    os.chdir(absPath)
     directory = os.getcwd()
+    print("directory "  + directory)
     onlyTxtFiles = [f for f in listdir(directory) if isfile(join(directory, f)) and f.endswith(".txt")]
     # print(onlyTxtFiles)
     ImsiListDictionary = {}
+    ImsikeyList = []
     for file in onlyTxtFiles:
         imsiList = []
         Imsi = ' '
         with open(file,'r') as file:
             for line in file:
                 # print(line)
-                Imsi,CdrData = ParseLine(line)
+                Imsi,CdrData = ParseOutputLine(line)
                 cdrDetails = CdrDetails(CdrData[0],CdrData[1],CdrData[2],CdrData[3],CdrData[4])
                 imsiList.append(cdrDetails)
-        imsiList = Sort_Tuple(imsiList)
-        print("IMSI LIST")
+        imsiList = SortTuple(imsiList)
         # print(imsiList)
         # for index in imsiList:
             # print(index)
         ImsiListDictionary[Imsi]  = imsiList
+        ImsikeyList.append(Imsi)
         # for index in imsiList:
             # print(index.IMSI + " " + index.Downlink + " " + index.Uplink)
-    return  ImsiListDictionary
+    return  ImsikeyList,ImsiListDictionary
 
 
+def BuildDictFromInputFile(path = os.path.dirname(os.getcwd()), file = "datafile.txt"):
+    absPath = path + "/" + file
+    print("absPath " + absPath)
+    ImsiListDictionary = {}
+    with open(absPath,'r') as file:
+        for line in file:
+            Imsi,CdrData = ParseInputLine(line)
+            cdrDetails = CdrDetails(CdrData[0], CdrData[1], CdrData[2], CdrData[3], CdrData[4])
+            if Imsi in ImsiListDictionary.keys():
+                imsiList = ImsiListDictionary[Imsi]
+                imsiList.append(cdrDetails)
+            else:
+                imsiList = []
+                imsiList.append(cdrDetails)
+                ImsiListDictionary[Imsi] = imsiList
+    for key,value in ImsiListDictionary.items():
+        imsiList = value
+        imsiList = SortTuple(imsiList)
+        ImsiListDictionary[key] = imsiList
+    return ImsiListDictionary
+
+def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
+    ImsiInputList = ImsiInputDictionary[str(Imsikey)]
+    ImsiOutputList = ImsiOutputDictionary[str(Imsikey)]
+    for (item1,item2) in zip(ImsiInputList,ImsiOutputList):
+        print("item1 " + item1.Downlink + " item2 "+ item2.Downlink)
+
+def ComplareDictionaries(ImsikeyList,ImsiOutputDictionary, ImsiInputDictionary):
+    for Imsikey in ImsikeyList:
+        CompareLists(Imsikey, ImsiOutputDictionary, ImsiInputDictionary)
+        # ImsiInputList = ImsiInputDictionary[str(Imsikey)]
+        # ImsiOutputList = ImsiOutputDictionary[str(Imsikey)]
+        # for (item1,item2) in zip(ImsiInputList,ImsiOutputList):
+        #     print("item1 " + item1.Downlink + " item2 "+ item2.Downlink)
