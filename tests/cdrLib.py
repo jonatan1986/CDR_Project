@@ -25,8 +25,8 @@ class CdrDetails():
     def getDownLink(self):
         return self.Downlink
 
-    def getUpLink(self):
-        return self.Uplink
+    # def getUpLink(self):
+    #     return self.Uplink
 
 def SetConfigFile(path = os.path.dirname(os.getcwd()), filename = 'cdrconfig.txt',
                   outputType = 'MultipleOutput', amountOfChunks = '5', amountOfSubs = '20',
@@ -65,9 +65,7 @@ def GenerateOutputFile(path = os.path.dirname(os.getcwd()) + '/', filename = 'cd
 def ParseInputLine(line):
     line = line[0: len(line) - 1]
     cdrDataList = line.split('|')
-    # print(cdrDataList)
     Imsi = cdrDataList[0]
-    #print(Imsi)
     return Imsi,cdrDataList
 
 def ParseOutputLine(line):
@@ -90,19 +88,19 @@ def SortListByDownlink(tup):
     # is sorted by Downlink in an ascending order
     return (sorted(tup, key=lambda cdrDetails: cdrDetails.getDownLink()))
 
-def SortListByUplink(tup):
-    i = 0
-    while i < len(tup) - 1:
-        j = i
-        while (int(tup[j].Downlink) == int(tup[j + 1].Downlink)):
-            # print(tup[j].Downlink)
-            j = j + 1
-            if j == len(tup) - 1:
-                break
-        if j > i:
-            tup[i : j + 1] = sorted(tup[i : j + 1], key=lambda cdrDetails: cdrDetails.getUpLink())
-        i = j + 1
-    return tup
+# def SortListByUplink(tup):
+#     i = 0
+#     while i < len(tup) - 1:
+#         j = i
+#         while (int(tup[j].Downlink) == int(tup[j + 1].Downlink)):
+#             # print(tup[j].Downlink)
+#             j = j + 1
+#             if j == len(tup) - 1:
+#                 break
+#         if j > i:
+#             tup[i : j + 1] = sorted(tup[i : j + 1], key=lambda cdrDetails: cdrDetails.getUpLink())
+#         i = j + 1
+#     return tup
 
 def BuildDictFromOutputFile(path = os.path.dirname(os.getcwd())):
     print(path)
@@ -124,7 +122,6 @@ def BuildDictFromOutputFile(path = os.path.dirname(os.getcwd())):
                 cdrDetails = CdrDetails(CdrData[0],CdrData[1],CdrData[2],CdrData[3],CdrData[4])
                 imsiList.append(cdrDetails)
         imsiList = SortListByDownlink(imsiList)
-        imsiList = SortListByUplink(imsiList)
         # print(imsiList)
         # for index in imsiList:
             # print(index)
@@ -153,59 +150,61 @@ def BuildDictFromInputFile(path = os.path.dirname(os.getcwd()), file = "datafile
     for key,value in ImsiListDictionary.items():
         imsiList = value
         imsiList = SortListByDownlink(imsiList)
-        imsiList = SortListByUplink(imsiList)
         ImsiListDictionary[key] = imsiList
     return ImsiListDictionary
 
 def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
     ImsiInputList = ImsiInputDictionary[str(Imsikey)]
     ImsiOutputList = ImsiOutputDictionary[str(Imsikey)]
-    # for (item1,item2) in zip(ImsiInputList,ImsiOutputList):
-        # print("item1 " + item1.Uplink + " item2 "+ item2.Uplink)
-        # print("item1 " + item1.Uplink + " item2 " + item2.Uplink)
-    result = reduce(lambda firstCdr, secondCdr: firstCdr and secondCdr,
-    map(lambda firstCdr, secondCdr:firstCdr.IMSI == secondCdr.IMSI and
-                                   firstCdr.Date == secondCdr.Date and
-                                   firstCdr.Downlink == secondCdr.Downlink and
-                                   firstCdr.Uplink == secondCdr.Uplink and
-                                   firstCdr.Duration == secondCdr.Duration,
-                                   ImsiInputList, ImsiOutputList))
-    if result == False:
-        dateDlUlTupleList = [] # list compose of tuples : {Date,Uplink,Downlink}
-        durationDlUlTupleList = [] # list compose of tuples : {Duration,Uplink,Downlink}
-        for (item1,item2) in zip(ImsiInputList,ImsiOutputList):
-            if item1.Date != item2.Date:
-                # print(
-                #     "imsiKEy " + Imsikey + " item1 " + item1.Date + " item2 " + item2.Date + " item1 " + item1.Downlink + " item2 " + item2.Downlink
-                #     + " item1 " + item1.Uplink + " item2 " + item2.Uplink)
-                firstTuple = {item1.Date,item1.Downlink,item1.Uplink}
-                secondTuple = {item2.Date, item2.Downlink, item2.Uplink}
-                if firstTuple in dateDlUlTupleList:
-                    dateDlUlTupleList.remove(firstTuple)
-                else:
-                    dateDlUlTupleList.append(firstTuple)
-                if secondTuple in dateDlUlTupleList:
-                    dateDlUlTupleList.remove(secondTuple)
-                else:
-                    dateDlUlTupleList.append(secondTuple)
-
-            if item1.Duration != item2.Duration:
-                firstTuple = {item1.Duration, item1.Downlink, item1.Uplink}
-                secondTuple = {item2.Duration, item2.Downlink, item2.Uplink}
-                if firstTuple in durationDlUlTupleList:
-                    durationDlUlTupleList.remove(firstTuple)
-                else:
-                    durationDlUlTupleList.append(firstTuple)
-                if secondTuple in durationDlUlTupleList:
-                    durationDlUlTupleList.remove(secondTuple)
-                else:
-                    durationDlUlTupleList.append(secondTuple)
-        if len(dateDlUlTupleList + durationDlUlTupleList) == 0:
+    result = True
+    CdrDetailsList = []
+    for (Inputitem, Outputitem) in zip(ImsiInputList, ImsiOutputList):
+        if Inputitem.IMSI != Outputitem.IMSI or Inputitem.Downlink != Outputitem.Downlink:
+            result = False
+            break
+        if Inputitem.Uplink != Outputitem.Uplink:
+            result = False
+            firstTuple = {Inputitem.IMSI, Inputitem.Date, Inputitem.Downlink, Inputitem.Uplink, Inputitem.Duration}
+            secondTuple = {Outputitem.IMSI, Outputitem.Date, Outputitem.Downlink, Outputitem.Uplink,Outputitem.Duration}
+            # print("tuples")
+            # print(firstTuple)
+            # print(secondTuple)
+            if firstTuple in CdrDetailsList:
+                CdrDetailsList.remove(firstTuple)
+            else:
+                CdrDetailsList.append(firstTuple)
+            if secondTuple in CdrDetailsList:
+                CdrDetailsList.remove(secondTuple)
+            else:
+                CdrDetailsList.append(secondTuple)
+        if Inputitem.Date != Outputitem.Date:
+            result = False
+            firstTuple = {Inputitem.IMSI,Inputitem.Date,Inputitem.Downlink,Inputitem.Uplink,Inputitem.Duration}
+            secondTuple = {Outputitem.IMSI,Outputitem.Date,Outputitem.Downlink,Outputitem.Uplink,Outputitem.Duration}
+            if firstTuple in CdrDetailsList:
+                CdrDetailsList.remove(firstTuple)
+            else:
+                CdrDetailsList.append(firstTuple)
+            if secondTuple in CdrDetailsList:
+                CdrDetailsList.remove(secondTuple)
+            else:
+                CdrDetailsList.append(secondTuple)
+        if Inputitem.Duration != Outputitem.Duration:
+            result = False
+            firstTuple = {Inputitem.IMSI, Inputitem.Date, Inputitem.Downlink, Inputitem.Uplink, Inputitem.Duration}
+            secondTuple = {Outputitem.IMSI, Outputitem.Date, Outputitem.Downlink, Outputitem.Uplink,Outputitem.Duration}
+            if firstTuple in CdrDetailsList:
+                CdrDetailsList.remove(firstTuple)
+            else:
+                CdrDetailsList.append(firstTuple)
+            if secondTuple in CdrDetailsList:
+                CdrDetailsList.remove(secondTuple)
+            else:
+                CdrDetailsList.append(secondTuple)
+        if len(CdrDetailsList) == 0:
             result = True
-                # print("imsiKEy " + Imsikey + "item1.Duration " + item1.Duration + " item2.Duration " + item2.Duration +
-                #       "item1.Downlink " + item1.Downlink + " item2.Downlink " + item2.Downlink +
-                #       "item1.Uplink " + item1.Uplink + " item2.Uplink " + item2.Uplink)
     print(result)
+
 
 def ComplareDictionaries(ImsikeyList,ImsiOutputDictionary, ImsiInputDictionary):
     for Imsikey in ImsikeyList:
