@@ -32,7 +32,7 @@ def SetConfigFile(path = os.path.dirname(os.getcwd()), filename = 'cdrconfig.txt
                   outputType = 'MultipleOutput', amountOfChunks = '5', amountOfSubs = '20',
                   amountOfLines = '10000'):
     # Use a breakpoint in the code line below to debug your script.
-    filepath = path + filename
+    filepath = path + '/'  + filename
     lineArray = {}
     with open(filepath, 'r') as file:
         lineArray = file.readlines()
@@ -160,9 +160,10 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
     CdrDetailsList = []
     for (Inputitem, Outputitem) in zip(ImsiInputList, ImsiOutputList):
         if Inputitem.IMSI != Outputitem.IMSI or Inputitem.Downlink != Outputitem.Downlink:
-            result = False
-            break
+            return  False
         if Inputitem.Uplink != Outputitem.Uplink:
+            # if Inputitem.IMSI == "668133733":
+            #     print("668133733 " + Inputitem.Uplink + " " + Outputitem.Uplink)
             result = False
             firstTuple = {Inputitem.IMSI, Inputitem.Date, Inputitem.Downlink, Inputitem.Uplink, Inputitem.Duration}
             secondTuple = {Outputitem.IMSI, Outputitem.Date, Outputitem.Downlink, Outputitem.Uplink,Outputitem.Duration}
@@ -177,6 +178,7 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
                 CdrDetailsList.remove(secondTuple)
             else:
                 CdrDetailsList.append(secondTuple)
+            continue
         if Inputitem.Date != Outputitem.Date:
             result = False
             firstTuple = {Inputitem.IMSI,Inputitem.Date,Inputitem.Downlink,Inputitem.Uplink,Inputitem.Duration}
@@ -189,7 +191,10 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
                 CdrDetailsList.remove(secondTuple)
             else:
                 CdrDetailsList.append(secondTuple)
+            continue
         if Inputitem.Duration != Outputitem.Duration:
+            # if Inputitem.IMSI == "668133733":
+            #     print("668133733 " + Inputitem.Duration + " " + Outputitem.Duration)
             result = False
             firstTuple = {Inputitem.IMSI, Inputitem.Date, Inputitem.Downlink, Inputitem.Uplink, Inputitem.Duration}
             secondTuple = {Outputitem.IMSI, Outputitem.Date, Outputitem.Downlink, Outputitem.Uplink,Outputitem.Duration}
@@ -201,11 +206,17 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
                 CdrDetailsList.remove(secondTuple)
             else:
                 CdrDetailsList.append(secondTuple)
-        if len(CdrDetailsList) == 0:
-            result = True
+    if len(CdrDetailsList) == 0:
+        result = True
+    # else:
+    #     for index in CdrDetailsList:
+    #         print(index)
     print(result)
-
+    return result
 
 def ComplareDictionaries(ImsikeyList,ImsiOutputDictionary, ImsiInputDictionary):
     for Imsikey in ImsikeyList:
-        CompareLists(Imsikey, ImsiOutputDictionary, ImsiInputDictionary)
+        result = CompareLists(Imsikey, ImsiOutputDictionary, ImsiInputDictionary)
+        if result == False:
+            return False
+    return True
