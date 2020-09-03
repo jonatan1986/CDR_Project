@@ -11,12 +11,12 @@
 #include <unordered_map>
 #include <fstream>
 #include <memory>
+// #include <stdio.h>
+// #include <unistd.h>
 #include "eCdrDetails.h"
 #include "Config.h"
 #include "Singleton.h"
 
-#include<stdio.h>
-#include<unistd.h>
 /*
 FileDetails - simple struct which holds the name of the file and the index
 */
@@ -36,7 +36,9 @@ print to the same file - they share the mutex among them
 class eOutPutFile
 {
 public:
+  eOutPutFile();
   virtual void WriteToFile(eCdrDetails& cdrDetails) = 0;
+  virtual ~eOutPutFile(){}
 protected:
   // virtual ~eOutPutFile(){} // output file cannot be  deleted since it is a SingleTone
   std::unordered_map<std::string,FileDetails> m_fileMap;

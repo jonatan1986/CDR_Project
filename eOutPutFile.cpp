@@ -1,8 +1,25 @@
 // #include <experimental/filesystem>
 #include <iostream>
+#include <sys/stat.h>
 #include "eOutPutFile.h"
 
 using namespace std;
+
+
+eOutPutFile::eOutPutFile()
+{
+  string l_sOutputDirName = "output";
+  auto bDirExists  = [&]()
+  {
+    struct stat buffer;
+    return (stat (l_sOutputDirName.c_str(), &buffer) == 0);
+  };
+  auto l_bDirExists = bDirExists();
+  if (l_bDirExists == false)
+  {
+    mkdir(l_sOutputDirName.c_str(),0777);
+  }
+}
 
 MultipleFile::MultipleFile()
 {

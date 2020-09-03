@@ -11,9 +11,7 @@ using namespace std;
 main function
 */
 
-
 int main(int argc, char const *argv[]) {
-
   try
   {
     Config *l_config = Singleton<Config>::GetIntstance();
