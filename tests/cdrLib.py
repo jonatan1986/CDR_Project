@@ -40,8 +40,8 @@ def SetConfigFile(path = os.path.dirname(os.getcwd()), filename = 'cdrconfig.txt
         lineArray[ConfigType.AMOUNT_OF_CHUNKS] = lineArray[ConfigType.AMOUNT_OF_CHUNKS].split(' ')[0] + ' ' + amountOfChunks + '\n'
         lineArray[ConfigType.AMOUNT_OF_SUBS] = lineArray[ConfigType.AMOUNT_OF_SUBS].split(' ')[0] + ' ' + amountOfSubs + '\n'
         lineArray[ConfigType.AMOUNT_OF_LINES] = lineArray[ConfigType.AMOUNT_OF_LINES].split(' ')[0] + ' '+ amountOfLines + '\n'
-        for line in lineArray:
-            print(line)
+        # for line in lineArray:
+        #     print(line)
     file.close()
 
     with open(filepath, 'w') as file:
@@ -103,11 +103,11 @@ def SortListByDownlink(tup):
 #     return tup
 
 def BuildDictFromOutputFile(path = os.path.dirname(os.getcwd())):
-    print(path)
+    # print(path)
     absPath  = path + "/output"
     os.chdir(absPath)
     directory = os.getcwd()
-    print("directory "  + directory)
+    # print("directory "  + directory)
     onlyTxtFiles = [f for f in listdir(directory) if isfile(join(directory, f)) and f.endswith(".txt")]
     # print(onlyTxtFiles)
     ImsiListDictionary = {}
@@ -134,7 +134,7 @@ def BuildDictFromOutputFile(path = os.path.dirname(os.getcwd())):
 
 def BuildDictFromInputFile(path = os.path.dirname(os.getcwd()), file = "datafile.txt"):
     absPath = path + "/" + file
-    print("absPath " + absPath)
+    # print("absPath " + absPath)
     ImsiListDictionary = {}
     with open(absPath,'r') as file:
         for line in file:
@@ -211,7 +211,7 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
     # else:
     #     for index in CdrDetailsList:
     #         print(index)
-    print(result)
+    # print(result)
     return result
 
 def ComplareDictionaries(ImsikeyList,ImsiOutputDictionary, ImsiInputDictionary):
