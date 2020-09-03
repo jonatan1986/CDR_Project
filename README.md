@@ -34,7 +34,8 @@ things to note:
   executables don't have the same amount of subscribers - the program "GenerateCdr" is error prone or might crash
 * if you modify "cdrconfig.txt", the each line you could modify only the right part of the line -
   the left part must stay as is.
-  
+* output files are in "output" directory
+
   
  coding conventions:
  i_ - input variable
