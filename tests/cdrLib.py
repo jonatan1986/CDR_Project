@@ -5,7 +5,8 @@ import pathlib
 from os import listdir
 from os.path import isfile, join
 from enum import IntEnum
-from functools import reduce
+
+SingleOutputFileName = "SingleFile.txt"
 
 class ConfigType(IntEnum):
     INPUT_FILE_NAME = 0
@@ -102,34 +103,70 @@ def SortListByDownlink(tup):
 #         i = j + 1
 #     return tup
 
-def BuildDictFromOutputFile(path = os.path.dirname(os.getcwd())):
-    # print(path)
-    absPath  = path + "/output"
-    os.chdir(absPath)
-    directory = os.getcwd()
-    # print("directory "  + directory)
-    onlyTxtFiles = [f for f in listdir(directory) if isfile(join(directory, f)) and f.endswith(".txt")]
-    # print(onlyTxtFiles)
-    ImsiListDictionary = {}
-    ImsikeyList = []
-    for file in onlyTxtFiles:
-        imsiList = []
-        Imsi = ' '
-        with open(file,'r') as file:
-            for line in file:
-                # print(line)
-                Imsi,CdrData = ParseOutputLine(line)
-                cdrDetails = CdrDetails(CdrData[0],CdrData[1],CdrData[2],CdrData[3],CdrData[4])
-                imsiList.append(cdrDetails)
-        imsiList = SortListByDownlink(imsiList)
-        # print(imsiList)
-        # for index in imsiList:
-            # print(index)
-        ImsiListDictionary[Imsi]  = imsiList
-        ImsikeyList.append(Imsi)
-        # for index in imsiList:
+class OutputStrategy():
+    def BuildDictFromOutputFile(self,path):
+        pass
+
+class MultipleOutputStrategy(OutputStrategy):
+    def BuildDictFromOutputFile(self,path):
+        # print(path)
+        absPath = path + "/output"
+        os.chdir(absPath)
+        directory = os.getcwd()
+        # print("directory "  + directory)
+        onlyTxtFiles = [f for f in listdir(directory) if isfile(join(directory, f)) and f.endswith(".txt")]
+        # print(onlyTxtFiles)
+        ImsiListDictionary = {}
+        ImsikeyList = []
+        for file in onlyTxtFiles:
+            ImsiList = []
+            Imsi = ' '
+            with open(file, 'r') as file:
+                for line in file:
+                    # print(line)
+                    Imsi, CdrData = ParseOutputLine(line)
+                    cdrDetails = CdrDetails(CdrData[0], CdrData[1], CdrData[2], CdrData[3], CdrData[4])
+                    ImsiList.append(cdrDetails)
+            ImsiList = SortListByDownlink(ImsiList)
+            ImsiListDictionary[Imsi] = ImsiList
+            ImsikeyList.append(Imsi)
+            # for index in imsiList:
             # print(index.IMSI + " " + index.Downlink + " " + index.Uplink)
-    return  ImsikeyList,ImsiListDictionary
+        return ImsikeyList, ImsiListDictionary
+
+class SingleOutputStrategy(OutputStrategy):
+    def BuildDictFromOutputFile(self,path):
+        print("SingleOutputStrategy")
+        ImsiListDictionary = {}
+        ImsikeyList = []
+        absPath = path + "/output"
+        filePath = absPath + "/" + SingleOutputFileName
+        with open(filePath, 'r') as file:
+            for line in file:
+                Imsi, CdrData = ParseOutputLine(line)
+                cdrDetails = CdrDetails(CdrData[0], CdrData[1], CdrData[2], CdrData[3], CdrData[4])
+                if Imsi in ImsiListDictionary.keys():
+                    imsiList = ImsiListDictionary[Imsi]
+                    imsiList.append(cdrDetails)
+                else:
+                    imsiList = []
+                    imsiList.append(cdrDetails)
+                    ImsiListDictionary[Imsi] = imsiList
+        for key, value in ImsiListDictionary.items():
+            imsiList = value
+            imsiList = SortListByDownlink(imsiList)
+            ImsiListDictionary[key] = imsiList
+            ImsikeyList.append(key)
+        return ImsikeyList, ImsiListDictionary
+
+def BuildDictFromOutputFile(path , outputType):
+    if outputType == "MultipleOutput" :
+        outputStrategy = MultipleOutputStrategy()
+    else: # outputType == "SingeOutput"
+        outputStrategy = SingleOutputStrategy()
+
+    ImsikeyList, ImsiListDictionary = outputStrategy.BuildDictFromOutputFile(path)
+    return ImsikeyList, ImsiListDictionary
 
 
 def BuildDictFromInputFile(path = os.path.dirname(os.getcwd()), file = "datafile.txt"):
@@ -160,10 +197,11 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
     CdrDetailsList = []
     for (Inputitem, Outputitem) in zip(ImsiInputList, ImsiOutputList):
         if Inputitem.IMSI != Outputitem.IMSI or Inputitem.Downlink != Outputitem.Downlink:
+            print(Inputitem.IMSI + " " + Outputitem.IMSI )
+            print(Inputitem.Downlink + " " + Outputitem.Downlink)
+            print(Inputitem.Uplink + " " + Outputitem.Uplink)
             return  False
         if Inputitem.Uplink != Outputitem.Uplink:
-            # if Inputitem.IMSI == "668133733":
-            #     print("668133733 " + Inputitem.Uplink + " " + Outputitem.Uplink)
             result = False
             firstTuple = {Inputitem.IMSI, Inputitem.Date, Inputitem.Downlink, Inputitem.Uplink, Inputitem.Duration}
             secondTuple = {Outputitem.IMSI, Outputitem.Date, Outputitem.Downlink, Outputitem.Uplink,Outputitem.Duration}

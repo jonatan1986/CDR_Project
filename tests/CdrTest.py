@@ -7,7 +7,7 @@ def TestCdrTestCase(path, filename, outputType, amountOfChunks, amountOfSubs, am
     cdrLib.GenerateInputFile()
     cdrLib.GenerateOutputFile()
     ImsiInputDictionary = cdrLib.BuildDictFromInputFile()
-    ImsikeyList, ImsiOutputDictionary = cdrLib.BuildDictFromOutputFile()
+    ImsikeyList, ImsiOutputDictionary = cdrLib.BuildDictFromOutputFile(path,outputType)
     result = cdrLib.ComplareDictionaries(ImsikeyList, ImsiOutputDictionary, ImsiInputDictionary)
     return result
 
@@ -36,6 +36,12 @@ def Test4(path):
                     amountOfChunks='1', amountOfSubs = '1', amountOfLines = '10000')
     return result
 
+def Test5(path):
+    # signlethread(amountOfChunks = 1), SingleOutput, SingleImsi(amountOfSubs = 1)
+    result  = TestCdrTestCase(path,filename = 'cdrconfig.txt', outputType = 'SingleOutput',
+                    amountOfChunks='1', amountOfSubs = '1', amountOfLines = '10000')
+    return result
+
 class TestCdr(unittest.TestCase):
     def RunUnitTests(self):
         path = os.path.dirname(os.getcwd())
@@ -43,3 +49,4 @@ class TestCdr(unittest.TestCase):
         self.assertTrue(Test2(path))
         self.assertTrue(Test3(path))
         self.assertTrue(Test4(path))
+        self.assertTrue(Test5(path))
