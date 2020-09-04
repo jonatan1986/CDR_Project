@@ -12,13 +12,13 @@ def TestCdrTestCase(path, filename, outputType, amountOfChunks, amountOfSubs, am
     return result
 
 def Test1(path):
-    # multithread(amountOfChunks > 1), multiOutPut, multiImsi(amountOfSubs > 1)
+    # multithread(amountOfChunks > 1), MultipleOutput, multiImsi(amountOfSubs > 1)
     result  = TestCdrTestCase(path,filename = 'cdrconfig.txt', outputType = 'MultipleOutput',
                     amountOfChunks='5', amountOfSubs = '20', amountOfLines = '10000')
     return result
 
 def Test2(path):
-    # multithread(amountOfChunks > 1), multiOutPut, SingleImsi(amountOfSubs = 1)
+    # multithread(amountOfChunks > 1), MultipleOutput, SingleImsi(amountOfSubs = 1)
     result  = TestCdrTestCase(path,filename = 'cdrconfig.txt', outputType = 'MultipleOutput',
                     amountOfChunks='5', amountOfSubs = '1', amountOfLines = '10000')
     return result
@@ -42,11 +42,34 @@ def Test5(path):
                     amountOfChunks='1', amountOfSubs = '1', amountOfLines = '10000')
     return result
 
+def Test6(path):
+    # signlethread(amountOfChunks > 1), SingleOutput, SingleImsi(amountOfSubs = 1)
+    result  = TestCdrTestCase(path,filename = 'cdrconfig.txt', outputType = 'SingleOutput',
+                    amountOfChunks='5', amountOfSubs = '1', amountOfLines = '10000')
+    return result
+
+def Test7(path):
+    # signlethread(amountOfChunks =  1), SingleOutput, MultipleImsi(amountOfSubs > 1)
+    result  = TestCdrTestCase(path,filename = 'cdrconfig.txt', outputType = 'SingleOutput',
+                    amountOfChunks='1', amountOfSubs = '20', amountOfLines = '10000')
+    return result
+
+def Test8(path):
+    # signlethread(amountOfChunks >  1), SingleOutput, MultipleImsi(amountOfSubs > 1)
+    result  = TestCdrTestCase(path,filename = 'cdrconfig.txt', outputType = 'SingleOutput',
+                    amountOfChunks='5', amountOfSubs = '20', amountOfLines = '10000')
+    return result
+
 class TestCdr(unittest.TestCase):
     def RunUnitTests(self):
+        print("running tests...,be patient it might take a while")
         path = os.path.dirname(os.getcwd())
         self.assertTrue(Test1(path))
         self.assertTrue(Test2(path))
         self.assertTrue(Test3(path))
         self.assertTrue(Test4(path))
         self.assertTrue(Test5(path))
+        self.assertTrue(Test6(path))
+        self.assertTrue(Test7(path))
+        self.assertTrue(Test8(path))
+        print("all tests passed successfully")

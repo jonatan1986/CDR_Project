@@ -32,7 +32,6 @@ class CdrDetails():
 def SetConfigFile(path = os.path.dirname(os.getcwd()), filename = 'cdrconfig.txt',
                   outputType = 'MultipleOutput', amountOfChunks = '5', amountOfSubs = '20',
                   amountOfLines = '10000'):
-    # Use a breakpoint in the code line below to debug your script.
     filepath = path + '/'  + filename
     lineArray = {}
     with open(filepath, 'r') as file:
@@ -54,8 +53,6 @@ def GenerateInputFile(path = os.path.dirname(os.getcwd()) + '/', filename = 'cdr
                       command = './GenerateFile'):
     os.chdir(path)
     os.system(command)
-    # print(path)
-    # fileAbsPath = path + filename
 
 
 def GenerateOutputFile(path = os.path.dirname(os.getcwd()) + '/', filename = 'cdrconfig.txt',
@@ -74,8 +71,6 @@ def ParseOutputLine(line):
     cdrDataList = line.split(' ')
     result = []
     Imsi = cdrDataList[0][cdrDataList[0].find('=') + 1:len(cdrDataList[0])]
-    # print("Imsi = " + Imsi)
-    #print(line.find("Downlink=") + len("Downlink="))
     for cdrData in cdrDataList:
         pos = cdrData.find('=') + 1
         str = cdrData[pos:len(cdrData)]
@@ -109,7 +104,6 @@ class OutputStrategy():
 
 class MultipleOutputStrategy(OutputStrategy):
     def BuildDictFromOutputFile(self,path):
-        # print(path)
         absPath = path + "/output"
         os.chdir(absPath)
         directory = os.getcwd()
@@ -123,20 +117,16 @@ class MultipleOutputStrategy(OutputStrategy):
             Imsi = ' '
             with open(file, 'r') as file:
                 for line in file:
-                    # print(line)
                     Imsi, CdrData = ParseOutputLine(line)
                     cdrDetails = CdrDetails(CdrData[0], CdrData[1], CdrData[2], CdrData[3], CdrData[4])
                     ImsiList.append(cdrDetails)
             ImsiList = SortListByDownlink(ImsiList)
             ImsiListDictionary[Imsi] = ImsiList
             ImsikeyList.append(Imsi)
-            # for index in imsiList:
-            # print(index.IMSI + " " + index.Downlink + " " + index.Uplink)
         return ImsikeyList, ImsiListDictionary
 
 class SingleOutputStrategy(OutputStrategy):
     def BuildDictFromOutputFile(self,path):
-        print("SingleOutputStrategy")
         ImsiListDictionary = {}
         ImsikeyList = []
         absPath = path + "/output"
@@ -205,9 +195,6 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
             result = False
             firstTuple = {Inputitem.IMSI, Inputitem.Date, Inputitem.Downlink, Inputitem.Uplink, Inputitem.Duration}
             secondTuple = {Outputitem.IMSI, Outputitem.Date, Outputitem.Downlink, Outputitem.Uplink,Outputitem.Duration}
-            # print("tuples")
-            # print(firstTuple)
-            # print(secondTuple)
             if firstTuple in CdrDetailsList:
                 CdrDetailsList.remove(firstTuple)
             else:
@@ -231,8 +218,6 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
                 CdrDetailsList.append(secondTuple)
             continue
         if Inputitem.Duration != Outputitem.Duration:
-            # if Inputitem.IMSI == "668133733":
-            #     print("668133733 " + Inputitem.Duration + " " + Outputitem.Duration)
             result = False
             firstTuple = {Inputitem.IMSI, Inputitem.Date, Inputitem.Downlink, Inputitem.Uplink, Inputitem.Duration}
             secondTuple = {Outputitem.IMSI, Outputitem.Date, Outputitem.Downlink, Outputitem.Uplink,Outputitem.Duration}
