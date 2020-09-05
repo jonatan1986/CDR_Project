@@ -48,15 +48,14 @@ def SetConfigFile(path = os.path.dirname(os.getcwd()), filename = 'cdrconfig.txt
         file.writelines(lineArray)
     file.close()
 
-
+#genetate input file according to config file
 def GenerateInputFile(path = os.path.dirname(os.getcwd()) + '/', filename = 'cdrconfig.txt',
                       command = './GenerateFile'):
     os.chdir(path)
     os.system(command)
 
 
-def GenerateOutputFile(path = os.path.dirname(os.getcwd()) + '/', filename = 'cdrconfig.txt',
-                      command = './GenerateCdr'):
+def GenerateOutputFile(path = os.path.dirname(os.getcwd()) + '/', command = './GenerateCdr'):
     os.chdir(path)
     os.system(command)
 
@@ -66,6 +65,7 @@ def ParseInputLine(line):
     Imsi = cdrDataList[0]
     return Imsi,cdrDataList
 
+# @parse line in the output file/s
 def ParseOutputLine(line):
     line = line[0 : len(line)-1] # remove '\n' from the end of 'line'
     cdrDataList = line.split(' ')
@@ -78,7 +78,8 @@ def ParseOutputLine(line):
         result.append(str)
     return Imsi,result
 
-
+# @ each list of specific Imsi is sorted by Downlink.
+# @ lists ,ust be sorted - so Imsi list created of input can be compared to list created of output
 def SortListByDownlink(tup):
     # tuple of Imsi,Date,Downlink,Uplink,Call Duration
     # is sorted by Downlink in an ascending order
@@ -98,6 +99,8 @@ def SortListByDownlink(tup):
 #         i = j + 1
 #     return tup
 
+#@ strategy design pattern - Dictionary(key = Imsi, value = list of cdrs of that Imsi) is
+#@ created from the output file/s. Algorithm is selected according to the output type(Single/Multiple)
 class OutputStrategy():
     def BuildDictFromOutputFile(self,path):
         pass
@@ -149,6 +152,8 @@ class SingleOutputStrategy(OutputStrategy):
             ImsikeyList.append(key)
         return ImsikeyList, ImsiListDictionary
 
+#@ Dictionary(key = Imsi, value = list of cdrs of that Imsi) is
+#@ created from the output file/s.
 def BuildDictFromOutputFile(path , outputType):
     if outputType == "MultipleOutput" :
         outputStrategy = MultipleOutputStrategy()
@@ -158,7 +163,8 @@ def BuildDictFromOutputFile(path , outputType):
     ImsikeyList, ImsiListDictionary = outputStrategy.BuildDictFromOutputFile(path)
     return ImsikeyList, ImsiListDictionary
 
-
+#@ Dictionary(key = Imsi, value = list of cdrs of that Imsi) is
+#@ created from the input file/s.
 def BuildDictFromInputFile(path = os.path.dirname(os.getcwd()), file = "datafile.txt"):
     absPath = path + "/" + file
     # print("absPath " + absPath)
@@ -179,7 +185,8 @@ def BuildDictFromInputFile(path = os.path.dirname(os.getcwd()), file = "datafile
         imsiList = SortListByDownlink(imsiList)
         ImsiListDictionary[key] = imsiList
     return ImsiListDictionary
-
+#@ compare two lists of the same Imsi - list created from the input file and list
+#@ created from the output file
 def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
     ImsiInputList = ImsiInputDictionary[str(Imsikey)]
     ImsiOutputList = ImsiOutputDictionary[str(Imsikey)]
@@ -237,6 +244,8 @@ def CompareLists(Imsikey,ImsiOutputDictionary, ImsiInputDictionary):
     # print(result)
     return result
 
+#@ compare two dictionaries  - dictionary created from the input file and dictionary
+#@ created from the output files
 def ComplareDictionaries(ImsikeyList,ImsiOutputDictionary, ImsiInputDictionary):
     for Imsikey in ImsikeyList:
         result = CompareLists(Imsikey, ImsiOutputDictionary, ImsiInputDictionary)

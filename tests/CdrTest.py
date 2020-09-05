@@ -2,6 +2,8 @@ import unittest
 import cdrLib
 import os
 
+#@ the fucnion creates a scenario from the input parameters and resturns
+#@ result which could be True(Pass) or False(Fail)
 def TestCdrTestCase(path, filename, outputType, amountOfChunks, amountOfSubs, amountOfLines):
     cdrLib.SetConfigFile(path, filename, outputType, amountOfChunks, amountOfSubs, amountOfLines)
     cdrLib.GenerateInputFile()
