@@ -17,12 +17,14 @@
 #include "Config.h"
 #include "Singleton.h"
 
+
+#define SingleFileName "SingleFile.txt"
 /*
 FileDetails - simple struct which holds the name of the file and the index
 */
 struct FileDetails
 {
-  FileDetails(std::string &sFileName, int nFileIndex = 0):m_sFileName(sFileName){}
+  FileDetails(const std::string &sFileName, int nFileIndex = 0):m_sFileName(sFileName){}
   FileDetails(){}
   std::string m_sFileName;
   int m_nFileIndex = 0;
@@ -42,7 +44,7 @@ public:
 protected:
   // virtual ~eOutPutFile(){} // output file cannot be  deleted since it is a SingleTone
   std::unordered_map<std::string,FileDetails> m_fileMap;
-  std::string m_sRelPath = "output";
+  const std::string m_sRelPath = "output";
 };
 
 /*
@@ -51,7 +53,7 @@ writes to a signle file - all imsis are in the same file
 class SingleFile: public eOutPutFile
 {
 public:
-  SingleFile():m_sFileName("SingleFile.txt")
+  SingleFile():m_sFileName(SingleFileName)
   {
     FileDetails l_FileDetails(m_sFileName);
     m_fileMap[m_sFileName] = std::move(l_FileDetails);
@@ -61,7 +63,7 @@ public:
   }
   void WriteToFile(eCdrDetails& i_cdrDetails)override;
 private:
-  std::string m_sFileName;
+  const std::string m_sFileName;
   std::mutex m_mutex;
   std::ofstream m_file;
 

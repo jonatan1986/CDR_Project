@@ -37,7 +37,6 @@ public:
 private:
   std::map<std::string,std::string> m_configMap;
   eOutputType m_eOutputType;
-  std::string m_sFileName;
   const std::string m_sOutPutType = "OUTPUT_TYPE";
   const std::string m_sInputFileName = "INPUT_FILE_NAME";
   const std::string m_sAmountOfChunks = "AMOUNT_OF_CHUNKS";
