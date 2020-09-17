@@ -27,8 +27,11 @@ class SafeQueue
     }
     size_t Size()
     {
-      std::lock_guard<std::mutex> lk(m_mutex);
-      return m_queue.size();
+      {
+        std::lock_guard<std::mutex> lk(m_mutex);
+        size_t l_size =  m_queue.size();
+      }
+      return l_size;
     }
     void Insert(T &t)
     {
