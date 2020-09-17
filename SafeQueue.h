@@ -30,7 +30,7 @@ class SafeQueue
       size_t l_size = 0;
       {
         std::lock_guard<std::mutex> lk(m_mutex);
-        size_t l_size =  m_queue.size();
+        l_size =  m_queue.size();
       }
       return l_size;
     }
