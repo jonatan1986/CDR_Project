@@ -11,7 +11,7 @@
 #include <string>
 #include "Factory.h"
 #include "SafeQueue.h"
-#include "ThreadPool.h"
+#include "ThreadManager.h"
 /*
 this class is the main thread which activates the eReader,eParser,and eWriter.
 member function "Run()" activates the eReader,eParser,and eWriter.

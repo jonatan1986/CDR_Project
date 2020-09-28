@@ -5,13 +5,14 @@
  *      Author: yonathan
  */
 
-#ifndef THREADPOOL_H_
-#define THREADPOOL_H_
+#ifndef THREAD_MANAGER_H_
+#define THREAD_MANAGER_H_
+
 
 #include <list>
 #include <thread>
 
-class ThreadPool
+class ThreadManager
 {
 public:
     template< class Function, class... Args >
@@ -20,7 +21,7 @@ public:
       std::thread l_thread(f,args...);
       m_threadList.push_back(std::move(l_thread));
     }
-    ~ThreadPool()
+    ~ThreadManager()
     {
       while(m_threadList.size())
       {
@@ -36,4 +37,4 @@ private:
 
 
 
-#endif /* THREADPOOL_H_ */
+#endif /* THREAD_MANAGER_H_ */

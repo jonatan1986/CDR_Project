@@ -43,7 +43,7 @@ void TaskManager::CreateThreads()
 {
   int l_nAmountOfLinesInFile = GetAmountOfLines(*this);
   int l_nStartLine = 1,l_nEndLine = l_nAmountOfLinesInFile/m_nNumOfChunks, l_nDiff = l_nAmountOfLinesInFile/5;
-  ThreadPool l_threadPool;
+  ThreadManager l_threadManager;
   int l_threadNum = 0;
   while(l_nEndLine <= l_nAmountOfLinesInFile)
   {
@@ -53,10 +53,10 @@ void TaskManager::CreateThreads()
         // handle the "carry of lines", in addition to the lines it should
         // treat
         l_nEndLine = l_nAmountOfLinesInFile;
-        l_threadPool.AddThread(&Run,m_sFileName,l_nStartLine,l_nEndLine,l_threadNum);
+        l_threadManager.AddThread(&Run,m_sFileName,l_nStartLine,l_nEndLine,l_threadNum);
         break;
     }
-    l_threadPool.AddThread(&Run,m_sFileName,l_nStartLine,l_nEndLine,l_threadNum);
+    l_threadManager.AddThread(&Run,m_sFileName,l_nStartLine,l_nEndLine,l_threadNum);
     l_nStartLine = l_nEndLine + 1;
     l_nEndLine += l_nDiff;
 

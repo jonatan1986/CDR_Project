@@ -37,7 +37,7 @@ Task.o: Task.cpp Task.h  Factory.h  SharedResource.h	 Config.h eWriter.h eParser
 	 	g++ $(CFLAGS)  Task.cpp
 
 
-TaskManager.o: TaskManager.cpp TaskManager.h ThreadPool.h SafeQueue.h Task.h \
+TaskManager.o: TaskManager.cpp TaskManager.h ThreadManager.h SafeQueue.h Task.h \
 Factory.h eWriter.h eParser.h eReader.h SharedResource.h Singleton.h Config.h
 			         g++ $(CFLAGS)  TaskManager.cpp
 

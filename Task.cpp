@@ -1,6 +1,4 @@
 #include<iostream>
-#include <atomic>
-#include <condition_variable>
 #include"Task.h"
 using namespace std;
 
@@ -34,8 +32,8 @@ void WriteFunc(std::unique_ptr<eWriter> &writer, int i_threadNum)
 
 void Task::Run()
 {
-  ThreadPool l_threadPool;
-  l_threadPool.AddThread(&ReadFunc,ref(m_reader),m_threanNum);
-  l_threadPool.AddThread(&ParseFunc,ref(m_parser),m_threanNum);
-  l_threadPool.AddThread(&WriteFunc,ref(m_writer),m_threanNum);
+  ThreadManager l_threadManager;
+  l_threadManager.AddThread(&ReadFunc,ref(m_reader),m_threanNum);
+  l_threadManager.AddThread(&ParseFunc,ref(m_parser),m_threanNum);
+  l_threadManager.AddThread(&WriteFunc,ref(m_writer),m_threanNum);
 }
