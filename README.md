@@ -16,10 +16,45 @@ uplink = 611
 call duration = 01:39:29
 
 The output file is written in a way that details are understood. In the example above, the line in the output will be:
-IMSI=746397689 Date=29/5/2020Downlink=895 Uplink=611 Duration= 01:39:2
+IMSI=746397689 Date=29/5/2020 Downlink=895 Uplink=611 Duration=01:39:2
 output file can appear in the forms: 
 1) single file which contains all the cdrs(the name of the file is "SingleFile.txt")
+
+example:(for single  file)
+input file: 
+617795746|21/12/2020|833|790|00:41:18
+832798064|19/7/2020|623|635|05:52:51
+410680012|28/6/2020|826|819|00:47:57
+617795746|26/6/2020|419|483|01:28:22
+
+output file:
+IMSI=617795746 Date=21/12/2020 Downlink=833 Uplink=790 Duration=00:41:18
+IMSI=832798064 Date=19/7/2020 Downlink=623 Uplink=635 Duration=05:52:51
+IMSI=410680012 Date=28/6/2020 Downlink=826 Uplink=819 Duration=00:47:57
+IMSI=617795746 Date=26/6/2020 Downlink=419 Uplink=483 Duration=01:28:22
+
+
 2) multiple files which are classified by imsi - each file is contains all cdrs of one imsi. files are indexed(1.txt, 2.txt. ...)
+example:(for multiple  files)
+
+input file: 
+617795746|21/12/2020|833|790|00:41:18
+832798064|19/7/2020|623|635|05:52:51
+410680012|28/6/2020|826|819|00:47:57
+617795746|26/6/2020|419|483|01:28:22
+
+output files:
+"1.txt": 
+IMSI=617795746 Date=21/12/2020 Downlink=833 Uplink=790 Duration=00:41:18
+IMSI=617795746 Date=26/6/2020 Downlink=419 Uplink=483 Duration=01:28:22
+
+"2.txt":
+IMSI=832798064 Date=19/7/2020 Downlink=623 Uplink=635 Duration=05:52:51
+
+"3.txt":
+IMSI=410680012 Date=28/6/2020 Downlink=826 Uplink=819 Duration=00:47:57
+
+
 
 The process of creating the output file of the input file is mutil threaded - there are couple of threads  - each thread handles 
 a chunk from the file. each thread contains threads which perform tasks in paraller manner(reading from input,parsing input, writing to output)
