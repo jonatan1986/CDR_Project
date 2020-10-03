@@ -56,21 +56,22 @@ IMSI=410680012 Date=28/6/2020 Downlink=826 Uplink=819 Duration=00:47:57
 
 
 
-The process of creating the output file of the input file is mutil threaded - there are couple of threads  - each thread handles 
+The process of creating the output file of the input file is multi threaded - there are couple of threads  - each thread handles 
 a chunk from the file. each thread contains threads which perform tasks in paraller manner(reading from input,parsing input, writing to output)
 
 Things to note:
-* if you want to build  - type in commnand line "make" , but you could use the executables which are already built(GenerateCdr && GenerateFile).
-* you could simply run the project ("./GenerateCdr")
+* This porject works in Linux enviroment.
+* If you want to build  - type in commnand line "make" , but you could use the executables which are already built(GenerateCdr && GenerateFile).
+* You could simply run the project ("./GenerateCdr")
 * If you want to generate the input file you run the executable("./GenerateFile")
 * exe file "GenerateFile" generates an input file, whose amount of subscribers is grabbed from "cdrconfig.txt". 
   exe file "GenerateCdr" generates an output file, whose amount of subscribers is grabbed from "cdrconfig.txt".
   so if you modify cdrconfig.txt, please run ./GenerateFile and then ./GenerateCdr cause if two 
   executables don't have the same amount of subscribers - the program "GenerateCdr" is error prone or might crash
-* if you modify "cdrconfig.txt", the each line you could modify only the right part of the line -
+* If you modify "cdrconfig.txt", the each line you could modify only the right part of the line -
   the left part must stay as is.
-* output files are in "output" directory
-* imsi and subsscriber are the same(Imsi is a serial number of each subscriber)
+* Output files are in "output" directory
+* Imsi and subsscriber are the same(Imsi is a serial number of each subscriber)
   
  coding conventions:
  i_ - input variable
