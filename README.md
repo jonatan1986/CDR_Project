@@ -102,9 +102,9 @@ AMOUNT_OF_LINES    $(Amount of lines genereted in the input file)
  The project includes tests. The tests are written in Python Language. Each test creates a specific scenario and compares the input file to the output file/s.
  Each test has a very simple chronology: update config file -> generate input file -> generate output file -> compare input and output.
  the test file(CdrTest.py) uses unittest library. 
- The topology of the tests is Simple:
- 1)main.py - contains main function which calls function which runs all the tests.
- 2)CdrTest.py - contains a class with function which runs all the tests.
- 3)CdrLib.py  - library which contains all the functions which are utilized in order to create a scenario and handle it.
+ The topology of the tests is Simple:                          
+ 1)main.py - contains main function which calls function which runs all the tests.                                 
+ 2)CdrTest.py - contains a class with function which runs all the tests.                                 
+ 3)CdrLib.py  - library which contains all the functions which are utilized in order to create a scenario and handle it.                      
  **For the time being there are 8 basic tests, definiltly there are more scenarios to test, might be added later on.**
 
