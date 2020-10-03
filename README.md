@@ -17,7 +17,7 @@ call duration = 01:39:29
 
 The output file is written in a way that details are understood. In the example above, the line in the output will be:
 IMSI=746397689 Date=29/5/2020 Downlink=895 Uplink=611 Duration=01:39:2
-output file can appear in the forms: 
+output file can appear in the forms:
 1) single file which contains all the cdrs(the name of the file is "SingleFile.txt")
 
 example:(for single  file)
