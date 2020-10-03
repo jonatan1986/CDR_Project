@@ -43,7 +43,7 @@ input file:
 410680012|28/6/2020|826|819|00:47:57   
 617795746|26/6/2020|419|483|01:28:22   
 
-output files:
+output files:               
 "1.txt":                 
 IMSI=617795746 Date=21/12/2020 Downlink=833 Uplink=790 Duration=00:41:18                 
 IMSI=617795746 Date=26/6/2020 Downlink=419 Uplink=483 Duration=01:28:22   
