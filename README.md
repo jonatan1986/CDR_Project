@@ -105,6 +105,6 @@ AMOUNT_OF_LINES    $(Amount of lines genereted in the input file)
  The topology of the tests is Simple:                          
  1)main.py - contains main function which calls function which runs all the tests.                                 
  2)CdrTest.py - contains a class with function which runs all the tests.                                 
- 3)CdrLib.py  - library which contains all the functions which are utilized in order to create a scenario and handle it.                      
+ 3)CdrLib.py  - library which contains all the functions which are utilized in order to create a scenario and test it.                      
  **For the time being there are 8 basic tests, definiltly there are more scenarios to test, might be added later on.**
 
