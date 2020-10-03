@@ -3,11 +3,30 @@
 #include <memory>
 #include"TaskManager.h"
 #include"Task.h"
+
+#ifdef WINDOWS
+#include <direct.h>
+#define GetCurrentDir _getcwd
+#else
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
+
+
 /*
 this class is the resonsible for createing threads who get "Run" function as a
 parameter, each thread handles a chunk of the file.
 */
 using namespace std;
+
+string get_current_dir() {
+   char buff[FILENAME_MAX]; //create string buffer to hold path
+   GetCurrentDir( buff, FILENAME_MAX );
+   string current_working_dir(buff);
+   return current_working_dir;
+}
+
+
 
 
 
@@ -25,18 +44,20 @@ void Run(const string& i_sFileName, int i_nStartLine, int i_nEndLine, int i_thre
 
 int GetAmountOfLines(TaskManager &taskManager)
 {
-    ifstream l_fin(taskManager.m_sFileName);
-    if (l_fin.peek() == ifstream::traits_type::eof())
+    ifstream l_inputfile;
+    l_inputfile.open(get_current_dir() + '/' + taskManager.m_sFileName);
+    if (l_inputfile.peek() == ifstream::traits_type::eof())
     {
       string l_sThrowMessage = "input file \"datafile.txt\" is empty";
       throw l_sThrowMessage;
     }
     string l_sLine = " ";
     int l_nAmountOfLines = 0;
-    while(getline(l_fin,l_sLine))
+    while(getline(l_inputfile,l_sLine))
     {
       ++l_nAmountOfLines;
     }
+    l_inputfile.close();
     return l_nAmountOfLines;
 }
 void TaskManager::CreateThreads()
