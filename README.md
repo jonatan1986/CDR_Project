@@ -21,7 +21,7 @@ output file can appear in the forms:
 1) single file which contains all the cdrs(the name of the file is "SingleFile.txt")
 
 example:(for single  file)
-input file: 
+input file:                                                                                
 617795746|21/12/2020|833|790|00:41:18    
 832798064|19/7/2020|623|635|05:52:51     
 410680012|28/6/2020|826|819|00:47:57    
@@ -37,7 +37,7 @@ IMSI=617795746 Date=26/6/2020 Downlink=419 Uplink=483 Duration=01:28:22
 2) multiple files which are classified by imsi - each file is contains all cdrs of one imsi. files are indexed(1.txt, 2.txt. ...)
 example:(for multiple  files)
 
-input file: 
+input file:                                                             
 617795746|21/12/2020|833|790|00:41:18   
 832798064|19/7/2020|623|635|05:52:51   
 410680012|28/6/2020|826|819|00:47:57   
